@@ -491,20 +491,28 @@ dot.addEventListener('click',function(){goTo(parseInt(this.getAttribute('data-sl
 });
 
 /* Touch swipe */
+var startY=0,isHorizontal=null;
 track.addEventListener('touchstart',function(e){
-dragging=true;isDragged=false;
+dragging=true;isDragged=false;isHorizontal=null;
 startX=e.touches[0].clientX;
+startY=e.touches[0].clientY;
 track.style.transition='none';
 },{passive:true});
 track.addEventListener('touchmove',function(e){
 if(!dragging)return;
 var dx=e.touches[0].clientX-startX;
+var dy=e.touches[0].clientY-startY;
+if(isHorizontal===null&&(Math.abs(dx)>5||Math.abs(dy)>5)){
+isHorizontal=Math.abs(dx)>Math.abs(dy);
+}
+if(isHorizontal===false)return;
 if(Math.abs(dx)>DRAG_THRESHOLD)isDragged=true;
 if(isDragged){
+e.preventDefault();
 var pct=prevTranslate+(dx/track.parentElement.offsetWidth)*100;
 track.style.transform='translate3d('+pct+'%,0,0)';
 }
-},{passive:true});
+},{passive:false});
 track.addEventListener('touchend',function(e){
 if(!dragging)return;
 dragging=false;
