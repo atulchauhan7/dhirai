@@ -14,7 +14,7 @@ requestAnimationFrame(function(){initScrollAnimations();initSmoothReveal();initP
 (function(){
 const b=$('.scroll-progress');if(!b)return;
 var progTicking=false;
-window.addEventListener('scroll',function(){if(!progTicking){progTicking=true;requestAnimationFrame(function(){const s=document.documentElement.scrollTop;const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=(s/h)*100+'%';progTicking=false})}},{passive:true});
+window.addEventListener('scroll',function(){if(!progTicking){progTicking=true;requestAnimationFrame(function(){const s=document.documentElement.scrollTop;const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=h>0?(s/h)*100+'%':'0%';progTicking=false})}},{passive:true});
 })();
 
 /* === HEADER SCROLL === */
@@ -472,6 +472,7 @@ var counterCurrent=gallery.querySelector('.product-gallery__current');
 if(!track||slides.length<2)return;
 var current=0,dragging=false,startX=0,currentTranslate=0,prevTranslate=0;
 var DRAG_THRESHOLD=10,isDragged=false;
+gallery._isDragged=false;
 
 function goTo(idx,smooth){
 if(idx<0)idx=0;
@@ -506,7 +507,7 @@ if(isHorizontal===null&&(Math.abs(dx)>5||Math.abs(dy)>5)){
 isHorizontal=Math.abs(dx)>Math.abs(dy);
 }
 if(isHorizontal===false)return;
-if(Math.abs(dx)>DRAG_THRESHOLD)isDragged=true;
+if(Math.abs(dx)>DRAG_THRESHOLD){isDragged=true;gallery._isDragged=true}
 if(isDragged){
 e.preventDefault();
 var pct=prevTranslate+(dx/track.parentElement.offsetWidth)*100;
@@ -556,7 +557,7 @@ goTo(Math.max(0,Math.min(idx,slides.length-1)));
 
 /* Prevent click after drag */
 track.addEventListener('click',function(e){
-if(isDragged){e.preventDefault();e.stopPropagation();isDragged=false}
+if(isDragged){e.preventDefault();e.stopPropagation();isDragged=false;setTimeout(function(){gallery._isDragged=false},50)}
 },true);
 
 /* Zoom on hover (desktop) */
@@ -714,12 +715,12 @@ function next(){go(idx+1)}function prev(){go(idx-1)}
 function startAP(){if(!autoplay)return;stopAP();timer=setInterval(next,autoSpeed)}
 function stopAP(){if(timer){clearInterval(timer);timer=null}}
 function dStart(e){dragging=true;isDragged=false;startX=e.type.includes('mouse')?e.pageX:e.touches[0].clientX;track.style.transition='none';stopAP()}
-function dMove(e){if(!dragging)return;var cx=e.type.includes('mouse')?e.pageX:e.touches[0].clientX;if(!isDragged&&Math.abs(cx-startX)>DRAG_THRESHOLD){isDragged=true;track.style.cursor='grabbing'}if(isDragged){curTr=prevTr+(cx-startX);track.style.transform='translate3d('+curTr+'px,0,0)'}}
+function dMove(e){if(!dragging)return;var cx=e.type.includes('mouse')?e.pageX:e.touches[0].clientX;if(!isDragged&&Math.abs(cx-startX)>DRAG_THRESHOLD){isDragged=true;track.style.cursor='grabbing'}if(isDragged){if(e.cancelable)e.preventDefault();curTr=prevTr+(cx-startX);track.style.transform='translate3d('+curTr+'px,0,0)'}}
 function dEnd(){if(!dragging)return;dragging=false;track.style.cursor='';if(isDragged){var mv=curTr-prevTr;if(Math.abs(mv)>gsw()/4){if(mv<0)next();else prev()}else go(idx)}startAP()}
 track.addEventListener('click',function(e){if(isDragged){e.preventDefault();e.stopPropagation();isDragged=false}},true);
 if(prevBtn)prevBtn.addEventListener('click',()=>{prev();stopAP();startAP()});
 if(nextBtn)nextBtn.addEventListener('click',()=>{next();stopAP();startAP()});
-track.addEventListener('touchstart',dStart,{passive:true});track.addEventListener('touchmove',dMove,{passive:true});track.addEventListener('touchend',dEnd);
+track.addEventListener('touchstart',dStart,{passive:true});track.addEventListener('touchmove',dMove,{passive:false});track.addEventListener('touchend',dEnd);
 track.addEventListener('mousedown',dStart);track.addEventListener('mousemove',dMove);track.addEventListener('mouseup',dEnd);track.addEventListener('mouseleave',()=>{if(dragging)dEnd()});
 carousel.addEventListener('mouseenter',stopAP);carousel.addEventListener('mouseleave',startAP);
 carousel.setAttribute('tabindex','0');carousel.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){prev();stopAP()}if(e.key==='ArrowRight'){next();stopAP()}});
@@ -996,6 +997,7 @@ document.body.classList.remove('overflow-hidden');
 gallery.querySelectorAll('.product-gallery__slide, .product-gallery__main').forEach(function(el,i){
 el.addEventListener('click',function(e){
 if(e.target.closest('.product-gallery__dot'))return;
+if(gallery._isDragged)return;
 var slideIdx=0;
 var slide=e.target.closest('.product-gallery__slide');
 if(slide){
@@ -1049,7 +1051,6 @@ document.addEventListener('click',function(e){
 var btn=e.target.closest('[data-buy-now]');
 if(!btn)return;
 e.preventDefault();
-var form=btn.closest('form')||btn.closest('.product-info__cta-group').previousElementSibling;
 /* Find the closest product form */
 var productForm=btn.closest('[data-product-form]')||document.querySelector('[data-product-form]');
 if(!productForm)return;
