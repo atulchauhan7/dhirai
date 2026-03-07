@@ -1047,6 +1047,8 @@ initProductLightbox();
 
 /* === BUY NOW — Direct checkout === */
 function initBuyNow(){
+if(initBuyNow._bound)return;
+initBuyNow._bound=true;
 document.addEventListener('click',function(e){
 var btn=e.target.closest('[data-buy-now]');
 if(!btn)return;
@@ -1061,7 +1063,11 @@ var orig=btn.innerHTML;
 btn.disabled=true;
 btn.innerHTML='<span>Processing...</span>';
 fetch(window.theme.routes.cart_add_url+'.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:parseInt(variantInput.value),quantity:parseInt(qtyInput?qtyInput.value:1)}]})}).then(function(r){if(!r.ok)throw new Error('Add failed');return r.json()}).then(function(){
-window.location.href=window.theme.routes.checkout_url||'/checkout';
+var checkoutUrl=window.theme.routes.checkout_url||'/checkout';
+btn.innerHTML='<span>Redirecting...</span>';
+window.location.replace(checkoutUrl);
+/* Safety: restore button if redirect stalls (e.g. View Transitions delay) */
+setTimeout(function(){if(btn){btn.innerHTML=orig;btn.disabled=false;window.location.href=checkoutUrl}},3000);
 }).catch(function(){btn.innerHTML='<span>Error</span>';setTimeout(function(){btn.innerHTML=orig;btn.disabled=false},1500)});
 });
 }
