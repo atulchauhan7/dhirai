@@ -673,7 +673,8 @@ p{margin-bottom:1rem}
 .product-info__cta-group{position:fixed;bottom:0;left:0;right:0;z-index:99;background:var(--color-background);display:flex;flex-direction:row;gap:0.5rem;padding:0.75rem 1rem;padding-bottom:calc(0.75rem + env(safe-area-inset-bottom, 0px));box-shadow:0 -2px 16px rgba(0,0,0,0.08);border-top:1px solid var(--color-border)}
 .product-info__cta-group .btn{flex:1;min-width:0;padding:14px 10px;font-size:0.72rem;letter-spacing:0.1em}
 .product-info__add-to-cart{flex:1;margin-bottom:0;min-width:0}
-.product-info__add-to-cart .btn{width:100%}
+.product-info__add-to-cart .btn{width:100%;background:#fff;color:var(--color-heading);border:1.5px solid var(--color-heading)}
+.product-info__add-to-cart .btn:hover{background:var(--color-heading);color:#fff}
 .btn--buy-now{background:var(--color-accent);color:#fff;border:none;flex:1;min-width:0}
 .btn--buy-now:hover{background:var(--color-accent-dark);color:#fff;transform:translateY(-1px);box-shadow:0 12px 32px rgba(0,0,0,0.12)}
 .btn--buy-now svg{width:16px;height:16px}
