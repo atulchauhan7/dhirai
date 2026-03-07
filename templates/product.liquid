@@ -58,7 +58,7 @@ decoding="async"
 
 <div class="product-info__price-wrap">
 {% if product.compare_at_price > product.price %}
-<span class="product-info__price" style="color: #e74c3c;">{{ product.price | money }}</span>
+<span class="product-info__price product-info__price--on-sale">{{ product.price | money }}</span>
 <span class="product-info__compare-price">{{ product.compare_at_price | money }}</span>
 <span class="product-info__save-badge">
 Save {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%
@@ -67,12 +67,6 @@ Save {{ product.compare_at_price | minus: product.price | times: 100 | divided_b
 <span class="product-info__price">{{ product.price | money }}</span>
 {% endif %}
 </div>
-
-{% if product.description != blank %}
-<div class="product-info__description">
-{{ product.description | strip_html | truncate: 300 }}
-</div>
-{% endif %}
 
 {% form 'product', product, data-add-to-cart: true, data-product-form: true %}
 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
