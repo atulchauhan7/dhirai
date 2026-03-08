@@ -1,6 +1,6 @@
-<div class="product-card">
+<div class="product-card" data-product-available="{{ product.available }}">
 <div class="product-card__media-wrap">
-<a href="{{ product.url }}" class="product-card__media">
+<a href="{{ product.url }}" class="product-card__media" aria-label="{{ product.title | escape }}">
 {% if product.featured_image != blank %}
 <img 
 class="product-card__image" 
@@ -40,6 +40,7 @@ height="533"
 
 {% if product.compare_at_price > product.price %}
 <span class="product-card__badge product-card__badge--sale">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M12 19l-7-7 1.41-1.41L12 16.17l5.59-5.58L19 12z"/></svg>
 -{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%
 </span>
 {% elsif product.available == false %}
@@ -61,49 +62,37 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 </svg>
 </button>
 
-<div class="product-card__overlay-actions">
-<button class="product-card__overlay-btn" aria-label="Quick view" data-quick-view="{{ product.url }}">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-<circle cx="12" cy="12" r="3"/>
-</svg>
-<span>Quick view</span>
-</button>
 {% if product.available %}
+<div class="product-card__quick-add">
 {% if product.variants.size == 1 %}
-<button class="product-card__overlay-btn product-card__overlay-btn--add" aria-label="Add to cart" data-quick-add="{{ product.variants.first.id }}">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-<line x1="3" y1="6" x2="21" y2="6"/>
-<path d="M16 10a4 4 0 0 1-8 0"/>
-</svg>
-<span>Add to cart</span>
+<button class="product-card__quick-add-btn" aria-label="Add to bag" data-quick-add="{{ product.variants.first.id }}">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+<span>Add to Bag</span>
 </button>
 {% else %}
-<a href="{{ product.url }}" class="product-card__overlay-btn">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-<path d="M12 5v14M5 12h14"/>
-</svg>
-<span>Select options</span>
+<a href="{{ product.url }}" class="product-card__quick-add-btn">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+<span>Select Options</span>
 </a>
 {% endif %}
-{% endif %}
 </div>
+{% endif %}
 </div>
 
 <div class="product-card__info">
 {% if product.type != blank %}
 <div class="product-card__type">{{ product.type }}</div>
 {% endif %}
-<a href="{{ product.url }}">
+<a href="{{ product.url }}" class="product-card__title-link">
 <h3 class="product-card__title">{{ product.title }}</h3>
 </a>
-<div class="product-card__price">
+<div class="product-card__price-row">
 {% if product.compare_at_price > product.price %}
-<span class="product-card__price--sale">{{ product.price | money }}</span>
-<span class="product-card__price--compare">{{ product.compare_at_price | money }}</span>
+<span class="product-card__price product-card__price--sale">{{ product.price | money }}</span>
+<span class="product-card__price product-card__price--compare">{{ product.compare_at_price | money }}</span>
+<span class="product-card__price-off">{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}% OFF</span>
 {% else %}
-<span>{{ product.price | money }}</span>
+<span class="product-card__price">{{ product.price | money }}</span>
 {% endif %}
 </div>
 
@@ -111,12 +100,34 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 {% assign color_option = product.options_by_name['Color'] %}
 {% if color_option %}
 <div class="product-card__swatches">
+{% assign max_swatches = 5 %}
 {% for value in color_option.values %}
+{% if forloop.index <= max_swatches %}
 <span 
 class="product-card__swatch {% if forloop.first %}active{% endif %}" 
 style="background-color: {{ value | downcase }};"
 title="{{ value | escape }}"
 ></span>
+{% endif %}
+{% endfor %}
+{% assign remaining = color_option.values.size | minus: max_swatches %}
+{% if remaining > 0 %}
+<span class="product-card__swatch-more">+{{ remaining }}</span>
+{% endif %}
+</div>
+{% endif %}
+
+{% assign size_option = product.options_by_name['Size'] %}
+{% if size_option %}
+<div class="product-card__sizes">
+{% for value in size_option.values %}
+{% assign size_available = false %}
+{% for variant in product.variants %}
+{% if variant.options contains value and variant.available %}
+{% assign size_available = true %}
+{% endif %}
+{% endfor %}
+<span class="product-card__size {% unless size_available %}product-card__size--oos{% endunless %}">{{ value }}</span>
 {% endfor %}
 </div>
 {% endif %}
