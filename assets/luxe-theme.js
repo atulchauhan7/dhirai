@@ -36,10 +36,15 @@ window.addEventListener('scroll',function(){if(!headerTicking){headerTicking=tru
 /* === MOBILE MENU === */
 const menuToggle=$('.menu-toggle');
 const mobileNav=$('.site-header__nav');
-if(menuToggle&&mobileNav){menuToggle.addEventListener('click',function(){this.classList.toggle('active');mobileNav.classList.toggle('open');document.body.classList.toggle('overflow-hidden');this.setAttribute('aria-expanded',this.classList.contains('active'))})}
+const navOverlay=$('[data-nav-overlay]');
+const navClose=$('[data-nav-close]');
+function openMobileNav(){if(menuToggle&&mobileNav){menuToggle.classList.add('active');mobileNav.classList.add('open');if(navOverlay)navOverlay.classList.add('open');document.body.classList.add('overflow-hidden');menuToggle.setAttribute('aria-expanded','true')}}
+function closeMobileNav(){if(menuToggle&&mobileNav){menuToggle.classList.remove('active');mobileNav.classList.remove('open');if(navOverlay)navOverlay.classList.remove('open');document.body.classList.remove('overflow-hidden');menuToggle.setAttribute('aria-expanded','false')}}
+if(menuToggle&&mobileNav){menuToggle.addEventListener('click',function(){mobileNav.classList.contains('open')?closeMobileNav():openMobileNav()})}
+if(navClose)navClose.addEventListener('click',closeMobileNav);
+if(navOverlay)navOverlay.addEventListener('click',closeMobileNav);
 /* Mobile: toggle mega-menu on tap instead of hover */
-if(window.innerWidth<=1024){$$('.nav-item').forEach(function(ni){var link=ni.querySelector('.site-header__nav-link');var mega=ni.querySelector('.mega-menu');if(link&&mega){link.addEventListener('click',function(e){if(mega){e.preventDefault();mega.classList.toggle('open')}})}})}
-
+if(window.innerWidth<=1024){$$('.nav-item').forEach(function(ni){var link=ni.querySelector('.site-header__nav-link');var mega=ni.querySelector('.mega-menu');if(link&&mega){link.addEventListener('click',function(e){if(mega){e.preventDefault();mega.classList.toggle('open');var arrow=link.querySelector('.nav-arrow');if(arrow)arrow.style.transform=mega.classList.contains('open')?'rotate(180deg)':''}})}})}
 /* === CART DRAWER === */
 const cartDrawer=$('.cart-drawer');
 const cartOverlay=$('.cart-drawer-overlay');
