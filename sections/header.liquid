@@ -69,8 +69,11 @@
 <div class="nav-mobile-links">
 {% for link in linklists[section.settings.menu].links %}
 <div class="nav-item">
-<a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}">
-{{ link.title }}
+<a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}" {% if link.url contains '/collections/' %}data-nav-collection-handle="{{ link.url | split: '/collections/' | last | split: '?' | first | split: '/' | first }}"{% endif %}>
+<span class="nav-link__inner">
+<span class="nav-link__thumb" style="display:none"></span>
+<span class="nav-link__text">{{ link.title }}</span>
+</span>
 {% if link.links.size > 0 %}
 <svg class="nav-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
 {% endif %}
@@ -105,32 +108,47 @@ My Account
 <script>
 (function(){
   var container=document.getElementById('nav-collections');
-  if(!container)return;
-  var links=[];
+  var navLinks=document.querySelectorAll('[data-nav-collection-handle]');
+  var handles=[];
+  var handleMap={};
   {% for link in linklists[section.settings.menu].links %}
     {% if link.url contains '/collections/' %}
-      links.push({url:{{ link.url | json }},title:{{ link.title | json }}});
+      handles.push({url:{{ link.url | json }},title:{{ link.title | json }},handle:{{ link.url | split: '/collections/' | last | split: '?' | first | split: '/' | first | json }}});
     {% endif %}
   {% endfor %}
-  if(!links.length)return;
-  var html='<div class="nav-collections__scroll">';
+  if(!handles.length)return;
+
+  /* Bottom scroll tiles */
+  var scrollHtml='<div class="nav-collections__scroll">';
   var loaded=0;
-  var total=links.length;
-  function render(){
-    html+='</div>';
-    container.innerHTML=html;
+  var total=handles.length;
+
+  function renderScroll(){
+    scrollHtml+='</div>';
+    if(container)container.innerHTML=scrollHtml;
   }
-  links.forEach(function(item){
-    var handle=item.url.split('/collections/')[1];
-    if(handle){handle=handle.split('?')[0].split('/')[0].split('#')[0];}
-    if(!handle){loaded++;if(loaded>=total)render();return;}
-    fetch('/collections/'+encodeURIComponent(handle)+'.json')
+
+  handles.forEach(function(item){
+    if(!item.handle){loaded++;if(loaded>=total)renderScroll();return;}
+    fetch('/collections/'+encodeURIComponent(item.handle)+'.json')
       .then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})
       .then(function(data){
         var col=data.collection;
-        var img=col.image?col.image.src:(col.products&&col.products.length&&col.products[0].images&&col.products[0].images.length?col.products[0].images[0].src:null);
+        var img=col.image?col.image.src:null;
+        if(!img&&col.products&&col.products.length){
+          for(var i=0;i<col.products.length;i++){
+            if(col.products[i].images&&col.products[i].images.length){img=col.products[i].images[0].src;break;}
+          }
+        }
         if(img){
-          html+='<a href="'+item.url+'" class="nav-collections__item">'
+          /* Inject into nav link thumb */
+          var navLink=document.querySelector('[data-nav-collection-handle="'+item.handle+'"]');
+          if(navLink){
+            var thumb=navLink.querySelector('.nav-link__thumb');
+            if(thumb){thumb.innerHTML='<img src="'+img+'" alt="" width="40" height="40">';thumb.style.display='';}
+          }
+          /* Add to bottom scroll */
+          scrollHtml+='<a href="'+item.url+'" class="nav-collections__item">'
             +'<div class="nav-collections__img-wrap">'
             +'<img src="'+img+'" alt="'+col.title+'" loading="lazy" width="140" height="180">'
             +'</div>'
@@ -138,7 +156,7 @@ My Account
         }
       })
       .catch(function(){})
-      .finally(function(){loaded++;if(loaded>=total)render()});
+      .finally(function(){loaded++;if(loaded>=total)renderScroll()});
   });
 })();
 </script>
