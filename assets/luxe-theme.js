@@ -634,6 +634,132 @@ addBtn.disabled=true;addBtn.textContent='Unavailable';
 }
 initProductOptions();
 
+/* === SIZE PICKER BOTTOM SHEET === */
+function initSizeSheet(){
+var form=$('[data-product-form]');if(!form)return;
+var overlay=$('#size-sheet-overlay'),sheet=$('#size-sheet'),sizesWrap=$('#size-sheet-sizes'),sheetAddBtn=$('#size-sheet-add');
+if(!overlay||!sheet||!sizesWrap||!sheetAddBtn)return;
+var variantJson=form.querySelector('[data-product-variants]');
+var variants=variantJson?JSON.parse(variantJson.textContent):[];
+var hiddenInput=form.querySelector('input[name="id"]');
+var pendingAction=null;/* 'cart' or 'buy' */
+
+/* Find the size option element */
+function getSizeOption(){
+var opts=form.querySelectorAll('.product-option');
+for(var i=0;i<opts.length;i++){
+var name=(opts[i].getAttribute('data-option-name')||'').toLowerCase();
+if(name==='size'||name==='sizes')return opts[i];
+}
+return null;
+}
+
+function isSizeSelected(){
+var sizeOpt=getSizeOption();
+if(!sizeOpt)return true;/* no size option = no need to select */
+return !!sizeOpt.querySelector('.product-option__value.selected');
+}
+
+/* Populate sheet with sizes from the size option */
+function populateSheet(){
+sizesWrap.innerHTML='';
+var sizeOpt=getSizeOption();if(!sizeOpt)return;
+var idx=parseInt(sizeOpt.getAttribute('data-option-index'));
+sizeOpt.querySelectorAll('.product-option__value').forEach(function(v){
+var val=v.getAttribute('data-value');
+var btn=document.createElement('button');
+btn.type='button';
+btn.className='size-sheet__size';
+btn.textContent=val;
+btn.setAttribute('data-value',val);
+/* Check availability: see if ANY variant with this size value is available */
+var available=false;
+for(var i=0;i<variants.length;i++){
+if(variants[i].options&&variants[i].options[idx]===val&&variants[i].available){available=true;break}
+}
+if(!available)btn.classList.add('unavailable');
+sizesWrap.appendChild(btn);
+});
+sheetAddBtn.disabled=true;
+sheetAddBtn.textContent='Select a size';
+}
+
+function openSheet(action){
+pendingAction=action;
+populateSheet();
+overlay.classList.add('open');
+sheet.classList.add('open');
+sheet.setAttribute('aria-hidden','false');
+document.body.classList.add('overflow-hidden');
+}
+
+function closeSheet(){
+overlay.classList.remove('open');
+sheet.classList.remove('open');
+sheet.setAttribute('aria-hidden','true');
+document.body.classList.remove('overflow-hidden');
+pendingAction=null;
+}
+
+overlay.addEventListener('click',closeSheet);
+sheet.querySelector('.size-sheet__close').addEventListener('click',closeSheet);
+
+/* Size selection inside sheet */
+sizesWrap.addEventListener('click',function(e){
+var btn=e.target.closest('.size-sheet__size');
+if(!btn||btn.classList.contains('unavailable'))return;
+sizesWrap.querySelectorAll('.size-sheet__size').forEach(function(b){b.classList.remove('selected')});
+btn.classList.add('selected');
+sheetAddBtn.disabled=false;
+sheetAddBtn.textContent=pendingAction==='buy'?'Buy Now':'Add to Cart';
+/* Also select in main form */
+var val=btn.getAttribute('data-value');
+var sizeOpt=getSizeOption();
+if(sizeOpt){
+var mainBtn=sizeOpt.querySelector('.product-option__value[data-value="'+val+'"]');
+if(mainBtn)mainBtn.click();/* triggers variant matching via initProductOptions */
+}
+});
+
+/* Sheet add button */
+sheetAddBtn.addEventListener('click',function(){
+if(this.disabled)return;
+closeSheet();
+if(pendingAction==='buy'){
+var buyBtn=document.querySelector('[data-buy-now]');
+if(buyBtn)buyBtn.click();
+}else{
+var submitBtn=form.querySelector('[type="submit"]');
+if(submitBtn&&!submitBtn.disabled){
+/* Trigger native form submit */
+form.requestSubmit?form.requestSubmit(submitBtn):submitBtn.click();
+}
+}
+});
+
+/* Intercept Add to Cart form submit */
+form.addEventListener('submit',function(e){
+if(!isSizeSelected()){
+e.preventDefault();
+e.stopImmediatePropagation();
+openSheet('cart');
+return false;
+}
+},true);/* capture phase to intercept before the existing handler */
+
+/* Intercept Buy Now */
+document.addEventListener('click',function(e){
+var btn=e.target.closest('[data-buy-now]');
+if(!btn)return;
+if(!isSizeSelected()){
+e.preventDefault();
+e.stopImmediatePropagation();
+openSheet('buy');
+}
+},true);/* capture phase */
+}
+initSizeSheet();
+
 /* === QUANTITY SELECTOR === */
 function initQuantitySelector(){$$('.quantity-selector').forEach(s=>{if(s.closest('.cart-item[data-line]'))return;const m=s.querySelector('[data-qty-minus]'),p=s.querySelector('[data-qty-plus]'),i=s.querySelector('input');if(m&&p&&i){m.addEventListener('click',()=>{const v=parseInt(i.value)-1;if(v>=1)i.value=v});p.addEventListener('click',()=>{i.value=parseInt(i.value)+1})}})}
 initQuantitySelector();
@@ -1069,7 +1195,7 @@ btn.innerHTML='<span>Processing...</span>';
 fetch(window.theme.routes.cart_add_url+'.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:parseInt(variantInput.value),quantity:parseInt(qtyInput?qtyInput.value:1)}]})}).then(function(r){if(!r.ok)throw new Error('Add failed');return r.json()}).then(function(){
 var checkoutUrl=window.theme.routes.checkout_url||'/checkout';
 btn.innerHTML='<span>Redirecting...</span>';
-window.location.replace(checkoutUrl);
+window.location.href=checkoutUrl;
 /* Safety: restore button if redirect stalls (e.g. View Transitions delay) */
 setTimeout(function(){if(btn){btn.innerHTML=orig;btn.disabled=false;window.location.href=checkoutUrl}},3000);
 }).catch(function(){btn.innerHTML='<span>Error</span>';setTimeout(function(){btn.innerHTML=orig;btn.disabled=false},1500)});

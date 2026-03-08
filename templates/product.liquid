@@ -75,11 +75,14 @@ Save {{ product.compare_at_price | minus: product.price | times: 100 | divided_b
 <script type="application/json" data-product-variants>{{ product.variants | json }}</script>
 <div class="product-info__options">
 {% for option in product.options_with_values %}
-<div class="product-option" data-option-index="{{ forloop.index0 }}">
+{% assign option_name_down = option.name | downcase %}
+{% assign is_size = false %}
+{% if option_name_down == 'size' or option_name_down == 'sizes' %}{% assign is_size = true %}{% endif %}
+<div class="product-option" data-option-index="{{ forloop.index0 }}" data-option-name="{{ option.name | escape }}">
 <label class="product-option__label">{{ option.name }}</label>
 <div class="product-option__values">
 {% for value in option.values %}
-<span class="product-option__value {% if option.selected_value == value %}selected{% endif %}" data-option-index="{{ forloop.index0 }}" data-value="{{ value }}" role="button" tabindex="0" aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}">
+<span class="product-option__value {% unless is_size %}{% if option.selected_value == value %}selected{% endif %}{% endunless %}" data-option-index="{{ forloop.index0 }}" data-value="{{ value }}" role="button" tabindex="0" aria-pressed="{% unless is_size %}{% if option.selected_value == value %}true{% else %}false{% endif %}{% else %}false{% endunless %}">
 {{ value }}
 </span>
 {% endfor %}
@@ -198,6 +201,21 @@ Care Instructions
 </div>
 </div>
 </div>
+
+{% comment %} Size Picker Bottom Sheet {% endcomment %}
+{% unless product.has_only_default_variant %}
+<div class="size-sheet-overlay" id="size-sheet-overlay"></div>
+<div class="size-sheet" id="size-sheet" aria-hidden="true">
+<div class="size-sheet__header">
+<span class="size-sheet__title">Select Size</span>
+<button class="size-sheet__close" aria-label="Close" type="button">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+</div>
+<div class="size-sheet__sizes" id="size-sheet-sizes"></div>
+<button class="btn btn--primary btn--full size-sheet__add" id="size-sheet-add" type="button" disabled>Select a size</button>
+</div>
+{% endunless %}
 
 <script type="application/ld+json">
 {
