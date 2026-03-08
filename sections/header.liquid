@@ -57,7 +57,7 @@
 </div>
 
 <nav class="site-header__nav" role="navigation" aria-label="Main navigation">
-<div class="nav-mobile-header" syle="margin-top: 20px">
+<div class="nav-mobile-header">
 <span class="nav-mobile-brand">{{ shop.name }}</span>
 <button class="nav-mobile-close" aria-label="Close menu" data-nav-close>
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -92,6 +92,7 @@
 </div>
 {% endfor %}
 </div>
+<div class="nav-collections" id="nav-collections"></div>
 <div class="nav-mobile-footer">
 <a href="{{ routes.account_url }}" class="nav-mobile-footer__link">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -100,6 +101,47 @@ My Account
 </div>
 </nav>
 <div class="nav-overlay" data-nav-overlay></div>
+
+<script>
+(function(){
+  var container=document.getElementById('nav-collections');
+  if(!container)return;
+  var links=[];
+  {% for link in linklists[section.settings.menu].links %}
+    {% if link.url contains '/collections/' %}
+      links.push({url:{{ link.url | json }},title:{{ link.title | json }}});
+    {% endif %}
+  {% endfor %}
+  if(!links.length)return;
+  var html='<div class="nav-collections__scroll">';
+  var loaded=0;
+  var total=links.length;
+  function render(){
+    html+='</div>';
+    container.innerHTML=html;
+  }
+  links.forEach(function(item){
+    var handle=item.url.split('/collections/')[1];
+    if(handle){handle=handle.split('?')[0].split('/')[0].split('#')[0];}
+    if(!handle){loaded++;if(loaded>=total)render();return;}
+    fetch('/collections/'+encodeURIComponent(handle)+'.json')
+      .then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})
+      .then(function(data){
+        var col=data.collection;
+        var img=col.image?col.image.src:(col.products&&col.products.length&&col.products[0].images&&col.products[0].images.length?col.products[0].images[0].src:null);
+        if(img){
+          html+='<a href="'+item.url+'" class="nav-collections__item">'
+            +'<div class="nav-collections__img-wrap">'
+            +'<img src="'+img+'" alt="'+col.title+'" loading="lazy" width="140" height="180">'
+            +'</div>'
+            +'<span class="nav-collections__label">'+col.title+'</span></a>';
+        }
+      })
+      .catch(function(){})
+      .finally(function(){loaded++;if(loaded>=total)render()});
+  });
+})();
+</script>
 
 </header>
 
