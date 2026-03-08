@@ -1203,6 +1203,14 @@ setTimeout(function(){if(btn){btn.innerHTML=orig;btn.disabled=false;window.locat
 }
 initBuyNow();
 
+/* Reset Buy Now button when page is restored from bfcache (back button) */
+window.addEventListener('pageshow',function(e){
+if(e.persisted){
+var btn=document.querySelector('[data-buy-now]');
+if(btn){btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Buy Now';}
+}
+});
+
 /* === SMOOTH PAGE TRANSITIONS === */
 (function(){
 if(!document.startViewTransition)return; /* only for browsers that support View Transitions */
