@@ -517,12 +517,14 @@ track.style.transform='translate3d('+pct+'%,0,0)';
 track.addEventListener('touchend',function(e){
 if(!dragging)return;
 dragging=false;
-if(!isDragged)return;
+if(!isDragged){gallery._isDragged=false;return}
 var dx=e.changedTouches[0].clientX-startX;
 var threshold=track.parentElement.offsetWidth*0.2;
 if(dx<-threshold)goTo(current+1);
 else if(dx>threshold)goTo(current-1);
 else goTo(current);
+isDragged=false;
+setTimeout(function(){gallery._isDragged=false},80);
 });
 
 /* Mouse drag */
@@ -536,7 +538,7 @@ e.preventDefault();
 document.addEventListener('mousemove',function(e){
 if(!dragging)return;
 var dx=e.clientX-startX;
-if(Math.abs(dx)>DRAG_THRESHOLD)isDragged=true;
+if(Math.abs(dx)>DRAG_THRESHOLD){isDragged=true;gallery._isDragged=true}
 if(isDragged){
 var pct=prevTranslate+(dx/track.parentElement.offsetWidth)*100;
 track.style.transform='translate3d('+pct+'%,0,0)';
@@ -546,18 +548,20 @@ document.addEventListener('mouseup',function(){
 if(!dragging)return;
 dragging=false;
 track.style.cursor='';
-if(!isDragged)return;
+if(!isDragged){gallery._isDragged=false;return}
 /* snap to nearest */
 var rect=track.getBoundingClientRect();
 var slideW=track.parentElement.offsetWidth;
 var currentOffset=rect.left-track.parentElement.getBoundingClientRect().left;
 var idx=Math.round(-currentOffset/slideW);
 goTo(Math.max(0,Math.min(idx,slides.length-1)));
+isDragged=false;
+setTimeout(function(){gallery._isDragged=false},80);
 });
 
 /* Prevent click after drag */
 track.addEventListener('click',function(e){
-if(isDragged){e.preventDefault();e.stopPropagation();isDragged=false;setTimeout(function(){gallery._isDragged=false},50)}
+if(gallery._isDragged){e.preventDefault();e.stopPropagation()}
 },true);
 
 /* Zoom on hover (desktop) */
@@ -701,8 +705,8 @@ const loop=carousel.dataset.carouselLoop!=='false';
 const perView=parseInt(carousel.dataset.carouselPerView)||1;
 if(!track||!slides.length)return;
 const vp=carousel.querySelector('.carousel__viewport')||carousel;
-let idx=0,timer=null,dragging=false,isDragged=false,startX=0,curTr=0,prevTr=0;
-var DRAG_THRESHOLD=8;
+let idx=0,timer=null,dragging=false,isDragged=false,justDragged=false,startX=0,curTr=0,prevTr=0;
+var DRAG_THRESHOLD=12;
 function gpv(){if(window.innerWidth<=480)return Math.min(perView,1);if(window.innerWidth<=768)return Math.min(perView,2);if(window.innerWidth<=1024)return Math.min(perView,3);return perView}
 function gsw(){return vp.offsetWidth/gpv()}
 function ssw(){const w=gsw();slides.forEach(s=>{s.style.width=w+'px';s.style.flexShrink='0'})}
@@ -716,8 +720,8 @@ function startAP(){if(!autoplay)return;stopAP();timer=setInterval(next,autoSpeed
 function stopAP(){if(timer){clearInterval(timer);timer=null}}
 function dStart(e){dragging=true;isDragged=false;startX=e.type.includes('mouse')?e.pageX:e.touches[0].clientX;track.style.transition='none';stopAP()}
 function dMove(e){if(!dragging)return;var cx=e.type.includes('mouse')?e.pageX:e.touches[0].clientX;if(!isDragged&&Math.abs(cx-startX)>DRAG_THRESHOLD){isDragged=true;track.style.cursor='grabbing'}if(isDragged){if(e.cancelable)e.preventDefault();curTr=prevTr+(cx-startX);track.style.transform='translate3d('+curTr+'px,0,0)'}}
-function dEnd(){if(!dragging)return;dragging=false;track.style.cursor='';if(isDragged){var mv=curTr-prevTr;if(Math.abs(mv)>gsw()/4){if(mv<0)next();else prev()}else go(idx)}startAP()}
-track.addEventListener('click',function(e){if(isDragged){e.preventDefault();e.stopPropagation();isDragged=false}},true);
+function dEnd(){if(!dragging)return;dragging=false;track.style.cursor='';if(isDragged){justDragged=true;setTimeout(function(){justDragged=false},300);var mv=curTr-prevTr;if(Math.abs(mv)>gsw()/4){if(mv<0)next();else prev()}else go(idx)}isDragged=false;startAP()}
+track.addEventListener('click',function(e){if(justDragged){e.preventDefault();e.stopPropagation();justDragged=false}},true);
 if(prevBtn)prevBtn.addEventListener('click',()=>{prev();stopAP();startAP()});
 if(nextBtn)nextBtn.addEventListener('click',()=>{next();stopAP();startAP()});
 track.addEventListener('touchstart',dStart,{passive:true});track.addEventListener('touchmove',dMove,{passive:false});track.addEventListener('touchend',dEnd);

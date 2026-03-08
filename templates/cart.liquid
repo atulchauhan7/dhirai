@@ -11,7 +11,7 @@
 <div class="cart-item" data-line="{{ forloop.index }}" data-key="{{ item.key }}">
 <div class="cart-item__img">
 {% if item.image != blank %}
-<img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" loading="lazy" width="80" height="100">
+<img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" loading="lazy" width="200" height="250" style="width:100%;height:100%;object-fit:cover">
 {% endif %}
 </div>
 <div class="cart-item__info">
@@ -25,7 +25,7 @@
 <input type="number" value="{{ item.quantity }}" min="0" aria-label="Quantity">
 <button type="button" data-qty-plus>+</button>
 </div>
-<a href="{{ item.url_to_remove }}" class="cart-item__remove" style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.5rem; display: inline-block;">Remove</a>
+<a href="{{ item.url_to_remove }}" class="cart-item__remove">Remove</a>
 </div>
 <div class="cart-item__total">{{ item.final_line_price | money }}</div>
 </div>
@@ -36,7 +36,7 @@
 <div class="cart-summary__total"><strong>Subtotal:</strong> {{ cart.total_price | money }}</div>
 <p class="cart-summary__note">Shipping &amp; taxes calculated at checkout</p>
 <form action="{{ routes.cart_url }}" method="post">
-<button type="submit" name="checkout" class="btn btn--primary btn--large">Proceed to Checkout</button>
+<button type="submit" name="checkout" class="btn btn--primary btn--large btn--full">Proceed to Checkout</button>
 </form>
 <div class="payment-icons">
 <span class="payment-icons__label">We accept</span>

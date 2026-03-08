@@ -7,7 +7,7 @@
 </div>
 {% if article.image != blank %}
 <div class="mb-3" style="border-radius:var(--border-radius);overflow:hidden">
-<img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.image.alt | escape }}" loading="lazy" width="1200" height="630">
+<img src="{{ article.image | image_url: width: 1200 }}" srcset="{{ article.image | image_url: width: 600 }} 600w, {{ article.image | image_url: width: 900 }} 900w, {{ article.image | image_url: width: 1200 }} 1200w" sizes="(max-width: 680px) 100vw, 680px" alt="{{ article.image.alt | escape }}" loading="lazy" width="1200" height="630" style="width:100%;height:auto">
 </div>
 {% endif %}
 <div class="page-content">
