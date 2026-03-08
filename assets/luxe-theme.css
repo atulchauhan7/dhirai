@@ -103,7 +103,7 @@ p{margin-bottom:1rem}
 @keyframes loaderSlide{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 
 /* === ANNOUNCEMENT BAR — Slim dark strip === */
-.announcement-bar{background:#1a1a1a;color:rgba(255,255,255,0.9);padding:5px 0;padding-top:calc(5px + env(safe-area-inset-top, 0px));font-size:0.6rem;text-align:center;letter-spacing:0.2em;font-weight:500;position:fixed;top:0;left:0;right:0;z-index:999;overflow:hidden;transition:transform 0.4s var(--ease-out-expo);text-transform:uppercase}
+.announcement-bar{background:var(--color-accent);color:#ffffff;padding:5px 0;padding-top:calc(5px + env(safe-area-inset-top, 0px));font-size:0.6rem;text-align:center;letter-spacing:0.2em;font-weight:500;position:fixed;top:0;left:0;right:0;z-index:999;overflow:hidden;transition:transform 0.4s var(--ease-out-expo);text-transform:uppercase}
 .announcement-bar.announcement-hidden{transform:translateY(-100%);pointer-events:none}
 .announcement-bar__marquee{display:flex;animation:marquee 40s linear infinite;white-space:nowrap}
 .announcement-bar__marquee span{padding:0 clamp(1.5rem, 4vw, 4rem);display:inline-flex;align-items:center;gap:clamp(0.5rem, 2vw, 1rem)}
