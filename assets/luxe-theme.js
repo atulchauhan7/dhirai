@@ -811,8 +811,8 @@ for(var ci=0;ci<cart.items.length;ci++){if(cart.items[ci].key===key){cartItem=ca
 if(cartItem){totalEl.textContent=window.theme.moneyFormat.replace(/\{\{[^}]*\}\}/,(cartItem.final_line_price/100).toFixed(2))}
 }
 /* Update subtotal */
-var subtotalEl=document.querySelector('.cart-summary__total');
-if(subtotalEl&&cart.total_price!==undefined){subtotalEl.innerHTML='<strong>Subtotal:</strong> '+window.theme.moneyFormat.replace(/\{\{[^}]*\}\}/,(cart.total_price/100).toFixed(2))}
+var subtotalEl=document.querySelector('.cart-summary__row--total');
+if(subtotalEl&&cart.total_price!==undefined){var spans=subtotalEl.querySelectorAll('span');if(spans.length>1)spans[1].textContent=window.theme.moneyFormat.replace(/\{\{[^}]*\}\}/,(cart.total_price/100).toFixed(2))}
 /* Update header cart count */
 $$('.cart-count').forEach(function(el){el.textContent=cart.item_count});
 }
