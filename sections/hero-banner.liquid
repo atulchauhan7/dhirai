@@ -39,13 +39,21 @@ height="1000"
 <span class="hero-slide__subtitle" data-animate="fade-up">{{ section.settings.subtitle }}</span>
 {% endif %}
 {% if block.settings.heading != blank %}
+{% if forloop.first %}
 <h1 class="hero-slide__title split-words" data-animate="fade-up" data-animate-delay="200">{{ block.settings.heading }}</h1>
+{% else %}
+<h2 class="hero-slide__title split-words" data-animate="fade-up" data-animate-delay="200">{{ block.settings.heading }}</h2>
+{% endif %}
 {% elsif section.settings.heading != blank %}
+{% if forloop.first %}
 <h1 class="hero-slide__title split-words" data-animate="fade-up" data-animate-delay="200">{{ section.settings.heading }}</h1>
+{% else %}
+<h2 class="hero-slide__title split-words" data-animate="fade-up" data-animate-delay="200">{{ section.settings.heading }}</h2>
+{% endif %}
 {% endif %}
 {% if section.settings.button_label != blank %}
 <a href="{{ section.settings.button_link }}" class="hero-slide__btn btn--magnetic" data-animate="fade-up" data-animate-delay="400">
-{{ section.settings.button_label }}
+<span>{{ section.settings.button_label }}</span>
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 </a>
 {% endif %}
@@ -87,7 +95,7 @@ height="1000"
 {% endif %}
 {% if section.settings.button_label != blank %}
 <a href="{{ section.settings.button_link }}" class="hero-slide__btn btn--magnetic" data-animate="fade-up" data-animate-delay="400">
-{{ section.settings.button_label }}
+<span>{{ section.settings.button_label }}</span>
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 </a>
 {% endif %}

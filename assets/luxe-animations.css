@@ -56,6 +56,49 @@ opacity:1!important;transform:none!important;clip-path:none!important;transition
 /* ─── Counter animation ─── */
 .counter-animate{display:inline-block;font-variant-numeric:tabular-nums}
 
+/* ─── Header entrance animations ─── */
+@keyframes headerSlideDown{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:translateY(0)}}
+@keyframes logoFadeIn{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes navStagger{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes iconPop{0%{opacity:0;transform:scale(0.5)}60%{transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+@keyframes cartBadgeBounce{0%{transform:scale(1)}25%{transform:scale(1.25)}50%{transform:scale(0.9)}75%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+.page-loaded .site-header__inner{animation:headerSlideDown 0.6s var(--ease-out-expo) both}
+.page-loaded .site-header__logo{animation:logoFadeIn 0.5s var(--ease-out-expo) 0.15s both}
+.page-loaded .site-header__nav{animation:navStagger 0.4s var(--ease-out-expo) 0.25s both}
+@media(min-width:1025px){
+  .page-loaded .site-header__nav-link{opacity:0;animation:navStagger 0.35s var(--ease-out-expo) both}
+  .page-loaded .site-header__nav-link:nth-child(1){animation-delay:0.2s}
+  .page-loaded .site-header__nav-link:nth-child(2){animation-delay:0.26s}
+  .page-loaded .site-header__nav-link:nth-child(3){animation-delay:0.32s}
+  .page-loaded .site-header__nav-link:nth-child(4){animation-delay:0.38s}
+  .page-loaded .site-header__nav-link:nth-child(5){animation-delay:0.44s}
+  .page-loaded .site-header__nav-link:nth-child(6){animation-delay:0.5s}
+  .page-loaded .site-header__nav-link:nth-child(7){animation-delay:0.56s}
+  .page-loaded .site-header__nav-link:nth-child(8){animation-delay:0.62s}
+  .page-loaded .nav-item:nth-child(1) .site-header__nav-link{animation-delay:0.2s}
+  .page-loaded .nav-item:nth-child(2) .site-header__nav-link{animation-delay:0.26s}
+  .page-loaded .nav-item:nth-child(3) .site-header__nav-link{animation-delay:0.32s}
+  .page-loaded .nav-item:nth-child(4) .site-header__nav-link{animation-delay:0.38s}
+  .page-loaded .nav-item:nth-child(5) .site-header__nav-link{animation-delay:0.44s}
+  .page-loaded .nav-item:nth-child(6) .site-header__nav-link{animation-delay:0.5s}
+  .page-loaded .nav-item:nth-child(7) .site-header__nav-link{animation-delay:0.56s}
+  .page-loaded .nav-item:nth-child(8) .site-header__nav-link{animation-delay:0.62s}
+}
+.page-loaded .header-icon{opacity:0;animation:iconPop 0.4s var(--ease-out-expo) both}
+.page-loaded .site-header__left .header-icon:nth-child(1){animation-delay:0.3s}
+.page-loaded .site-header__left .header-icon:nth-child(2){animation-delay:0.36s}
+.page-loaded .site-header__left .header-icon:nth-child(3){animation-delay:0.42s}
+.page-loaded .site-header__right .header-icon:nth-child(1){animation-delay:0.35s}
+.page-loaded .site-header__right .header-icon:nth-child(2){animation-delay:0.41s}
+.page-loaded .site-header__right .header-icon:nth-child(3){animation-delay:0.47s}
+
+/* Cart badge bounce on update */
+.cart-count.bounce{animation:cartBadgeBounce 0.5s var(--ease-out-expo)}
+
+/* Header scroll transition — smooth shrink */
+.site-header__inner{transition:padding 0.5s var(--ease-out-expo),background 0.5s var(--ease-out-expo),box-shadow 0.5s var(--ease-out-expo)}
+
 /* ─── Smooth image reveal — show immediately ─── */
 .image-reveal{position:relative;overflow:hidden}
 .image-reveal::after{display:none}

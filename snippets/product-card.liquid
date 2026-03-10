@@ -83,6 +83,12 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 {% if product.type != blank %}
 <div class="product-card__type">{{ product.type }}</div>
 {% endif %}
+{% for tag in product.tags %}
+{% assign tag_lower = tag | downcase %}
+{% if tag_lower contains 'fabric:' or tag_lower contains 'fabric-' %}
+<div class="product-card__fabric">{{ tag | remove: 'fabric:' | remove: 'Fabric:' | remove: 'fabric-' | remove: 'Fabric-' | strip }}</div>
+{% endif %}
+{% endfor %}
 <a href="{{ product.url }}" class="product-card__title-link">
 <h3 class="product-card__title">{{ product.title }}</h3>
 </a>
@@ -103,11 +109,51 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 {% assign max_swatches = 5 %}
 {% for value in color_option.values %}
 {% if forloop.index <= max_swatches %}
+{% assign color_lower = value | downcase | strip %}
+{% case color_lower %}
+{% when 'maroon' %}{% assign swatch_hex = '#800000' %}
+{% when 'wine' %}{% assign swatch_hex = '#722F37' %}
+{% when 'mustard' or 'mustard yellow' %}{% assign swatch_hex = '#E1AD01' %}
+{% when 'teal' or 'teal blue' %}{% assign swatch_hex = '#008080' %}
+{% when 'dusty rose' or 'dusty pink' %}{% assign swatch_hex = '#DCAE96' %}
+{% when 'peach' %}{% assign swatch_hex = '#FFCBA4' %}
+{% when 'coral' %}{% assign swatch_hex = '#FF7F50' %}
+{% when 'rust' %}{% assign swatch_hex = '#B7410E' %}
+{% when 'mauve' %}{% assign swatch_hex = '#E0B0FF' %}
+{% when 'sage' or 'sage green' %}{% assign swatch_hex = '#9DC183' %}
+{% when 'olive' or 'olive green' %}{% assign swatch_hex = '#6B8E23' %}
+{% when 'lavender' %}{% assign swatch_hex = '#B57EDC' %}
+{% when 'cream' or 'off white' %}{% assign swatch_hex = '#FFFDD0' %}
+{% when 'beige' %}{% assign swatch_hex = '#F5F5DC' %}
+{% when 'charcoal' %}{% assign swatch_hex = '#36454F' %}
+{% when 'ivory' %}{% assign swatch_hex = '#FFFFF0' %}
+{% when 'magenta' %}{% assign swatch_hex = '#FF00FF' %}
+{% when 'turquoise' %}{% assign swatch_hex = '#40E0D0' %}
+{% when 'burgundy' %}{% assign swatch_hex = '#800020' %}
+{% when 'sky blue' %}{% assign swatch_hex = '#87CEEB' %}
+{% when 'bottle green' %}{% assign swatch_hex = '#006A4E' %}
+{% when 'rani pink' %}{% assign swatch_hex = '#E91E76' %}
+{% when 'royal blue' %}{% assign swatch_hex = '#4169E1' %}
+{% when 'mint' or 'mint green' %}{% assign swatch_hex = '#98FF98' %}
+{% when 'grey' or 'gray' %}{% assign swatch_hex = '#808080' %}
+{% when 'multi' or 'multicolor' %}{% assign swatch_hex = 'conic-gradient(red, yellow, green, blue, red)' %}
+{% else %}{% assign swatch_hex = color_lower %}
+{% endcase %}
+{% if color_lower == 'multi' or color_lower == 'multicolor' %}
 <span 
 class="product-card__swatch {% if forloop.first %}active{% endif %}" 
-style="background-color: {{ value | downcase }};"
+style="background: {{ swatch_hex }};"
 title="{{ value | escape }}"
+aria-label="{{ value | escape }}"
 ></span>
+{% else %}
+<span 
+class="product-card__swatch {% if forloop.first %}active{% endif %}" 
+style="background-color: {{ swatch_hex }};"
+title="{{ value | escape }}"
+aria-label="{{ value | escape }}"
+></span>
+{% endif %}
 {% endif %}
 {% endfor %}
 {% assign remaining = color_option.values.size | minus: max_swatches %}

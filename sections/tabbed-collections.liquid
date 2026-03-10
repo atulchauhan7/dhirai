@@ -1,9 +1,9 @@
 <section class="section tabbed-collections" data-section-id="{{ section.id }}">
 <div class="container">
 <div class="tabbed-collections__header" data-animate="fade-up">
-<div class="tabbed-collections__tabs">
+<div class="tabbed-collections__tabs" role="tablist" aria-label="Collection tabs">
 {% for block in section.blocks %}
-<button class="tabbed-collections__tab {% if forloop.first %}active{% endif %}" data-tab-trigger="{{ block.id }}" {{ block.shopify_attributes }}>
+<button class="tabbed-collections__tab {% if forloop.first %}active{% endif %}" data-tab-trigger="{{ block.id }}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="panel-{{ block.id }}" id="tab-{{ block.id }}" {{ block.shopify_attributes }}>
 {{ block.settings.tab_label }}
 </button>
 {% endfor %}
@@ -11,7 +11,7 @@
 </div>
 
 {% for block in section.blocks %}
-<div class="tabbed-collections__panel {% if forloop.first %}active{% endif %}" data-tab-panel="{{ block.id }}">
+<div class="tabbed-collections__panel {% if forloop.first %}active{% endif %}" data-tab-panel="{{ block.id }}" role="tabpanel" id="panel-{{ block.id }}" aria-labelledby="tab-{{ block.id }}">
 <div class="grid grid--{{ section.settings.columns }}" data-stagger-reveal>
 {% assign tab_collection = collections[block.settings.collection] %}
 {% for product in tab_collection.products limit: section.settings.products_to_show %}
@@ -43,9 +43,10 @@ document.querySelectorAll('[data-tab-trigger]').forEach(function(tab) {
 tab.addEventListener('click', function() {
 var sectionEl = this.closest('.tabbed-collections');
 var tabId = this.getAttribute('data-tab-trigger');
-sectionEl.querySelectorAll('[data-tab-trigger]').forEach(function(t) { t.classList.remove('active'); });
+sectionEl.querySelectorAll('[data-tab-trigger]').forEach(function(t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
 sectionEl.querySelectorAll('[data-tab-panel]').forEach(function(p) { p.classList.remove('active'); });
 this.classList.add('active');
+this.setAttribute('aria-selected', 'true');
 var panel = sectionEl.querySelector('[data-tab-panel="' + tabId + '"]');
 if (panel) panel.classList.add('active');
 });

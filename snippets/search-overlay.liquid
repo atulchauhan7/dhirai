@@ -8,6 +8,7 @@
 
 <div class="search-overlay__inner">
 <form action="{{ routes.search_url }}" method="get" role="search">
+<input type="hidden" name="type" value="product">
 <div class="search-overlay__input-wrap">
 <input 
 type="search" 
@@ -23,11 +24,12 @@ aria-label="Search"
 <div class="search-overlay__suggestions">
 <div class="search-overlay__suggestions-title">Popular Searches</div>
 <div class="search-overlay__suggestions-list">
-<a href="{{ routes.search_url }}?q=new+arrivals" class="search-overlay__suggestion">New Arrivals</a>
-<a href="{{ routes.search_url }}?q=best+sellers" class="search-overlay__suggestion">Best Sellers</a>
-<a href="{{ routes.search_url }}?q=sale" class="search-overlay__suggestion">Sale</a>
-<a href="{{ routes.search_url }}?q=dresses" class="search-overlay__suggestion">Dresses</a>
-<a href="{{ routes.search_url }}?q=accessories" class="search-overlay__suggestion">Accessories</a>
+<a href="{{ routes.search_url }}?q=anarkali+kurti&type=product" class="search-overlay__suggestion">Anarkali Kurti</a>
+<a href="{{ routes.search_url }}?q=cotton+kurti&type=product" class="search-overlay__suggestion">Cotton Kurti</a>
+<a href="{{ routes.search_url }}?q=palazzo+set&type=product" class="search-overlay__suggestion">Palazzo Set</a>
+<a href="{{ routes.search_url }}?q=party+wear&type=product" class="search-overlay__suggestion">Party Wear</a>
+<a href="{{ routes.search_url }}?q=new+arrivals&type=product" class="search-overlay__suggestion">New Arrivals</a>
+<a href="{{ routes.search_url }}?q=under+999&type=product" class="search-overlay__suggestion">Under &#8377;999</a>
 </div>
 </div>
 </div>

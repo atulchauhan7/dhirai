@@ -11,7 +11,25 @@
 </button>
 </div>
 
+{% assign free_shipping_threshold = 99900 %}
+{% assign cart_total = cart.total_price %}
 {% if cart.item_count > 0 %}
+<div class="cart-drawer__shipping-bar">
+{% if cart_total >= free_shipping_threshold %}
+<div class="cart-drawer__shipping-text cart-drawer__shipping-text--success">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+You've unlocked <strong>free shipping!</strong>
+</div>
+<div class="cart-drawer__shipping-progress"><div class="cart-drawer__shipping-fill" style="width:100%"></div></div>
+{% else %}
+{% assign remaining = free_shipping_threshold | minus: cart_total %}
+{% assign progress = cart_total | times: 100 | divided_by: free_shipping_threshold %}
+<div class="cart-drawer__shipping-text">
+Add <strong>{{ remaining | money }}</strong> more for <strong>free shipping</strong>
+</div>
+<div class="cart-drawer__shipping-progress"><div class="cart-drawer__shipping-fill" style="width:{{ progress }}%"></div></div>
+{% endif %}
+</div>
 <div class="cart-drawer__items">
 {% for item in cart.items %}
 <div class="cart-drawer__item" data-line="{{ forloop.index }}" data-key="{{ item.key }}">

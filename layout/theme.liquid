@@ -152,6 +152,7 @@ setTimeout(function(){
   var lo = document.getElementById('page-loader');
   if(lo && !lo.classList.contains('loaded')){ lo.classList.add('loaded'); }
   document.body.classList.remove('overflow-hidden');
+  if(!document.body.classList.contains('page-loaded')){ document.body.classList.add('page-loaded'); }
 }, 1500);
 </script>
 
