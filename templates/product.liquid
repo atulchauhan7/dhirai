@@ -103,13 +103,17 @@ decoding="async"
 
   <div class="product-info__price-wrap">
     {% if product.compare_at_price > product.price %}
-    <span class="product-info__price product-info__price--on-sale">{{ product.price | money }}</span>
-    <span class="product-info__compare-price">{{ product.compare_at_price | money }}</span>
-    <span class="product-info__save-badge">
-      -{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}% OFF
-    </span>
+    <div class="product-info__price-row">
+      <span class="product-info__price product-info__price--on-sale"><span class="product-info__currency">₹</span>{{ product.price | money_without_currency | remove: '.00' }}/-</span>
+      <span class="product-info__compare-price">MRP <s>₹{{ product.compare_at_price | money_without_currency | remove: '.00' }}/-</s></span>
+      <span class="product-info__save-badge">-{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}% OFF</span>
+    </div>
+    <div class="product-info__savings">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      You save <strong>₹{{ product.compare_at_price | minus: product.price | money_without_currency | remove: '.00' }}/-</strong> on this order
+    </div>
     {% else %}
-    <span class="product-info__price">{{ product.price | money }}</span>
+    <span class="product-info__price"><span class="product-info__currency">₹</span>{{ product.price | money_without_currency | remove: '.00' }}/-</span>
     {% endif %}
     {% if settings.product_tax_note != blank %}
     <span class="product-info__tax-note">{{ settings.product_tax_note }}</span>
@@ -189,6 +193,26 @@ decoding="async"
     {% endfor %}
   </div>
   {% endunless %}
+
+  {% if settings.product_promo_enabled and settings.product_promo_code != blank %}
+  <div class="pdp-ticket">
+    <div class="pdp-ticket__left">
+      <svg class="pdp-ticket__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="2"/><circle cx="15" cy="15" r="2"/><line x1="7.5" y1="16.5" x2="16.5" y2="7.5"/><path d="M21.41 11.58l-9-9a2 2 0 00-2.82 0L2 10.17V22h11.83l7.58-7.58a2 2 0 000-2.84z"/></svg>
+      <div class="pdp-ticket__info">
+        <span class="pdp-ticket__heading">{{ settings.product_promo_text }}</span>
+        <span class="pdp-ticket__sub">Tap the code to copy &amp; apply at checkout</span>
+      </div>
+    </div>
+    <div class="pdp-ticket__divider"></div>
+    <div class="pdp-ticket__right">
+      <span class="pdp-ticket__label">YOUR CODE</span>
+      <button type="button" class="pdp-ticket__code" onclick="navigator.clipboard.writeText('{{ settings.product_promo_code }}');var t=this;t.classList.add('copied');t.setAttribute('data-tip','Copied!');setTimeout(function(){t.classList.remove('copied');t.setAttribute('data-tip','Click to copy')},1500)" data-tip="Click to copy">
+        {{ settings.product_promo_code }}
+        <svg class="pdp-ticket__copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      </button>
+    </div>
+  </div>
+  {% endif %}
 
   <div class="product-info__quantity">
     <label class="product-option__label">Quantity</label>
