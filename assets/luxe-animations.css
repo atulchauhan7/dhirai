@@ -58,7 +58,11 @@ opacity:1!important;transform:none!important;clip-path:none!important;transition
 
 /* ─── Header entrance animations ─── */
 @keyframes headerSlideDown{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:translateY(0)}}
-@keyframes logoFadeIn{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes logoFadeIn{from{opacity:0;transform:scale(0.92);letter-spacing:0.6em}to{opacity:1;transform:scale(1);letter-spacing:0.32em}}
+@keyframes logoShine{0%,100%{background-position:200% center}50%{background-position:-200% center}}
+
+/* Logo text shimmer */
+.logo-text{display:inline-block;background:linear-gradient(120deg,var(--color-accent) 0%,var(--color-accent) 40%,#fff 50%,var(--color-accent) 60%,var(--color-accent) 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:logoShine 5s ease-in-out 1.5s infinite}
 @keyframes navStagger{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes iconPop{0%{opacity:0;transform:scale(0.5)}60%{transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
 @keyframes cartBadgeBounce{0%{transform:scale(1)}25%{transform:scale(1.25)}50%{transform:scale(0.9)}75%{transform:scale(1.1)}100%{transform:scale(1)}}
