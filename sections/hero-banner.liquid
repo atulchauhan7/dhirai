@@ -104,10 +104,12 @@ height="1000"
 </div>
 {% endif %}
 
+{% if section.settings.show_scroll_indicator %}
 <div class="hero-slider__scroll-cue" aria-hidden="true">
 <span class="hero-slider__scroll-text">Scroll</span>
 <span class="hero-slider__scroll-line"></span>
 </div>
+{% endif %}
 </div>
 
 {% if section.blocks.size > 1 %}
