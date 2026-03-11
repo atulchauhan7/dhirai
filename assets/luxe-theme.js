@@ -603,6 +603,12 @@ img.style.transform='scale(1.5)';
 slide.addEventListener('mouseleave',function(){img.style.transform='scale(1)'});
 });
 
+/* Arrow navigation */
+var prevArr=gallery.querySelector('.product-gallery__arrow--prev');
+var nextArr=gallery.querySelector('.product-gallery__arrow--next');
+if(prevArr)prevArr.addEventListener('click',function(e){e.stopPropagation();goTo(current-1)});
+if(nextArr)nextArr.addEventListener('click',function(e){e.stopPropagation();goTo(current+1)});
+
 goTo(0,false);
 });
 

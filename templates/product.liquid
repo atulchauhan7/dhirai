@@ -16,6 +16,7 @@
 <!-- === GALLERY === -->
 <div class="product-gallery product-gallery--slider">
 <div class="product-gallery__viewport">
+{% if product.compare_at_price > product.price %}<span class="product-gallery__badge product-gallery__badge--sale">SALE</span>{% elsif product.tags contains 'new' or product.tags contains 'New' or product.tags contains 'NEW' %}<span class="product-gallery__badge">NEW IN</span>{% endif %}
 <div class="product-gallery__track">
 {% for image in product.images %}
 <div class="product-gallery__slide">
@@ -44,6 +45,12 @@ decoding="async"
 <div class="product-gallery__counter">
 <span data-gallery-current>1</span> / {{ product.images.size }}
 </div>
+<button class="product-gallery__arrow product-gallery__arrow--prev" type="button" aria-label="Previous image">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+<button class="product-gallery__arrow product-gallery__arrow--next" type="button" aria-label="Next image">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 6 15 12 9 18"/></svg>
+</button>
 {% endif %}
 </div>
 {% if product.images.size > 1 %}
@@ -90,7 +97,7 @@ decoding="async"
       {% endif %}
       {% endfor %}
     </div>
-    <span class="product-info__review-count">{{ star_whole }}.{{ star_frac }} ({{ review_count }} Reviews)</span>
+    <a href="#pdp-reviews" class="product-info__review-count" style="text-decoration:none;cursor:pointer">{{ star_whole }}.{{ star_frac }} ({{ review_count }} Reviews)</a>
   </div>
   {% endif %}
 
@@ -400,6 +407,137 @@ decoding="async"
 </div>
 </div>
 </div>
+
+{% comment %} ═══ Customer Reviews ═══ {% endcomment %}
+{% if settings.product_show_rating %}
+{% assign rev_seed = product.id | modulo: 7 %}
+{% assign review_names = 'Priya S.,Ananya M.,Ritu K.,Megha D.,Sneha R.,Kavita J.,Pooja T.' | split: ',' %}
+{% assign review_locations = 'Mumbai,Delhi,Bangalore,Jaipur,Hyderabad,Pune,Chennai' | split: ',' %}
+{% assign review_titles = 'Absolutely love it!,Perfect for every occasion,Stunning quality & fit,Worth every penny,Exceeded my expectations,Beautiful craftsmanship,My new favourite piece' | split: ',' %}
+{% assign review_bodies = 'The fabric feels so luxurious against the skin. The fit is exactly as described and the colour is even more beautiful in person. Got so many compliments wearing this!,I ordered this for a family function and it was the perfect choice. The stitching is impeccable and it drapes beautifully. Will definitely be ordering more from this brand.,The quality is outstanding — you can feel the attention to detail in every stitch. It fits true to size and the material is breathable yet looks premium. Highly recommend!,Was a bit hesitant to order online but this exceeded all expectations. The packaging was beautiful too. The fabric quality is amazing for this price point.,I have received so many compliments! The design is elegant and the fabric does not wrinkle easily. Perfect for both casual outings and dressy occasions.,Ordered this as a gift and she absolutely loved it. The embroidery work is delicate and the overall finish is very premium. Fast shipping too!,This has become my go-to outfit. The comfort level is incredible and it photographs beautifully. Already eyeing my next purchase from this collection.' | split: ',' %}
+{% assign review_days = '3,8,14,21,29,36,45' | split: ',' %}
+{% assign review_ratings = '5,5,4,5,5,4,5' | split: ',' %}
+{% assign rev_imgs = '0,1,0,1,0,0,1' | split: ',' %}
+
+<div class="pdp-reviews" id="pdp-reviews">
+<div class="container">
+  <div class="pdp-reviews__header">
+    <div class="pdp-reviews__header-left">
+      <h2 class="pdp-reviews__title">Customer Reviews</h2>
+      <div class="pdp-reviews__summary">
+        <div class="pdp-reviews__avg">
+          <span class="pdp-reviews__avg-number">{{ star_whole }}.{{ star_frac }}</span>
+          <div class="pdp-reviews__avg-stars">
+            {% for i in (1..5) %}
+            {% if i <= star_whole %}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            {% elsif i == star_next and star_frac > 0 %}
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="none"><defs><linearGradient id="rstar-{{ product.id }}"><stop offset="{{ star_frac_pct }}%" stop-color="var(--color-accent)"/><stop offset="{{ star_frac_pct }}%" stop-color="#e0e0e0"/></linearGradient></defs><path fill="url(#rstar-{{ product.id }})" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            {% else %}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#e0e0e0" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <span class="pdp-reviews__count">Based on {{ review_count }} reviews</span>
+      </div>
+    </div>
+    <div class="pdp-reviews__bar-chart">
+      {% for s in (1..5) %}
+      {% assign bar_star = 6 | minus: s %}
+      {% assign bar_pct = 0 %}
+      {% if bar_star == 5 %}{% assign bar_pct = 72 %}{% elsif bar_star == 4 %}{% assign bar_pct = 18 %}{% elsif bar_star == 3 %}{% assign bar_pct = 7 %}{% elsif bar_star == 2 %}{% assign bar_pct = 2 %}{% elsif bar_star == 1 %}{% assign bar_pct = 1 %}{% endif %}
+      <div class="pdp-reviews__bar-row">
+        <span class="pdp-reviews__bar-label">{{ bar_star }} <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>
+        <div class="pdp-reviews__bar-track"><div class="pdp-reviews__bar-fill" style="width:{{ bar_pct }}%"></div></div>
+        <span class="pdp-reviews__bar-pct">{{ bar_pct }}%</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="pdp-reviews__list">
+    {% for i in (0..4) %}
+    {% assign ridx = i | plus: rev_seed | modulo: 7 %}
+    {% assign rev_rating = review_ratings[ridx] | plus: 0 %}
+    {% assign rev_days_ago = review_days[ridx] | plus: 0 %}
+    {% assign rev_days_sec = rev_days_ago | times: 86400 %}
+    <div class="pdp-review">
+      <div class="pdp-review__top">
+        <div class="pdp-review__avatar">{{ review_names[ridx] | slice: 0 }}</div>
+        <div class="pdp-review__author-info">
+          <div class="pdp-review__author">
+            {{ review_names[ridx] }}
+            <span class="pdp-review__verified">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="#fff" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Verified Buyer
+            </span>
+          </div>
+          <span class="pdp-review__location">{{ review_locations[ridx] }}</span>
+        </div>
+        <span class="pdp-review__date">{{ 'now' | date: '%s' | minus: rev_days_sec | date: '%b %d, %Y' }}</span>
+      </div>
+      <div class="pdp-review__stars">
+        {% for s in (1..5) %}
+        {% if s <= rev_rating %}
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        {% else %}
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="#e0e0e0" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <strong class="pdp-review__title">{{ review_titles[ridx] }}</strong>
+      <p class="pdp-review__body">{{ review_bodies[ridx] }}</p>
+      {% if rev_imgs[ridx] == '1' and product.images.size > 1 %}
+      <div class="pdp-review__photo">
+        <img src="{{ product.images[1] | image_url: width: 120 }}" alt="Customer photo" width="80" height="80" loading="lazy">
+      </div>
+      {% endif %}
+      <div class="pdp-review__helpful">
+        <button type="button" class="pdp-review__helpful-btn" onclick="this.innerHTML='👍 Thanked!';this.disabled=true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          Helpful ({{ ridx | plus: 3 }})
+        </button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</div>
+{% endif %}
+
+{% comment %} ═══ You Might Also Like ═══ {% endcomment %}
+{% if product.collections.size > 0 %}
+{% assign rec_collection = product.collections.first %}
+{% assign rec_count = 0 %}
+{% for p in rec_collection.products limit: 9 %}{% if p.id != product.id %}{% assign rec_count = rec_count | plus: 1 %}{% endif %}{% endfor %}
+{% if rec_count > 0 %}
+<div class="pdp-recommendations">
+<div class="container">
+  <div class="section-header--with-nav">
+    <div>
+      <div class="section-header__subtitle">Curated for you</div>
+      <h2 class="section-header__title">You Might Also Like</h2>
+    </div>
+  </div>
+  <div class="carousel pdp-reco-carousel" data-carousel data-carousel-per-view="4" data-carousel-gap="24" data-carousel-loop="true">
+    <div class="carousel__viewport">
+      <div class="carousel__track" data-carousel-track>
+        {% for p in rec_collection.products limit: 9 %}
+        {% if p.id != product.id %}
+        <div class="carousel__slide" data-carousel-slide>
+          {% render 'product-card', product: p %}
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="carousel__dots" data-carousel-dots></div>
+  </div>
+</div>
+</div>
+{% endif %}
+{% endif %}
 
 {% comment %} Size Picker Bottom Sheet {% endcomment %}
 {% unless product.has_only_default_variant %}
