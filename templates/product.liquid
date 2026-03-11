@@ -64,15 +64,35 @@ decoding="async"
 
   <h1 class="product-info__title">{{ product.title }}</h1>
 
-  <!-- Ratings placeholder -->
+  {% if settings.product_show_rating %}
+  {% assign review_count = product.metafields.reviews.rating_count %}
+  {% assign review_rating = product.metafields.reviews.rating %}
+  {% if review_count == blank or review_count == 0 %}
+    {% comment %} Pseudo-random dummy values seeded from product ID {% endcomment %}
+    {% assign review_count = product.id | modulo: 200 | plus: 50 %}
+    {% assign rx10 = product.id | modulo: 10 | plus: 40 %}
+  {% else %}
+    {% assign rx10 = review_rating | default: 5 | times: 10 | round %}
+  {% endif %}
+  {% assign star_whole = rx10 | divided_by: 10 %}
+  {% assign star_frac = rx10 | modulo: 10 %}
+  {% assign star_frac_pct = star_frac | times: 10 %}
+  {% assign star_next = star_whole | plus: 1 %}
   <div class="product-info__rating">
     <div class="product-info__stars">
       {% for i in (1..5) %}
+      {% if i <= star_whole %}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      {% elsif i == star_next and star_frac > 0 %}
+      <svg width="14" height="14" viewBox="0 0 24 24" stroke="none"><defs><linearGradient id="pstar"><stop offset="{{ star_frac_pct }}%" stop-color="var(--color-accent)"/><stop offset="{{ star_frac_pct }}%" stop-color="#e0e0e0"/></linearGradient></defs><path fill="url(#pstar)" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      {% else %}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#e0e0e0" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      {% endif %}
       {% endfor %}
     </div>
-    <span class="product-info__review-count">({{ product.metafields.reviews.rating_count | default: '128' }} Reviews)</span>
+    <span class="product-info__review-count">{{ star_whole }}.{{ star_frac }} ({{ review_count }} Reviews)</span>
   </div>
+  {% endif %}
 
   <div class="product-info__price-wrap">
     {% if product.compare_at_price > product.price %}
@@ -84,7 +104,9 @@ decoding="async"
     {% else %}
     <span class="product-info__price">{{ product.price | money }}</span>
     {% endif %}
-    <span class="product-info__tax-note">incl. of all taxes</span>
+    {% if settings.product_tax_note != blank %}
+    <span class="product-info__tax-note">{{ settings.product_tax_note }}</span>
+    {% endif %}
   </div>
 
   <!-- Highlights pills (from tags) -->
@@ -205,37 +227,50 @@ decoding="async"
   {% endform %}
 
   <!-- Delivery estimate -->
+  {% assign delivery_min_sec = settings.product_delivery_min_days | default: 5 | times: 86400 %}
+  {% assign delivery_max_sec = settings.product_delivery_max_days | default: 7 | times: 86400 %}
   <div class="product-delivery">
     <div class="product-delivery__icon">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
     </div>
     <div class="product-delivery__text">
       <strong>Estimated Delivery</strong>
-      <span>{{ 'now' | date: '%s' | plus: 432000 | date: '%b %d' }} — {{ 'now' | date: '%s' | plus: 604800 | date: '%b %d, %Y' }}</span>
+      <span>{{ 'now' | date: '%s' | plus: delivery_min_sec | date: '%b %d' }} — {{ 'now' | date: '%s' | plus: delivery_max_sec | date: '%b %d, %Y' }}</span>
     </div>
   </div>
 
   <!-- Trust badges -->
+  {% if settings.product_trust_1 != blank or settings.product_trust_2 != blank or settings.product_trust_3 != blank or settings.product_trust_4 != blank %}
   <div class="product-trust">
+    {% if settings.product_trust_1 != blank %}
     <div class="product-trust__item">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-      <span>Free Shipping &#8377;999+</span>
+      <span>{{ settings.product_trust_1 }}</span>
     </div>
+    {% endif %}
+    {% if settings.product_trust_2 != blank %}
     <div class="product-trust__item">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-      <span>10-Day Returns</span>
+      <span>{{ settings.product_trust_2 }}</span>
     </div>
+    {% endif %}
+    {% if settings.product_trust_3 != blank %}
     <div class="product-trust__item">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      <span>Secure Checkout</span>
+      <span>{{ settings.product_trust_3 }}</span>
     </div>
+    {% endif %}
+    {% if settings.product_trust_4 != blank %}
     <div class="product-trust__item">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <span>COD Available</span>
+      <span>{{ settings.product_trust_4 }}</span>
     </div>
+    {% endif %}
   </div>
+  {% endif %}
 
   {% comment %} Share {% endcomment %}
+  {% if settings.product_show_share %}
   {% assign share_url = shop.url | append: product.url %}
   <div class="product-share">
     <span class="product-share__label">Share</span>
@@ -266,6 +301,7 @@ decoding="async"
       </button>
     </div>
   </div>
+  {% endif %}
 
   <!-- Accordion -->
   <div class="product-accordion">
@@ -283,6 +319,7 @@ decoding="async"
     </div>
     {% endif %}
 
+    {% if settings.product_shipping_text != blank %}
     <div class="accordion-item">
       <button class="accordion-trigger" type="button" aria-expanded="false">
         Shipping & Returns
@@ -290,11 +327,13 @@ decoding="async"
       </button>
       <div class="accordion-content">
         <div class="accordion-content__inner">
-          <p>Free standard shipping on all orders over &#8377;999. Express shipping available at checkout. 10-day hassle-free returns on all items. Cash on Delivery (COD) available.</p>
+          {{ settings.product_shipping_text }}
         </div>
       </div>
     </div>
+    {% endif %}
 
+    {% if settings.product_care_text != blank %}
     <div class="accordion-item">
       <button class="accordion-trigger" type="button" aria-expanded="false">
         Care Instructions
@@ -302,10 +341,11 @@ decoding="async"
       </button>
       <div class="accordion-content">
         <div class="accordion-content__inner">
-          <p>Please refer to the product label for specific care instructions. For best results, follow the recommended guidelines.</p>
+          {{ settings.product_care_text }}
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
 
   <!-- Product meta -->
@@ -486,10 +526,19 @@ decoding="async"
 "name": {{ product.title | json }},
 {% if product.featured_image != blank %}"image": {{ product.featured_image | image_url: width: 1200 | json }},{% endif %}
 "description": {{ product.description | strip_html | truncate: 250 | json }},
+{% if product.selected_or_first_available_variant.sku != blank %}"sku": {{ product.selected_or_first_available_variant.sku | json }},{% endif %}
+{% if product.selected_or_first_available_variant.barcode != blank %}"gtin": {{ product.selected_or_first_available_variant.barcode | json }},{% endif %}
 "brand": {
 "@type": "Brand",
 "name": {{ product.vendor | json }}
 },
+{% assign rc = product.metafields.reviews.rating_count %}{% assign rv = product.metafields.reviews.rating %}{% if rc != blank and rc > 0 %}
+"aggregateRating": {
+"@type": "AggregateRating",
+"ratingValue": {{ rv | default: 5 }},
+"reviewCount": {{ rc }}
+},
+{% endif %}
 "offers": {
 "@type": "Offer",
 "url": {{ request.origin | append: product.url | json }},
