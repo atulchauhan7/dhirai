@@ -142,12 +142,12 @@ decoding="async"
     <div class="product-option" data-option-index="{{ forloop.index0 }}" data-option-name="{{ option.name | escape }}">
       <label class="product-option__label">
         {{ option.name }}
-        {% if is_size %}
+        {% if is_size %}{% if product.metafields.custom.size_chart != blank %}
         <button type="button" class="size-chart-trigger" onclick="document.getElementById('size-chart-modal').classList.add('open')" aria-label="View size chart">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 3H3v18h18V3z"/><path d="M3 9h3"/><path d="M3 15h5"/><path d="M3 12h4"/></svg>
           Size Guide
         </button>
-        {% endif %}
+        {% endif %}{% endif %}
       </label>
       <div class="product-option__values">
         {% for value in option.values %}
@@ -345,6 +345,8 @@ decoding="async"
 {% endunless %}
 
 {% comment %} Size Chart Modal — Tabbed {% endcomment %}
+{% assign sc = product.metafields.custom.size_chart.value %}
+{% if sc != blank %}
 <div class="size-chart-overlay" id="size-chart-modal" aria-hidden="true">
 <div class="size-chart-modal">
   <div class="size-chart-modal__header">
@@ -360,20 +362,16 @@ decoding="async"
   <div class="size-chart-modal__body">
     <!-- Tab: Size Chart -->
     <div class="size-chart-panel active" data-sc-panel="chart">
-      <p class="size-chart-modal__note">All measurements in <strong>inches</strong>. Your selected size is highlighted.</p>
+      <p class="size-chart-modal__note">All measurements in <strong>{{ sc.unit | default: 'inches' }}</strong>. Your selected size is highlighted.</p>
       <div class="size-chart-modal__table-wrap">
         <table class="size-chart-table" data-size-chart>
           <thead>
-            <tr><th scope="col">Size</th><th scope="col">Bust</th><th scope="col">Waist</th><th scope="col">Hip</th><th scope="col">Length</th></tr>
+            <tr>{% for col in sc.headers %}<th scope="col">{{ col }}</th>{% endfor %}</tr>
           </thead>
           <tbody>
-            <tr data-size="XS"><td>XS</td><td>32</td><td>26</td><td>35</td><td>42</td></tr>
-            <tr data-size="S"><td>S</td><td>34</td><td>28</td><td>37</td><td>43</td></tr>
-            <tr data-size="M"><td>M</td><td>36</td><td>30</td><td>39</td><td>44</td></tr>
-            <tr data-size="L"><td>L</td><td>38</td><td>32</td><td>41</td><td>45</td></tr>
-            <tr data-size="XL"><td>XL</td><td>40</td><td>34</td><td>43</td><td>46</td></tr>
-            <tr data-size="XXL"><td>XXL</td><td>42</td><td>36</td><td>45</td><td>47</td></tr>
-            <tr data-size="3XL"><td>3XL</td><td>44</td><td>38</td><td>47</td><td>48</td></tr>
+            {% for row in sc.rows %}
+            <tr data-size="{{ row[0] }}">{% for cell in row %}<td>{{ cell }}</td>{% endfor %}</tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -447,6 +445,7 @@ decoding="async"
   </div>
 </div>
 </div>
+{% endif %}
 
 <script type="application/ld+json">
 {
