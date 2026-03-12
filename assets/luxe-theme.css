@@ -102,6 +102,22 @@ p{margin-bottom:1rem}
 .loader-bar__fill{width:100%;height:100%;background:linear-gradient(90deg,var(--color-accent),rgba(255,255,255,0.8));animation:loaderSlide 1.2s var(--ease-out-expo) infinite}
 @keyframes loaderSlide{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 
+/* === HEADER INLINE SEARCH BAR === */
+.header-search{position:absolute;top:100%;left:0;right:0;background:var(--color-header-bg);overflow:hidden;max-height:0;opacity:0;visibility:hidden;transition:max-height 0.45s var(--ease-out-expo),opacity 0.3s ease,visibility 0s 0.45s;z-index:1001;box-shadow:0 8px 30px rgba(0,0,0,0.08);border-bottom:2px solid var(--color-accent)}
+.header-search.open{max-height:200px;opacity:1;visibility:visible;transition:max-height 0.45s var(--ease-out-expo),opacity 0.3s ease,visibility 0s 0s}
+.header-search__inner{padding:12px clamp(16px,4vw,52px) 14px}
+.header-search__form{display:flex;align-items:center;gap:10px;border-bottom:1.5px solid var(--color-border);padding-bottom:8px}
+.header-search__icon{flex-shrink:0;color:var(--color-text-muted)}
+.header-search__input{flex:1;border:none;background:transparent;font-family:var(--font-body);font-size:0.92rem;padding:6px 0;outline:none;color:var(--color-heading);letter-spacing:0.01em}
+.header-search__input::placeholder{color:var(--color-text-muted);font-weight:400}
+.header-search__close{flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:var(--color-text-muted);border-radius:50%;transition:all 0.3s ease}
+.header-search__close:hover{color:var(--color-accent);background:rgba(var(--color-accent-rgb),0.06)}
+.header-search__tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.header-search__tag{padding:5px 14px;border:1px solid var(--color-border);font-size:0.7rem;letter-spacing:0.04em;transition:all 0.3s ease;text-transform:uppercase;color:var(--color-text-muted)}
+.header-search__tag:hover{background:var(--color-accent);color:#fff;border-color:var(--color-accent)}
+.header-search__backdrop{display:none}
+.header-search.open+.header-search__backdrop-el{display:block}
+
 /* === ANNOUNCEMENT BAR — Slim dark strip === */
 .announcement-bar{background:var(--color-accent);color:#ffffff;padding:5px 0;padding-top:calc(5px + env(safe-area-inset-top, 0px));font-size:0.6rem;text-align:center;letter-spacing:0.2em;font-weight:500;position:fixed;top:0;left:0;right:0;z-index:999;overflow:hidden;transition:transform 0.4s var(--ease-out-expo);text-transform:uppercase}
 .announcement-bar.announcement-hidden{transform:translateY(-100%);pointer-events:none}
@@ -112,7 +128,7 @@ p{margin-bottom:1rem}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* === HEADER — Premium editorial fashion header === */
-.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0;overflow:visible}
 .site-header.has-announcement{top:28px}
 @supports(padding:env(safe-area-inset-top)){
   .site-header.has-announcement{top:calc(28px + env(safe-area-inset-top,0px))}
@@ -751,12 +767,19 @@ p{margin-bottom:1rem}
 .product-card__wishlist.wishlisted{background:var(--color-accent);color:#fff}
 .product-card__wishlist.wishlisted svg{stroke:#fff;fill:#fff}
 
+/* PDP Wishlist button */
+.pdp-wishlist{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border:1px solid var(--color-border);background:transparent;cursor:pointer;font-family:var(--font-body);font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:var(--color-text);transition:all 0.35s var(--ease-out-expo);margin-bottom:0.75rem}
+.pdp-wishlist svg{transition:all 0.3s ease;flex-shrink:0}
+.pdp-wishlist:hover{border-color:var(--color-accent);color:var(--color-accent)}
+.pdp-wishlist:hover svg{stroke:var(--color-accent)}
+.pdp-wishlist.wishlisted{background:var(--color-accent);border-color:var(--color-accent);color:#fff}
+.pdp-wishlist.wishlisted svg{stroke:#fff;fill:#fff}
+
 /* Wishlist badge in header */
 .wishlist-count-badge{position:absolute;top:2px;right:0;background:var(--color-accent);color:#fff;min-width:17px;height:17px;padding:0 4px;border-radius:9px;font-size:0.58rem;font-weight:600;display:flex;align-items:center;justify-content:center;line-height:1;box-sizing:border-box;pointer-events:none;box-shadow:0 2px 8px rgba(var(--color-accent-rgb),0.4);border:1.5px solid #fff}
 
-/* === SEARCH OVERLAY — Full-screen, editorial === */
-.search-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.98);z-index:3000;opacity:0;visibility:hidden;transition:all 0.5s var(--ease-out-expo);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px)}
-.search-overlay.open{opacity:1;visibility:visible}
+/* === SEARCH OVERLAY — Disabled (replaced by inline header search) === */
+.search-overlay{display:none!important}
 .search-overlay__close{position:absolute;top:30px;right:40px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--color-heading);transition:all 0.4s var(--ease-out-expo);background:none;border:none;cursor:pointer}
 .search-overlay__close:hover{transform:rotate(90deg)}
 .search-overlay__inner{width:100%;max-width:580px;padding:0 2rem;transform:translateY(16px);transition:transform 0.6s var(--ease-out-expo)}
@@ -845,6 +868,13 @@ p{margin-bottom:1rem}
 .product-info{position:sticky;top:var(--header-height,145px)}
 .product-info__vendor{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.3em;color:var(--color-accent);margin-bottom:0.6rem;font-weight:600;display:inline-flex;align-items:center;gap:0.75rem}
 .product-info__vendor::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--color-accent),transparent);max-width:60px;opacity:0.4}
+.product-info__vendor-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem}
+.product-info__vendor-row .product-info__vendor{margin-bottom:0}
+.pdp-wishlist-icon{flex-shrink:0;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--color-border);border-radius:50%;cursor:pointer;color:var(--color-text-muted);transition:all 0.35s var(--ease-out-expo)}
+.pdp-wishlist-icon:hover{border-color:var(--color-accent);color:var(--color-accent)}
+.pdp-wishlist-icon svg{transition:all 0.3s ease}
+.pdp-wishlist-icon.wishlisted{background:var(--color-accent);border-color:var(--color-accent);color:#fff}
+.pdp-wishlist-icon.wishlisted svg{stroke:#fff;fill:#fff}
 .product-info__title{font-size:clamp(1.7rem,3.2vw,2.4rem);margin-bottom:1rem;letter-spacing:0.03em;font-weight:300;text-transform:uppercase;word-break:break-word;overflow-wrap:break-word;line-height:1.15}
 .product-info__price-wrap{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--color-border)}
 .product-info__price-row{display:flex;align-items:baseline;gap:0.75rem;flex-wrap:wrap}
@@ -1500,6 +1530,11 @@ p{margin-bottom:1rem}
   .search-overlay__input{font-size:1.3rem;padding:0.75rem 0}
   .search-overlay__suggestions-list{gap:0.4rem}
   .search-overlay__suggestion{padding:6px 14px;font-size:0.75rem}
+  /* Header inline search — mobile */
+  .header-search__inner{padding:10px 16px 12px}
+  .header-search__input{font-size:0.85rem}
+  .header-search__tags{gap:5px;margin-top:8px}
+  .header-search__tag{padding:4px 10px;font-size:0.65rem}
   /* Cart drawer */
   .cart-drawer{width:100%;max-width:100vw}
   .cart-drawer__header{padding:0.5rem 1rem}
