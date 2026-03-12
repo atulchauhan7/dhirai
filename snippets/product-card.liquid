@@ -38,10 +38,22 @@ height="533"
 {% endif %}
 </a>
 
-{% if product.compare_at_price > product.price %}
+{% comment %} --- Resolve MRP from compare_at_price or mrp-XXX tag --- {% endcomment %}
+{% assign card_mrp = product.compare_at_price %}
+{% if card_mrp == blank or card_mrp == 0 or card_mrp <= product.price %}
+  {% for tag in product.tags %}
+    {% assign tag_lower = tag | downcase %}
+    {% if tag_lower contains 'mrp-' %}
+      {% assign card_mrp = tag_lower | remove: 'mrp-' | plus: 0 | times: 100 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if card_mrp > product.price %}
 <span class="product-card__badge product-card__badge--sale">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M12 19l-7-7 1.41-1.41L12 16.17l5.59-5.58L19 12z"/></svg>
--{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%
+-{{ card_mrp | minus: product.price | times: 100 | divided_by: card_mrp }}%
 </span>
 {% elsif product.available == false %}
 <span class="product-card__badge product-card__badge--soldout">Sold Out</span>
@@ -93,10 +105,12 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 <h3 class="product-card__title">{{ product.title }}</h3>
 </a>
 <div class="product-card__price-row">
-{% if product.compare_at_price > product.price %}
-<span class="product-card__price product-card__price--sale">{{ product.price | money }}</span>
-<span class="product-card__price product-card__price--compare">{{ product.compare_at_price | money }}</span>
-<span class="product-card__price-off">{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}% OFF</span>
+{% if card_mrp > product.price %}
+{% assign card_price_num = product.price | divided_by: 100 %}
+{% assign card_mrp_num = card_mrp | divided_by: 100 %}
+<span class="product-card__price product-card__price--sale">₹{{ card_price_num }}/-</span>
+<span class="product-card__price product-card__price--compare"><s>₹{{ card_mrp_num }}/-</s></span>
+<span class="product-card__price-off">{{ card_mrp | minus: product.price | times: 100 | divided_by: card_mrp }}% OFF</span>
 {% else %}
 <span class="product-card__price">{{ product.price | money }}</span>
 {% endif %}

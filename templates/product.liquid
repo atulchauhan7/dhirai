@@ -11,12 +11,29 @@
 <span class="product-breadcrumbs__current">{{ product.title | truncate: 40 }}</span>
 </nav>
 
+{% comment %} --- Resolve MRP once: prefer compare_at_price, fall back to mrp-XXX tag --- {% endcomment %}
+{% assign mrp = 0 %}
+{% assign price_num = product.price | divided_by: 100 %}
+{% if product.compare_at_price > product.price %}
+  {% assign mrp = product.compare_at_price | divided_by: 100 %}
+{% else %}
+  {% for tag in product.tags %}
+    {% assign tag_lower = tag | downcase %}
+    {% if tag_lower contains 'mrp-' %}
+      {% assign mrp = tag_lower | remove: 'mrp-' | plus: 0 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% assign has_discount = false %}
+{% if mrp > price_num %}{% assign has_discount = true %}{% endif %}
+
 <div class="product-page__grid">
 
 <!-- === GALLERY === -->
 <div class="product-gallery product-gallery--slider">
 <div class="product-gallery__viewport">
-{% if product.compare_at_price > product.price %}<span class="product-gallery__badge product-gallery__badge--sale">SALE</span>{% elsif product.tags contains 'new' or product.tags contains 'New' or product.tags contains 'NEW' %}<span class="product-gallery__badge">NEW IN</span>{% endif %}
+{% if has_discount %}<span class="product-gallery__badge product-gallery__badge--sale">SALE</span>{% elsif product.tags contains 'new' or product.tags contains 'New' or product.tags contains 'NEW' %}<span class="product-gallery__badge">NEW IN</span>{% endif %}
 <div class="product-gallery__track">
 {% for image in product.images %}
 <div class="product-gallery__slide">
@@ -113,18 +130,20 @@ decoding="async"
   {% endif %}
 
   <div class="product-info__price-wrap">
-    {% if product.compare_at_price > product.price %}
+    {% if has_discount %}
+    {% assign savings = mrp | minus: price_num %}
+    {% assign pct_off = savings | times: 100 | divided_by: mrp %}
     <div class="product-info__price-row">
-      <span class="product-info__price product-info__price--on-sale"><span class="product-info__currency">₹</span>{{ product.price | money_without_currency | remove: '.00' }}/-</span>
-      <span class="product-info__compare-price">MRP <s>₹{{ product.compare_at_price | money_without_currency | remove: '.00' }}/-</s></span>
-      <span class="product-info__save-badge">-{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}% OFF</span>
+      <span class="product-info__price product-info__price--on-sale"><span class="product-info__currency">₹</span>{{ price_num }}/-</span>
+      <span class="product-info__compare-price">MRP <s>₹{{ mrp }}/-</s></span>
+      <span class="product-info__save-badge">-{{ pct_off }}% OFF</span>
     </div>
     <div class="product-info__savings">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-      You save <strong>₹{{ product.compare_at_price | minus: product.price | money_without_currency | remove: '.00' }}/-</strong> on this order
+      You save <strong>₹{{ savings }}/-</strong> on this order
     </div>
     {% else %}
-    <span class="product-info__price"><span class="product-info__currency">₹</span>{{ product.price | money_without_currency | remove: '.00' }}/-</span>
+    <span class="product-info__price"><span class="product-info__currency">₹</span>{{ price_num }}/-</span>
     {% endif %}
     {% if settings.product_tax_note != blank %}
     <span class="product-info__tax-note">{{ settings.product_tax_note }}</span>
