@@ -136,7 +136,7 @@ h+='<span class="payment-icon" title="PayPal"><svg viewBox="0 0 38 24" width="38
 h+='<span class="payment-icon" title="Apple Pay"><svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="3" fill="#000"/><text x="19" y="15" text-anchor="middle" fill="#fff" font-size="8" font-family="sans-serif" font-weight="600">Pay</text></svg></span>';
 h+='<span class="payment-icon" title="Shop Pay"><svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="3" fill="#5A31F4"/><text x="19" y="15" text-anchor="middle" fill="#fff" font-size="8" font-family="sans-serif" font-weight="600">Shop</text></svg></span>';
 h+='</div></div>';
-h+='<p class="cart-drawer__note">Shipping &amp; taxes calculated at checkout</p></div>';
+h+='<p class="cart-drawer__note">Shipping &amp; taxes calculated at checkout &middot; Coupon codes can be applied at checkout</p></div>';
 }else{
 h+='<div class="cart-drawer__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>';
 h+='<p>Your cart is empty</p><a href="/collections/all" class="btn btn--primary">Start Shopping</a></div>';

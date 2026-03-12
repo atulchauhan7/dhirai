@@ -731,7 +731,7 @@ p{margin-bottom:1rem}
 .cart-drawer__subtotal{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem}
 .cart-drawer__subtotal-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.14em;font-weight:500}
 .cart-drawer__subtotal-price{font-weight:600;font-size:1.05rem}
-.cart-drawer__note{font-size:0.7rem;color:var(--color-text-muted);text-align:center;margin-top:0.5rem;letter-spacing:0.02em}
+.cart-drawer__note{font-size:0.68rem;color:var(--color-text-muted);text-align:center;margin:0.35rem 0 0;line-height:1.5;letter-spacing:0.02em}
 
 
 .cart-drawer__empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:2rem}
@@ -1348,7 +1348,7 @@ p{margin-bottom:1rem}
 .cart-summary__row--total{font-weight:700;font-size:1.1rem;padding:0.75rem 0}
 .cart-summary__divider{height:1px;background:var(--color-border);margin:0.5rem 0}
 .cart-summary__checkout{margin-top:0.75rem;text-transform:uppercase;letter-spacing:0.12em;font-size:0.82rem;padding:1rem}
-.cart-summary__secure{display:flex;align-items:center;justify-content:center;gap:0.4rem;margin-top:1rem;font-size:0.72rem;color:var(--color-text-muted);letter-spacing:0.02em}
+.cart-summary__secure{display:flex;align-items:center;justify-content:center;gap:0.4rem;margin-top:0.6rem;font-size:0.7rem;color:var(--color-text-muted);letter-spacing:0.02em}
 .cart-summary__secure svg{opacity:0.6}
 .payment-icons{margin-top:0.75rem;text-align:center}
 .payment-icons__label{display:block;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);margin-bottom:0.4rem;font-weight:500}
