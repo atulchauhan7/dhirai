@@ -643,6 +643,7 @@ if(mi){var ct=mi.parentElement;ct.addEventListener('mousemove',function(e){if(wi
 initProductGallery();
 
 /* === PRODUCT OPTIONS === */
+function fmtPrice(n){var s=n.toFixed(2).replace(/\.00$/,'');var p=s.split('.');p[0]=p[0].replace(/\B(?=(\d{2})+(\d)(?!\d))/g,',');return p.join('.')}
 function initProductOptions(){
 var form=$('[data-product-form]');if(!form)return;
 var variantJson=form.querySelector('[data-product-variants]');
@@ -670,35 +671,40 @@ if(isMatch){match=v;break}
 }
 if(match&&hiddenInput){
 hiddenInput.value=match.id;
-/* Update price display — preserve currency span and /- suffix */
+/* Update price display */
 var pdpWrap=form.closest('.product-info,.product-page');
-var priceEl=pdpWrap?pdpWrap.querySelector('.product-info__price'):null;
-if(priceEl&&match.price){
-var currSpan=priceEl.querySelector('.product-info__currency');
-var amt=(match.price/100).toFixed(2).replace(/\.00$/,'');
-var parts=amt.split('.');parts[0]=parts[0].replace(/\B(?=(\d{2})+(\d)(?!\d))/g,',');amt=parts.join('.');
-priceEl.textContent='';
-if(currSpan){priceEl.appendChild(currSpan)}else{var cs=document.createElement('span');cs.className='product-info__currency';cs.textContent='\u20b9';priceEl.appendChild(cs)}
-priceEl.appendChild(document.createTextNode(amt+'/-'));
-}
-/* Update compare price, save badge, savings row */
-if(pdpWrap){
-var priceRow=pdpWrap.querySelector('.product-info__price-row');
-var compareEl=pdpWrap.querySelector('.product-info__compare-price');
-var badgeEl=pdpWrap.querySelector('.product-info__save-badge');
-var savingsEl=pdpWrap.querySelector('.product-info__savings');
-if(match.compare_at_price&&match.compare_at_price>match.price){
-var cAmt=(match.compare_at_price/100).toFixed(2).replace(/\.00$/,'');
-var cParts=cAmt.split('.');cParts[0]=cParts[0].replace(/\B(?=(\d{2})+(\d)(?!\d))/g,',');cAmt=cParts.join('.');
-var pctOff=Math.round((match.compare_at_price-match.price)*100/match.compare_at_price);
-var saveAmt=((match.compare_at_price-match.price)/100).toFixed(2).replace(/\.00$/,'');
-var sParts=saveAmt.split('.');sParts[0]=sParts[0].replace(/\B(?=(\d{2})+(\d)(?!\d))/g,',');saveAmt=sParts.join('.');
-if(priceEl)priceEl.classList.add('product-info__price--on-sale');
-if(compareEl){compareEl.innerHTML='MRP <s>\u20b9'+cAmt+'/-</s>';compareEl.style.display=''}
-if(badgeEl){badgeEl.textContent='-'+pctOff+'% OFF';badgeEl.style.display=''}
-if(savingsEl){savingsEl.querySelector('strong').textContent='\u20b9'+saveAmt+'/-';savingsEl.style.display=''}
+var priceWrap=pdpWrap?pdpWrap.querySelector('.product-info__price-wrap'):null;
+if(priceWrap&&match.price){
+var amt=match.price/100;
+var tagMrp=parseInt(priceWrap.getAttribute('data-tag-mrp'),10)||0;
+var cmp=match.compare_at_price?(match.compare_at_price/100):0;
+var mrpVal=(cmp>amt)?cmp:((tagMrp>amt)?tagMrp:0);
+var priceEl=priceWrap.querySelector('.product-info__price');
+var compareEl=priceWrap.querySelector('.product-info__compare-price');
+var badgeEl=priceWrap.querySelector('.product-info__save-badge');
+var savingsEl=priceWrap.querySelector('.product-info__savings');
+var priceRow=priceWrap.querySelector('.product-info__price-row');
+if(mrpVal>0){
+var pctOff=Math.round((mrpVal-amt)*100/mrpVal);
+var saveAmt=mrpVal-amt;
+/* Ensure row structure exists */
+if(!priceRow){
+priceRow=document.createElement('div');priceRow.className='product-info__price-row';
+if(priceEl){priceWrap.insertBefore(priceRow,priceEl);priceRow.appendChild(priceEl)}
+if(!compareEl){compareEl=document.createElement('span');compareEl.className='product-info__compare-price';priceRow.appendChild(compareEl)}
+if(!badgeEl){badgeEl=document.createElement('span');badgeEl.className='product-info__save-badge';priceRow.appendChild(badgeEl)}
+if(!savingsEl){savingsEl=document.createElement('p');savingsEl.className='product-info__savings';priceWrap.insertBefore(savingsEl,priceRow.nextSibling)}
 }else{
-if(priceEl)priceEl.classList.remove('product-info__price--on-sale');
+if(!compareEl){compareEl=document.createElement('span');compareEl.className='product-info__compare-price';priceRow.appendChild(compareEl)}
+if(!badgeEl){badgeEl=document.createElement('span');badgeEl.className='product-info__save-badge';priceRow.appendChild(badgeEl)}
+if(!savingsEl){savingsEl=document.createElement('p');savingsEl.className='product-info__savings';priceWrap.insertBefore(savingsEl,priceRow.nextSibling)}
+}
+if(priceEl){priceEl.textContent='\u20b9'+fmtPrice(amt);priceEl.classList.add('product-info__price--on-sale')}
+compareEl.innerHTML='<s>\u20b9'+fmtPrice(mrpVal)+'</s>';compareEl.style.display='';
+badgeEl.textContent=pctOff+'% OFF';badgeEl.style.display='';
+savingsEl.textContent='You save \u20b9'+fmtPrice(saveAmt)+' on this product';savingsEl.style.display='';
+}else{
+if(priceEl){priceEl.textContent='\u20b9'+fmtPrice(amt);priceEl.classList.remove('product-info__price--on-sale')}
 if(compareEl)compareEl.style.display='none';
 if(badgeEl)badgeEl.style.display='none';
 if(savingsEl)savingsEl.style.display='none';
