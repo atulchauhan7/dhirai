@@ -66,7 +66,18 @@ decoding="async"
 <div class="product-info">
 
   {% if product.vendor != blank %}
-  <div class="product-info__vendor">{{ product.vendor }}</div>
+  <div class="product-info__vendor-row">
+    <div class="product-info__vendor">{{ product.vendor }}<svg class="product-info__vendor-badge" width="14" height="14" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="#fff" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+    <button class="pdp-wishlist-icon" type="button" aria-label="Add to wishlist"
+      data-wishlist-toggle
+      data-product-handle="{{ product.handle }}"
+      data-product-title="{{ product.title | escape }}"
+      data-product-url="{{ product.url }}"
+      data-product-price="{{ product.price | money }}"
+      data-product-image="{% if product.featured_image != blank %}{{ product.featured_image | image_url: width: 200 }}{% endif %}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </button>
+  </div>
   {% endif %}
 
   <h1 class="product-info__title">{{ product.title }}</h1>
@@ -194,20 +205,26 @@ decoding="async"
   </div>
   {% endunless %}
 
-  {% if settings.product_promo_enabled and settings.product_promo_code != blank %}
+  {% comment %} Per-product promo via metafields, fallback to global settings {% endcomment %}
+  {% assign promo_text = product.metafields.custom.promo_text | default: nil %}
+  {% assign promo_code = product.metafields.custom.promo_code | default: nil %}
+  {% if promo_text == blank %}{% assign promo_text = settings.product_promo_text %}{% endif %}
+  {% if promo_code == blank %}{% assign promo_code = settings.product_promo_code %}{% endif %}
+
+  {% if settings.product_promo_enabled and promo_code != blank %}
   <div class="pdp-ticket">
     <div class="pdp-ticket__left">
       <svg class="pdp-ticket__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="2"/><circle cx="15" cy="15" r="2"/><line x1="7.5" y1="16.5" x2="16.5" y2="7.5"/><path d="M21.41 11.58l-9-9a2 2 0 00-2.82 0L2 10.17V22h11.83l7.58-7.58a2 2 0 000-2.84z"/></svg>
       <div class="pdp-ticket__info">
-        <span class="pdp-ticket__heading">{{ settings.product_promo_text }}</span>
+        <span class="pdp-ticket__heading">{{ promo_text | escape }}</span>
         <span class="pdp-ticket__sub">Tap the code to copy &amp; apply at checkout</span>
       </div>
     </div>
     <div class="pdp-ticket__divider"></div>
     <div class="pdp-ticket__right">
       <span class="pdp-ticket__label">YOUR CODE</span>
-      <button type="button" class="pdp-ticket__code" onclick="navigator.clipboard.writeText('{{ settings.product_promo_code }}');var t=this;t.classList.add('copied');t.setAttribute('data-tip','Copied!');setTimeout(function(){t.classList.remove('copied');t.setAttribute('data-tip','Click to copy')},1500)" data-tip="Click to copy">
-        {{ settings.product_promo_code }}
+      <button type="button" class="pdp-ticket__code" data-copy-code="{{ promo_code | escape }}" data-tip="Click to copy">
+        {{ promo_code | escape }}
         <svg class="pdp-ticket__copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
       </button>
     </div>
