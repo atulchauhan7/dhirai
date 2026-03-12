@@ -251,8 +251,9 @@ if(!inp)return;
 var code=inp.value.trim();
 if(!code)return;
 try{localStorage.setItem(DISCOUNT_STORAGE_KEY,code)}catch(ex){}
-/* Redirect through Shopify's /discount/CODE to set the session cookie */
-window.location.href='/discount/'+encodeURIComponent(code)+'?redirect='+encodeURIComponent(window.location.pathname+window.location.search);
+/* Always redirect back to /cart so the discount shows at checkout */
+var redirect=applyBtn.closest('.cart-drawer')?'/cart':(window.location.pathname+window.location.search);
+window.location.href='/discount/'+encodeURIComponent(code)+'?redirect='+encodeURIComponent(redirect);
 }
 function showSavedDiscount(){
 var saved=null;

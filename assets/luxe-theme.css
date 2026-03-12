@@ -742,7 +742,7 @@ p{margin-bottom:1rem}
 .discount-code-form__toggle[aria-expanded="true"] .discount-code-form__chevron{transform:rotate(180deg)}
 .discount-code-form__body{padding-top:0.5rem}
 .discount-code-form__row{display:flex;gap:0.4rem}
-.discount-code-form__input{flex:1;min-width:0;padding:0.45rem 0.65rem;font-size:0.8rem;border:1px solid var(--color-border,#ddd);border-radius:var(--radius-sm,4px);background:var(--color-background,#fff);color:var(--color-heading)}
+.discount-code-form__input{flex:1;min-width:0;padding:0.45rem 0.65rem;font-size:max(16px,0.8rem);border:1px solid var(--color-border,#ddd);border-radius:var(--radius-sm,4px);background:var(--color-background,#fff);color:var(--color-heading)}
 .discount-code-form__input:focus{outline:none;border-color:var(--color-accent)}
 .discount-code-form__apply{white-space:nowrap;font-size:0.75rem;padding:0.45rem 0.9rem;letter-spacing:0.04em;text-transform:uppercase}
 .discount-code-form__msg{font-size:0.75rem;margin-top:0.4rem;line-height:1.4}
