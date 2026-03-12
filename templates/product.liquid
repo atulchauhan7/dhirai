@@ -133,14 +133,20 @@ decoding="async"
     {% if has_discount %}
     {% assign savings = mrp | minus: price_num %}
     {% assign pct_off = savings | times: 100 | divided_by: mrp %}
+    {% assign price_fmt = product.price | money_without_currency | remove: '.00' | strip %}
+    {% assign mrp_cents = mrp | times: 100 %}
+    {% assign mrp_fmt = mrp_cents | money_without_currency | remove: '.00' | strip %}
+    {% assign savings_cents = savings | times: 100 %}
+    {% assign savings_fmt = savings_cents | money_without_currency | remove: '.00' | strip %}
     <div class="product-info__price-row">
-      <span class="product-info__price product-info__price--on-sale">₹{{ price_num }}</span>
-      <span class="product-info__compare-price"><s>₹{{ mrp }}</s></span>
+      <span class="product-info__price product-info__price--on-sale">₹{{ price_fmt }}</span>
+      <span class="product-info__compare-price"><s>₹{{ mrp_fmt }}</s></span>
       <span class="product-info__save-badge">{{ pct_off }}% OFF</span>
     </div>
-    <p class="product-info__savings">You save ₹{{ savings }} on this product</p>
+    <p class="product-info__savings">You save ₹{{ savings_fmt }} on this product</p>
     {% else %}
-    <span class="product-info__price">₹{{ price_num }}</span>
+    {% assign price_fmt = product.price | money_without_currency | remove: '.00' | strip %}
+    <span class="product-info__price">₹{{ price_fmt }}</span>
     {% endif %}
     {% if settings.product_tax_note != blank %}
     <span class="product-info__tax-note">{{ settings.product_tax_note }}</span>
