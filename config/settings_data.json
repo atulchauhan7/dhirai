@@ -1,1 +1,105 @@
-{"current":{"accent_color":"#e12d2d","accent_color_dark":"#c12626","text_color":"#1a1a1a","text_muted_color":"#888888","heading_color":"#1a1a1a","background_color":"#ffffff","surface_color":"#fafafa","border_color":"#d5d5d5","border_radius":0,"container_width":"1440px","grid_gutter":"20px","section_spacing":60,"heading_font":"poppins_n6","body_font":"poppins_n4","text_direction":"ltr","enable_animations":true,"enable_custom_cursor":false,"enable_newsletter_popup":true,"whatsapp_number":"+919876543210","product_show_rating":true,"product_delivery_min_days":5,"product_delivery_max_days":7,"product_tax_note":"incl. of all taxes","product_trust_1":"Free Shipping \u20b9999+","product_trust_2":"10-Day Returns","product_trust_3":"Secure Checkout","product_trust_4":"COD Available","product_show_share":true}}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "accent_color": "#e12d2d",
+    "accent_color_dark": "#c12626",
+    "text_color": "#1a1a1a",
+    "text_muted_color": "#888888",
+    "heading_color": "#1a1a1a",
+    "background_color": "#ffffff",
+    "surface_color": "#fafafa",
+    "border_color": "#d5d5d5",
+    "heading_font": "poppins_n6",
+    "body_font": "poppins_n4",
+    "container_width": "1440px",
+    "grid_gutter": "20px",
+    "section_spacing": 60,
+    "border_radius": 0,
+    "text_direction": "ltr",
+    "enable_animations": true,
+    "enable_custom_cursor": false,
+    "enable_newsletter_popup": true,
+    "whatsapp_number": "+919876543210",
+    "product_show_rating": true,
+    "product_delivery_min_days": 5,
+    "product_delivery_max_days": 7,
+    "product_tax_note": "incl. of all taxes",
+    "product_trust_1": "Free Shipping ₹999+",
+    "product_trust_2": "10-Day Returns",
+    "product_trust_3": "Secure Checkout",
+    "product_trust_4": "COD Available",
+    "product_show_share": true,
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "show_announcement": true,
+          "text": "Coming Soon....",
+          "link": ""
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "menu": "main-menu",
+          "show_announcement": true
+        }
+      },
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {
+          "show_shipping_bar": true,
+          "free_shipping_threshold": "999",
+          "shipping_success_text": "You've unlocked <strong>free shipping!</strong>",
+          "shipping_progress_text": "Add <strong>[amount]</strong> more for <strong>free shipping</strong>"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-0": {
+            "type": "menu",
+            "settings": {
+              "heading": "Customer Care",
+              "menu": "footer"
+            }
+          },
+          "footer-1": {
+            "type": "menu",
+            "settings": {
+              "heading": "Our Company",
+              "menu": "footer"
+            }
+          },
+          "footer-2": {
+            "type": "menu",
+            "settings": {
+              "heading": "Quick Links",
+              "menu": "footer"
+            }
+          }
+        },
+        "block_order": [
+          "footer-0",
+          "footer-1",
+          "footer-2"
+        ],
+        "settings": {
+          "about_text": "Jolliet Group — we curate premium products for those who appreciate quality, craftsmanship, and timeless design.",
+          "address_text": "",
+          "whatsapp_number": "",
+          "support_email": "support@jolliet.in"
+        }
+      }
+    },
+    "content_for_index": []
+  }
+}
