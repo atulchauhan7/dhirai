@@ -24,7 +24,9 @@ const header=$('.site-header');
 const announcementBar=$('.announcement-bar');
 function setHeaderHeight(){
 var hh=header?Math.round(header.getBoundingClientRect().bottom):105;
+var cs=$('.category-strip');var sh=cs?cs.offsetHeight:0;
 document.documentElement.style.setProperty('--header-height',hh+'px');
+document.documentElement.style.setProperty('--strip-height',sh+'px');
 }
 setHeaderHeight();
 window.addEventListener('resize',setHeaderHeight);
