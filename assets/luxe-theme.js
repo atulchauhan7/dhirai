@@ -25,9 +25,9 @@ const announcementBar=$('.announcement-bar');
 const categoryStrip=$('.category-strip');
 function getCategoryStripHeight(){return categoryStrip?categoryStrip.offsetHeight:0}
 function setHeaderHeight(){
-var hh=announcementBar&&!announcementBar.classList.contains('announcement-hidden')?145:105;
+var hh=header?Math.round(header.getBoundingClientRect().bottom):105;
 document.documentElement.style.setProperty('--header-height',hh+'px');
-document.documentElement.style.setProperty('--header-total',( hh+getCategoryStripHeight())+'px');
+document.documentElement.style.setProperty('--header-total',(hh+getCategoryStripHeight())+'px');
 }
 setHeaderHeight();
 window.addEventListener('resize',setHeaderHeight);
