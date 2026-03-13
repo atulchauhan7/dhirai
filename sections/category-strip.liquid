@@ -22,6 +22,10 @@
     {% endfor %}
   </div>
 </nav>
+{% elsif request.design_mode %}
+<div class="category-strip category-strip--empty">
+  <p style="text-align:center;padding:1rem;font-size:0.75rem;color:#888;">Category Strip — add category blocks to get started</p>
+</div>
 {% endif %}
 
 {% schema %}
