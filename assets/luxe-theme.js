@@ -48,13 +48,19 @@ var catStrip=$('.category-strip');
 var catTrack=catStrip?catStrip.querySelector('.category-strip__track'):null;
 function updateCatOverflow(){
 if(!catStrip||!catTrack)return;
-catStrip.classList.toggle('category-strip--overflow-right',catTrack.scrollLeft+catTrack.clientWidth<catTrack.scrollWidth-4);
-catStrip.classList.toggle('category-strip--overflow-left',catTrack.scrollLeft>4);
+var overflowRight=catTrack.scrollLeft+catTrack.clientWidth<catTrack.scrollWidth-4;
+var overflowLeft=catTrack.scrollLeft>4;
+catStrip.classList.toggle('category-strip--overflow-right',overflowRight);
+catStrip.classList.toggle('category-strip--overflow-left',overflowLeft);
+/* Remove centering if items overflow — Liquid can't know viewport width */
+if(overflowRight||overflowLeft){catStrip.classList.remove('category-strip--few');}
 }
 if(catTrack){
 catTrack.addEventListener('scroll',updateCatOverflow,{passive:true});
 window.addEventListener('resize',debounce(updateCatOverflow,80),{passive:true});
-setTimeout(updateCatOverflow,200);
+/* Run twice: once early, once after fonts/images settle */
+updateCatOverflow();
+setTimeout(updateCatOverflow,400);
 }
 })();
 
