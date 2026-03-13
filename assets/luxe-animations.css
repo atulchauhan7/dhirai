@@ -138,7 +138,7 @@ opacity:1!important;transform:none!important;clip-path:none!important;transition
 .carousel__btn:hover{background:var(--color-accent);border-color:var(--color-accent);color:#fff;transform:scale(1.08);box-shadow:0 8px 24px rgba(var(--color-accent-rgb),0.25)}
 .carousel__btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
 .carousel__btn svg{width:18px;height:18px;stroke-width:2}
-.carousel__dots{display:flex;justify-content:center;gap:8px;margin-top:1.5rem}
+.carousel__dots{display:flex;justify-content:center;gap:8px;margin-top:5px}
 .carousel__dot{width:8px;height:8px;border-radius:50%;background:var(--color-border);border:none;cursor:pointer;transition:all .5s cubic-bezier(0.16,1,0.3,1);padding:0}
 .carousel__dot:hover{background:var(--color-text-muted)}
 .carousel__dot.active{background:var(--color-accent);width:32px;border-radius:4px}
