@@ -139,8 +139,8 @@ decoding="async"
     {% assign savings_cents = savings | times: 100 %}
     {% assign savings_fmt = savings_cents | money_without_currency | remove: '.00' | strip %}
     <div class="product-info__price-row">
-      <span class="product-info__price product-info__price--on-sale">₹{{ price_fmt }}</span>
       <span class="product-info__compare-price"><s>₹{{ mrp_fmt }}</s></span>
+      <span class="product-info__price product-info__price--on-sale">₹{{ price_fmt }}</span>
       <span class="product-info__save-badge">{{ pct_off }}% OFF</span>
     </div>
     <p class="product-info__savings">You save ₹{{ savings_fmt }} on this product</p>

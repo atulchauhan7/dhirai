@@ -108,8 +108,8 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 {% if card_mrp > product.price %}
 {% assign card_price_num = product.price | divided_by: 100 %}
 {% assign card_mrp_num = card_mrp | divided_by: 100 %}
-<span class="product-card__price product-card__price--sale">₹{{ card_price_num }}/-</span>
 <span class="product-card__price product-card__price--compare"><s>₹{{ card_mrp_num }}/-</s></span>
+<span class="product-card__price product-card__price--sale">₹{{ card_price_num }}/-</span>
 <span class="product-card__price-off">{{ card_mrp | minus: product.price | times: 100 | divided_by: card_mrp }}% OFF</span>
 {% else %}
 <span class="product-card__price">{{ product.price | money }}</span>
