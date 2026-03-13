@@ -105,8 +105,8 @@
           "category_xKCAMw": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/Screenshot2026-02-19172205.png",
-              "label": "New Collection",
+              "image": "shopify://shop_images/young-woman-beautiful-yellow-dress_2.jpg",
+              "label": "Daily Wear",
               "link": "shopify://collections"
             }
           },
@@ -121,8 +121,8 @@
           "category_NFpbcV": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/Screenshot2026-02-19172205.png",
-              "label": "New Collection",
+              "image": "shopify://shop_images/Gemini_Generated_Image_v53trgv53trgv53t.jpg",
+              "label": "Office Wear",
               "link": "shopify://collections"
             }
           },
@@ -130,8 +130,8 @@
             "type": "category",
             "settings": {
               "image": "shopify://shop_images/Screenshot2026-02-19172205.png",
-              "label": "New Collection",
-              "link": "shopify://collections"
+              "label": "Traditional",
+              "link": "shopify://products/ethic-kurti"
             }
           }
         },
