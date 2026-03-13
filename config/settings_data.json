@@ -133,13 +133,22 @@
               "label": "Traditional",
               "link": "shopify://products/ethic-kurti"
             }
+          },
+          "category_CNrpzp": {
+            "type": "category",
+            "settings": {
+              "image": "shopify://shop_images/Screenshot2026-02-19173053.png",
+              "label": "Best Seller",
+              "link": "shopify://products/ethic-kurti"
+            }
           }
         },
         "block_order": [
           "category_xKCAMw",
           "category_z63TCm",
           "category_NFpbcV",
-          "category_A8zzmY"
+          "category_A8zzmY",
+          "category_CNrpzp"
         ],
         "settings": {}
       }
