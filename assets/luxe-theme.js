@@ -7,6 +7,7 @@ function debounce(fn,w){let t;return function(){clearTimeout(t);t=setTimeout(()=
 window.addEventListener('load',function(){
 var lo=document.getElementById('page-loader');
 if(lo){requestAnimationFrame(function(){lo.classList.add('loaded')})}
+setHeaderHeight();
 requestAnimationFrame(function(){document.body.classList.add('page-loaded');
 requestAnimationFrame(function(){initScrollAnimations();initSmoothReveal();initParallax();initMagneticButtons();initSplitText();initCustomCursor();initCounterAnimations();initImageReveals()})});
 });
@@ -21,14 +22,23 @@ window.addEventListener('scroll',function(){if(!progTicking){progTicking=true;re
 /* === HEADER SCROLL === */
 const header=$('.site-header');
 const announcementBar=$('.announcement-bar');
-document.documentElement.style.setProperty('--header-height',announcementBar?'145px':'105px');
+const categoryStrip=$('.category-strip');
+function getCategoryStripHeight(){return categoryStrip?categoryStrip.offsetHeight:0}
+function setHeaderHeight(){
+var hh=announcementBar&&!announcementBar.classList.contains('announcement-hidden')?145:105;
+document.documentElement.style.setProperty('--header-height',hh+'px');
+document.documentElement.style.setProperty('--header-total',( hh+getCategoryStripHeight())+'px');
+}
+setHeaderHeight();
+window.addEventListener('resize',setHeaderHeight);
 let lastScroll=0;
 var headerTicking=false;
 function handleHeaderScroll(){
 const cs=window.pageYOffset||document.documentElement.scrollTop;
 if(header){
 header.classList.toggle('scrolled',cs>50);
-if(announcementBar){if(cs>150){announcementBar.classList.add('announcement-hidden');header.classList.remove('has-announcement');document.documentElement.style.setProperty('--header-height','105px')}else{announcementBar.classList.remove('announcement-hidden');header.classList.add('has-announcement');document.documentElement.style.setProperty('--header-height','145px')}}
+if(announcementBar){if(cs>150){announcementBar.classList.add('announcement-hidden');header.classList.remove('has-announcement')}else{announcementBar.classList.remove('announcement-hidden');header.classList.add('has-announcement')}}
+setHeaderHeight();
 }
 lastScroll=cs;
 headerTicking=false;
