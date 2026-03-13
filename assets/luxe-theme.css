@@ -626,78 +626,90 @@ p{margin-bottom:1rem}
 
 /* === CATEGORY STRIP — scrolls with page, in normal flow === */
 #shopify-section-category-strip{margin-top:var(--header-height,72px)}
-.category-strip{background:#f8f8f8;box-shadow:0 2px 12px rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.06);position:relative;width:100%}
-.category-strip--empty{background:#f8f8f8;border-bottom:1px solid rgba(0,0,0,0.06);position:relative;width:100%}
-/* Scroll overflow fade hints — match strip bg */
-.category-strip::before,.category-strip::after{content:'';position:absolute;top:0;bottom:0;width:40px;pointer-events:none;z-index:2;opacity:0;transition:opacity 0.3s}
-.category-strip::before{left:0;background:linear-gradient(to right,#f8f8f8,transparent)}
-.category-strip::after{right:0;background:linear-gradient(to left,#f8f8f8,transparent)}
+/* Strip: full-width background, 3px accent brand line at bottom, elevated */
+.category-strip{background:#fff;border-bottom:3px solid var(--color-accent);box-shadow:0 4px 20px rgba(0,0,0,0.08);position:relative;width:100%}
+.category-strip--empty{background:#fff;border-bottom:3px solid var(--color-accent);position:relative;width:100%}
+/* Overflow fade hints */
+.category-strip::before,.category-strip::after{content:'';position:absolute;top:0;bottom:0;width:48px;pointer-events:none;z-index:2;opacity:0;transition:opacity 0.3s}
+.category-strip::before{left:0;background:linear-gradient(to right,#fff,transparent)}
+.category-strip::after{right:0;background:linear-gradient(to left,#fff,transparent)}
 .category-strip--overflow-left::before{opacity:1}
 .category-strip--overflow-right::after{opacity:1}
-/* Track: zero padding so items touch viewport edges */
-.category-strip__track{display:flex;align-items:stretch;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;padding:0;gap:0}
+/* Track: centered by default, natural scroll when items overflow — edge padding via first/last child */
+.category-strip__track{display:flex;align-items:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;padding:12px 0 14px;gap:0;justify-content:center}
 .category-strip__track::-webkit-scrollbar{display:none}
-/* Item: flex:1 so all items fill full width equally — no left/right gap */
-.category-strip__item{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0;text-decoration:none;flex:1 0 auto;min-width:68px;padding:10px 6px 8px;cursor:pointer;outline:none;scroll-snap-align:start;position:relative;transition:background 0.2s;border-right:1px solid rgba(0,0,0,0.05)}
-.category-strip__item:last-child{border-right:none}
-.category-strip__item:hover{background:rgba(var(--color-accent-rgb),0.04)}
-/* Accent underline — slides in from center on hover */
-.category-strip__item::after{content:'';position:absolute;bottom:0;left:25%;right:25%;height:2px;background:var(--color-accent);transform:scaleX(0);transform-origin:center;transition:transform 0.24s var(--ease-out-expo)}
+/* Edge breathing room so items never hug the screen sides */
+.category-strip__item:first-child{padding-left:clamp(12px,3vw,28px)}
+.category-strip__item:last-child{padding-right:clamp(12px,3vw,28px)}
+/* Item: fixed size, never stretches */
+.category-strip__item{display:flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;flex:0 0 auto;padding:4px 12px 6px;cursor:pointer;outline:none;scroll-snap-align:start;position:relative;transition:transform 0.22s var(--ease-out-expo)}
+.category-strip__item:hover{transform:translateY(-3px)}
+/* Accent underline grows on hover – sits above the strip's bottom border */
+.category-strip__item::after{content:'';position:absolute;bottom:-3px;left:12%;right:12%;height:3px;background:var(--color-accent);transform:scaleX(0);transform-origin:center;transition:transform 0.26s var(--ease-out-expo);z-index:3}
 .category-strip__item:hover::after,.category-strip__item:focus-visible::after{transform:scaleX(1)}
-.category-strip__item:focus-visible{outline:none}
-/* Square image — soft rounded corners, no ring border at rest */
-.category-strip__img-wrap{width:58px;height:58px;border-radius:6px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 5px rgba(0,0,0,0.1);transition:box-shadow 0.26s var(--ease-out-expo),transform 0.22s var(--ease-out-expo);margin-bottom:7px}
-.category-strip__item:hover .category-strip__img-wrap{box-shadow:0 4px 16px rgba(var(--color-accent-rgb),0.28);transform:scale(1.04)}
+.category-strip__item:focus-visible{outline:2px solid var(--color-accent);outline-offset:3px;border-radius:6px}
+/* Square image: prominent, soft corners, bordered on hover */
+.category-strip__img-wrap{width:64px;height:64px;border-radius:8px;overflow:hidden;flex-shrink:0;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,0.09);transition:border-color 0.26s,box-shadow 0.26s var(--ease-out-expo)}
+.category-strip__item:hover .category-strip__img-wrap,.category-strip__item:focus-visible .category-strip__img-wrap{border-color:var(--color-accent);box-shadow:0 6px 20px rgba(var(--color-accent-rgb),0.25)}
 .category-strip__img-wrap img,.category-strip__img-wrap svg{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.28s var(--ease-out-expo)}
-.category-strip__item:hover .category-strip__img-wrap img{transform:scale(1.1)}
+.category-strip__item:hover .category-strip__img-wrap img{transform:scale(1.08)}
 /* Label */
-.category-strip__label{font-size:0.58rem;font-weight:700;color:#555;text-align:center;white-space:nowrap;letter-spacing:0.07em;line-height:1.2;text-transform:uppercase;transition:color 0.2s;max-width:100%;overflow:hidden;text-overflow:ellipsis;padding:0 2px}
+.category-strip__label{font-size:0.6rem;font-weight:700;color:#545454;text-align:center;white-space:nowrap;letter-spacing:0.07em;line-height:1.2;text-transform:uppercase;transition:color 0.2s;max-width:90px;overflow:hidden;text-overflow:ellipsis}
 .category-strip__item:hover .category-strip__label,.category-strip__item:focus-visible .category-strip__label{color:var(--color-accent)}
-/* --few: equal distribution already works via flex:1; just override min-width */
-.category-strip--few .category-strip__item{min-width:0}
+/* When overflowing: track left-aligns and scrolls naturally */
+.category-strip--overflow-right .category-strip__track,.category-strip--overflow-left .category-strip__track{justify-content:flex-start}
 /* Wide desktop ≥1440px */
 @media(min-width:1440px){
-  .category-strip__item{min-width:88px;padding:12px 8px 10px}
-  .category-strip__img-wrap{width:68px;height:68px;border-radius:7px}
-  .category-strip__label{font-size:0.6rem}
+  .category-strip__item{padding:5px 16px 7px}
+  .category-strip__img-wrap{width:72px;height:72px;border-radius:9px}
+  .category-strip__label{font-size:0.62rem;max-width:100px}
 }
 /* Tablet 769–1024px */
 @media(min-width:769px) and (max-width:1024px){
-  .category-strip__item{min-width:60px;padding:9px 5px 7px}
-  .category-strip__img-wrap{width:52px;height:52px}
-  .category-strip__label{font-size:0.55rem}
-  .category-strip::before,.category-strip::after{width:28px}
+  .category-strip__track{padding:10px 0 12px}
+  .category-strip__item{padding:4px 10px 5px}
+  .category-strip__img-wrap{width:56px;height:56px;border-radius:7px}
+  .category-strip__label{font-size:0.57rem}
+  .category-strip::before,.category-strip::after{width:32px}
 }
 /* Mobile ≤768px */
 @media(max-width:768px){
-  .category-strip__item{min-width:54px;padding:8px 4px 6px}
-  .category-strip__img-wrap{width:46px;height:46px;border-radius:5px}
-  .category-strip__label{font-size:0.51rem}
-  .category-strip::before,.category-strip::after{width:22px}
+  .category-strip__track{padding:9px 0 10px}
+  .category-strip__item{padding:3px 8px 5px;gap:6px}
+  .category-strip__item:first-child{padding-left:clamp(8px,2vw,16px)}
+  .category-strip__item:last-child{padding-right:clamp(8px,2vw,16px)}
+  .category-strip__img-wrap{width:50px;height:50px;border-radius:6px}
+  .category-strip__label{font-size:0.53rem;max-width:72px}
+  .category-strip::before,.category-strip::after{width:24px}
 }
 /* Small phone ≤480px */
 @media(max-width:480px){
-  .category-strip__item{min-width:48px;padding:7px 3px 6px}
-  .category-strip__img-wrap{width:42px;height:42px;border-radius:4px}
-  .category-strip__label{font-size:0.48rem}
+  .category-strip__track{padding:7px 0 9px}
+  .category-strip__item{padding:3px 6px 4px;gap:5px}
+  .category-strip__item:first-child{padding-left:8px}
+  .category-strip__item:last-child{padding-right:8px}
+  .category-strip__img-wrap{width:44px;height:44px;border-radius:5px}
+  .category-strip__label{font-size:0.49rem;max-width:60px}
   .category-strip::before,.category-strip::after{width:18px}
 }
 /* Very small ≤360px */
 @media(max-width:360px){
-  .category-strip__item{min-width:42px;padding:6px 2px 5px}
-  .category-strip__img-wrap{width:38px;height:38px}
-  .category-strip__label{font-size:0.45rem}
+  .category-strip__item{padding:2px 4px 4px}
+  .category-strip__img-wrap{width:38px;height:38px;border-radius:4px}
+  .category-strip__label{font-size:0.45rem;max-width:52px}
 }
-/* Touch: replace stuck hover with :active tap feedback */
+/* Touch: snappy :active state instead of stuck :hover */
 @media(hover:none){
-  .category-strip__item:hover{background:transparent}
-  .category-strip__item:hover .category-strip__img-wrap{box-shadow:0 1px 5px rgba(0,0,0,0.1);transform:none}
+  .category-strip__item:hover{transform:none}
+  .category-strip__item:hover .category-strip__img-wrap{border-color:transparent;box-shadow:0 2px 8px rgba(0,0,0,0.09)}
   .category-strip__item:hover .category-strip__img-wrap img{transform:none}
-  .category-strip__item:hover .category-strip__label{color:#555}
+  .category-strip__item:hover .category-strip__label{color:#545454}
   .category-strip__item:hover::after{transform:scaleX(0)}
-  .category-strip__item:active{background:rgba(var(--color-accent-rgb),0.06)}
-  .category-strip__item:active .category-strip__img-wrap{box-shadow:0 3px 12px rgba(var(--color-accent-rgb),0.22);transform:scale(1.03)}
+  .category-strip__item:active{transform:scale(0.97)}
+  .category-strip__item:active .category-strip__img-wrap{border-color:var(--color-accent);box-shadow:0 4px 14px rgba(var(--color-accent-rgb),0.22)}
   .category-strip__item:active .category-strip__label{color:var(--color-accent)}
+  .category-strip__item:active::after{transform:scaleX(1)}
+}
   .category-strip__item:active::after{transform:scaleX(1)}
 }
 @keyframes scrolltext{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
