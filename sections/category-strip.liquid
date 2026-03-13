@@ -1,5 +1,5 @@
 {% if section.blocks.size > 0 %}
-<nav class="category-strip{% if section.blocks.size <= 6 %} category-strip--few{% endif %}" aria-label="Shop by category">
+<nav class="category-strip{% if section.blocks.size <= 8 %} category-strip--few{% endif %}" aria-label="Shop by category">
   <div class="category-strip__track" role="list">
     {% for block in section.blocks %}
     <a href="{{ block.settings.link | default: '#' }}"
@@ -10,7 +10,9 @@
       <div class="category-strip__img-wrap">
         {% if block.settings.image != blank %}
         <img
-          src="{{ block.settings.image | image_url: width: 160 }}"
+          src="{{ block.settings.image | image_url: width: 120 }}"
+          srcset="{{ block.settings.image | image_url: width: 80 }} 80w, {{ block.settings.image | image_url: width: 120 }} 120w, {{ block.settings.image | image_url: width: 160 }} 160w"
+          sizes="(max-width:360px) 38px, (max-width:480px) 42px, (max-width:768px) 46px, 58px"
           alt="{{ block.settings.label | escape }}"
           width="80"
           height="80"
