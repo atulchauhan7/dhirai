@@ -1,8 +1,12 @@
 {% if section.blocks.size > 0 %}
-<nav class="category-strip" aria-label="Shop by category">
-  <div class="category-strip__track">
+<nav class="category-strip{% if section.blocks.size <= 6 %} category-strip--few{% endif %}" aria-label="Shop by category">
+  <div class="category-strip__track" role="list">
     {% for block in section.blocks %}
-    <a href="{{ block.settings.link | default: '#' }}" class="category-strip__item" {{ block.shopify_attributes }}>
+    <a href="{{ block.settings.link | default: '#' }}"
+       class="category-strip__item"
+       role="listitem"
+       tabindex="0"
+       {{ block.shopify_attributes }}>
       <div class="category-strip__img-wrap">
         {% if block.settings.image != blank %}
         <img
@@ -24,7 +28,7 @@
 </nav>
 {% elsif request.design_mode %}
 <div class="category-strip category-strip--empty">
-  <p style="text-align:center;padding:1rem;font-size:0.75rem;color:#888;">Category Strip — add category blocks to get started</p>
+  <p style="text-align:center;padding:1rem;font-size:0.75rem;color:#888;">Category Strip — add category blocks in the editor to get started</p>
 </div>
 {% endif %}
 
