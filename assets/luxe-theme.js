@@ -841,8 +841,10 @@ if(mainBtn)mainBtn.click();/* triggers variant matching via initProductOptions *
 /* Sheet add button */
 sheetAddBtn.addEventListener('click',function(){
 if(this.disabled)return;
+var action=pendingAction;
 closeSheet();
-if(pendingAction==='buy'){
+if(action==='buy'){
+window.__buyNowInProgress=true;
 var buyBtn=document.querySelector('[data-buy-now]');
 if(buyBtn)buyBtn.click();
 }else{
