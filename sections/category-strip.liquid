@@ -9,11 +9,11 @@
       <span class="category-strip__img-wrap">
         {% if block.settings.image != blank %}
         <img
-          src="{{ block.settings.image | image_url: width: 140 }}"
-          srcset="{{ block.settings.image | image_url: width: 80 }} 80w, {{ block.settings.image | image_url: width: 120 }} 120w, {{ block.settings.image | image_url: width: 160 }} 160w"
-          sizes="(max-width:360px) 40px, (max-width:480px) 44px, (max-width:768px) 48px, 60px"
+          src="{{ block.settings.image | image_url: width: 300 }}"
+          srcset="{{ block.settings.image | image_url: width: 100 }} 100w, {{ block.settings.image | image_url: width: 200 }} 200w, {{ block.settings.image | image_url: width: 300 }} 300w, {{ block.settings.image | image_url: width: 400 }} 400w, {{ block.settings.image | image_url: width: 600 }} 600w"
+          sizes="(max-width:480px) calc((100vw - 12px) / 4.5), (max-width:768px) calc((100vw - 28px) / 4.5), calc(20vw)"
           alt="{{ block.settings.label | escape }}"
-          width="60" height="60"
+          width="300" height="375"
           loading="lazy" decoding="async"
         >
         {% else %}
