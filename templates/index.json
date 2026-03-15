@@ -42,6 +42,7 @@
         "slide_4fyCz4": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/Screenshot2026-02-19173035.png",
             "video": "",
             "subtitle": "",
             "heading": ""
@@ -50,6 +51,7 @@
         "slide_fcn7LP": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/close-up-of-lace-wedding-dress-detail.jpg",
             "video": "",
             "subtitle": "",
             "heading": ""
@@ -58,6 +60,7 @@
         "slide_Y4p44x": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/Screenshot2026-02-19172205.png",
             "video": "",
             "subtitle": "",
             "heading": ""
@@ -87,6 +90,7 @@
         "b1": {
           "type": "banner",
           "settings": {
+            "image": "shopify://shop_images/Screenshot2026-02-19174137.png",
             "heading": "Daily wear",
             "button_label": "Shop Now",
             "link": ""
@@ -95,6 +99,7 @@
         "b2": {
           "type": "banner",
           "settings": {
+            "image": "shopify://shop_images/Screenshot2026-02-19171714.png",
             "heading": "Straight Kurtis",
             "button_label": "Shop Now",
             "link": ""
