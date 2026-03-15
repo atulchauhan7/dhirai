@@ -15,7 +15,7 @@
         "slide_XbWHCH": {
           "type": "slide",
           "settings": {
-            "video": "",
+            "video": "https://cdn.shopify.com/videos/c/o/v/476a17036de242bf9d418034cbb6068a.mp4",
             "subtitle": "",
             "heading": ""
           }
@@ -24,7 +24,6 @@
       "block_order": [
         "slide_XbWHCH"
       ],
-      "disabled": true,
       "settings": {
         "subtitle": "",
         "heading": "",
