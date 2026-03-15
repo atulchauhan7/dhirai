@@ -15,7 +15,7 @@
         "slide_XbWHCH": {
           "type": "slide",
           "settings": {
-            "video": "https://cdn.shopify.com/videos/c/o/v/476a17036de242bf9d418034cbb6068a.mp4",
+            "video": "",
             "subtitle": "",
             "heading": ""
           }
@@ -24,6 +24,7 @@
       "block_order": [
         "slide_XbWHCH"
       ],
+      "disabled": true,
       "settings": {
         "subtitle": "",
         "heading": "",
@@ -42,7 +43,6 @@
         "slide_4fyCz4": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Screenshot2026-02-19172205.png",
             "video": "",
             "subtitle": "",
             "heading": ""
@@ -51,7 +51,6 @@
         "slide_fcn7LP": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Screenshot2026-02-19174039.png",
             "video": "",
             "subtitle": "",
             "heading": ""
@@ -60,7 +59,6 @@
         "slide_Y4p44x": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/young-woman-beautiful-yellow-dress_2.jpg",
             "video": "",
             "subtitle": "",
             "heading": ""
@@ -90,7 +88,6 @@
         "b1": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/Screenshot2026-02-19172428.png",
             "heading": "Daily wear",
             "button_label": "Shop Now",
             "link": ""
@@ -99,7 +96,6 @@
         "b2": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/0474.jpg",
             "heading": "Straight Kurtis",
             "button_label": "Shop Now",
             "link": ""
@@ -202,7 +198,6 @@
     "image-text": {
       "type": "image-with-text",
       "settings": {
-        "image": "shopify://shop_images/Logo_page-0001.jpg",
         "subtitle": "Our Story",
         "heading": "Crafted with Love",
         "text": "<p>Every kurti in our collection is thoughtfully designed, blending traditional Indian craftsmanship with contemporary style. From handpicked fabrics to intricate detailing, we create ethnic wear that celebrates the grace of every woman.</p>",
