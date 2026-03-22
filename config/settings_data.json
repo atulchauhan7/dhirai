@@ -105,7 +105,6 @@
           "category_xKCAMw": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/young-woman-beautiful-yellow-dress_2.jpg",
               "label": "Daily Wear",
               "link": "shopify://collections"
             }
@@ -113,7 +112,6 @@
           "category_z63TCm": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/Gemini_Generated_Image_v53trgv53trgv53t.jpg",
               "label": "New Collection",
               "link": "shopify://collections"
             }
@@ -121,7 +119,6 @@
           "category_NFpbcV": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/Screenshot2026-02-19174039.png",
               "label": "Office Wear",
               "link": "shopify://collections"
             }
@@ -129,7 +126,6 @@
           "category_A8zzmY": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/Screenshot2026-02-19172205.png",
               "label": "Traditional",
               "link": "shopify://products/ethic-kurti"
             }
@@ -137,7 +133,6 @@
           "category_CNrpzp": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/0331.jpg",
               "label": "Best Seller",
               "link": "shopify://products/ethic-kurti"
             }
@@ -153,7 +148,14 @@
         "settings": {}
       }
     },
-    "content_for_index": []
+    "content_for_index": [],
+    "blocks": {
+      "16420725565331586169": {
+        "type": "shopify://apps/amazon-reviews-by-appio/blocks/integration/569167b3-e5d6-4314-9866-f51281b506d7",
+        "disabled": false,
+        "settings": {}
+      }
+    }
   },
   "presets": {
     "BlueMnky": {
