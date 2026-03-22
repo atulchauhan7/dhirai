@@ -98,6 +98,7 @@ var checkoutEvent=null;
 try{
 checkoutEvent=new CustomEvent('shopflow:checkout',{cancelable:true,detail:detail});
 document.dispatchEvent(checkoutEvent);
+window.dispatchEvent(new CustomEvent('shopflow:checkout',{cancelable:true,detail:detail}));
 }catch(e){}
 if(checkoutEvent&&checkoutEvent.defaultPrevented)return;
 
@@ -109,14 +110,19 @@ if(!api)continue;
 for(var j=0;j<methods.length;j++){
 var method=methods[j];
 if(typeof api[method]==='function'){
-try{api[method](detail);}catch(err){}
+try{
+var result=api[method](detail);
+if(result===false)continue;
 return;
+}catch(err){}
 }
 }
 }
 if(typeof window.shopflowCheckout==='function'){
-try{window.shopflowCheckout(detail);}catch(err){}
-return;
+try{
+var fallbackResult=window.shopflowCheckout(detail);
+if(fallbackResult!==false)return;
+}catch(err){}
 }
 window.location.href=checkoutUrl;
 }
