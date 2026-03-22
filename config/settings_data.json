@@ -1,4 +1,12 @@
-
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "accent_color": "#b22066",
@@ -20,6 +28,8 @@
     "enable_custom_cursor": false,
     "enable_newsletter_popup": true,
     "whatsapp_number": "",
+    "product_promo_text": "Buy 2 -> 30% Off",
+    "product_promo_code": "SUMMER30",
     "product_show_rating": true,
     "product_delivery_min_days": 5,
     "product_delivery_max_days": 7,
