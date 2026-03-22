@@ -155,6 +155,10 @@ setTimeout(function(){
   if(!document.body.classList.contains('page-loaded')){ document.body.classList.add('page-loaded'); }
 }, 1500);
 </script>
+<script>
+window.Shopflo = Object.assign({}, window.Shopflo || {}, { autoOnboarding: true });
+</script>
+<script src="https://bridge.shopflo.com/js/shopflo.bundle.js" async></script>
 
 <!-- Preload main JS -->
 {{ 'luxe-theme.js' | asset_url | preload_tag: as: 'script' }}

@@ -273,7 +273,7 @@ decoding="async"
       {% endif %}
     </button>
     {% if product.available %}
-    <button type="button" class="btn btn--buy-now btn--full btn--large" data-buy-now>
+    <button type="button" class="btn btn--buy-now btn--full btn--large" data-buy-now data-inline-buy-now="true" onclick="handleFloBuyNowBtn(event)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
       Buy Now
     </button>
@@ -288,7 +288,7 @@ decoding="async"
       </button>
     </div>
     {% if product.available %}
-    <button type="button" class="btn btn--buy-now btn--full btn--large" data-buy-now>
+    <button type="button" class="btn btn--buy-now btn--full btn--large" data-buy-now data-inline-buy-now="true" onclick="handleFloBuyNowBtn(event)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
       Buy Now
     </button>
