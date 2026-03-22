@@ -136,14 +136,14 @@
           "type": "tab",
           "settings": {
             "tab_label": "New Arrivals",
-            "collection": "best-sellers"
+            "collection": "new-arrivals"
           }
         },
         "tab3": {
           "type": "tab",
           "settings": {
-            "tab_label": "Top Rated",
-            "collection": "kahani-pics"
+            "tab_label": "The Aura",
+            "collection": "the-aura"
           }
         }
       },
