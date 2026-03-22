@@ -15,7 +15,7 @@
         "slide_XbWHCH": {
           "type": "slide",
           "settings": {
-            "video": "",
+            "video": "https://cdn.shopify.com/videos/c/o/v/dd09428cd6264fb4ac054f3d9aa444cc.mp4",
             "subtitle": "",
             "heading": ""
           }
@@ -69,6 +69,7 @@
         "slide_fcn7LP",
         "slide_Y4p44x"
       ],
+      "disabled": true,
       "settings": {
         "subtitle": "",
         "heading": "",
@@ -105,6 +106,7 @@
         "b1",
         "b2"
       ],
+      "disabled": true,
       "settings": {}
     },
     "featured": {
@@ -197,6 +199,7 @@
     "image-text": {
       "type": "image-with-text",
       "settings": {
+        "image": "shopify://shop_images/GULAAB_2.png",
         "subtitle": "Our Story",
         "heading": "Crafted with Love",
         "text": "<p>Every kurti in our collection is thoughtfully designed, blending traditional Indian craftsmanship with contemporary style. From handpicked fabrics to intricate detailing, we create ethnic wear that celebrates the grace of every woman.</p>",
