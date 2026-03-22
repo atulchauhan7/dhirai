@@ -11,15 +11,18 @@
 </button>
 </div>
 
-{% assign free_shipping_threshold = section.settings.free_shipping_threshold | times: 100 %}
+{% assign show_shipping_bar = settings.cart_show_shipping_bar %}
+{% assign free_shipping_threshold = settings.cart_free_shipping_threshold | default: 999 | at_least: 1 | times: 100 %}
+{% assign shipping_success_text = settings.cart_shipping_success_text | default: "You've unlocked <strong>free shipping!</strong>" %}
+{% assign shipping_progress_text = settings.cart_shipping_progress_text | default: "Add <strong>[amount]</strong> more for <strong>free shipping</strong>" %}
 {% assign cart_total = cart.total_price %}
 {% if cart.item_count > 0 %}
-{% if section.settings.show_shipping_bar %}
+{% if show_shipping_bar %}
 <div class="cart-drawer__shipping-bar">
 {% if cart_total >= free_shipping_threshold %}
 <div class="cart-drawer__shipping-text cart-drawer__shipping-text--success">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-{{ section.settings.shipping_success_text }}
+{{ shipping_success_text }}
 </div>
 <div class="cart-drawer__shipping-progress"><div class="cart-drawer__shipping-fill" style="width:100%"></div></div>
 {% else %}
@@ -27,7 +30,7 @@
 {% assign progress = cart_total | times: 100 | divided_by: free_shipping_threshold %}
 {% assign remaining_formatted = remaining | money %}
 <div class="cart-drawer__shipping-text">
-{{ section.settings.shipping_progress_text | replace: '[amount]', remaining_formatted }}
+{{ shipping_progress_text | replace: '[amount]', remaining_formatted }}
 </div>
 <div class="cart-drawer__shipping-progress"><div class="cart-drawer__shipping-fill" style="width:{{ progress }}%"></div></div>
 {% endif %}
