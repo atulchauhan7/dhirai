@@ -159,9 +159,9 @@ setTimeout(function(){
 (function(){
   var h=window.location.hostname;
   var isLocal=(h==='localhost'||h==='127.0.0.1');
+  var realHost={{ shop.permanent_domain | json }};
   window.Shopflo=Object.assign({},window.Shopflo||{},{autoOnboarding:true});
-  if(isLocal&&window.Shopify&&window.Shopify.shop){
-    var realHost=window.Shopify.shop;
+  if(isLocal&&realHost){
     var _fetch=window.fetch;
     window.fetch=function(url,opts){
       if(typeof url==='string'&&(url.indexOf('shopUrl=localhost')!==-1||url.indexOf('shop-url=localhost')!==-1||url.indexOf('shop_url=localhost')!==-1)){
