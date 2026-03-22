@@ -19,7 +19,7 @@
     "enable_animations": true,
     "enable_custom_cursor": false,
     "enable_newsletter_popup": true,
-    "whatsapp_number": "+917743886611",
+    "whatsapp_number": "",
     "product_show_rating": true,
     "product_delivery_min_days": 5,
     "product_delivery_max_days": 7,
@@ -34,7 +34,7 @@
         "type": "announcement-bar",
         "settings": {
           "show_announcement": true,
-          "text": "Coming Soon....",
+          "text": "Summer Sale is live",
           "link": ""
         }
       },
@@ -80,10 +80,10 @@
           "footer-2"
         ],
         "settings": {
-          "about_text": "Jolliet Group — we curate premium products for those who appreciate quality, craftsmanship, and timeless design.",
+          "about_text": "",
           "address_text": "",
-          "whatsapp_number": "+917743886611",
-          "support_email": "support@jolliet.in"
+          "whatsapp_number": "",
+          "support_email": ""
         }
       },
       "category-strip": {
