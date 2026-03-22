@@ -55,12 +55,7 @@
       },
       "cart-drawer": {
         "type": "cart-drawer",
-        "settings": {
-          "show_shipping_bar": true,
-          "free_shipping_threshold": "999",
-          "shipping_success_text": "You've unlocked <strong>free shipping!</strong>",
-          "shipping_progress_text": "Add <strong>[amount]</strong> more for <strong>free shipping</strong>"
-        }
+        "settings": {}
       },
       "footer": {
         "type": "footer",
@@ -152,7 +147,7 @@
     "blocks": {
       "16420725565331586169": {
         "type": "shopify://apps/amazon-reviews-by-appio/blocks/integration/569167b3-e5d6-4314-9866-f51281b506d7",
-        "disabled": false,
+        "disabled": true,
         "settings": {}
       }
     }
@@ -205,12 +200,7 @@
         },
         "cart-drawer": {
           "type": "cart-drawer",
-          "settings": {
-            "show_shipping_bar": true,
-            "free_shipping_threshold": "999",
-            "shipping_success_text": "You've unlocked <strong>free shipping!</strong>",
-            "shipping_progress_text": "Add <strong>[amount]</strong> more for <strong>free shipping</strong>"
-          }
+          "settings": {}
         },
         "footer": {
           "type": "footer",
