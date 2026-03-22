@@ -89,7 +89,7 @@
 <div class="nav-mobile-links">
 {% for link in linklists[section.settings.menu].links %}
 <div class="nav-item">
-<a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}" {% if link.url contains '/collections/' %}data-nav-collection-handle="{{ link.url | split: '/collections/' | last | split: '?' | first | split: '/' | first }}"{% endif %}>
+<a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}" {% if link.url contains '/collections/' %}data-nav-collection-handle="{{ link.url | split: '/collections/' | last | split: '?' | first | split: '/' | first }}"{% endif %} {% if link.links.size > 0 %}data-nav-parent="true" aria-expanded="false" onclick="event.preventDefault();event.stopPropagation();var ni=this.closest('.nav-item'),mg=ni.querySelector('.mega-menu');if(!mg)return;var wasOpen=ni.classList.contains('is-open');document.querySelectorAll('.nav-item').forEach(function(o){o.classList.remove('is-open');var m=o.querySelector('.mega-menu');if(m)m.classList.remove('open');var a=o.querySelector('.site-header__nav-link[data-nav-parent]');if(a)a.setAttribute('aria-expanded','false');var ar=o.querySelector('.nav-arrow');if(ar)ar.style.transform=''});if(!wasOpen){ni.classList.add('is-open');mg.classList.add('open');this.setAttribute('aria-expanded','true');var aw=this.querySelector('.nav-arrow');if(aw)aw.style.transform='rotate(180deg)'}"{% endif %}>
 <span class="nav-link__inner">
 <span class="nav-link__thumb" style="display:none"></span>
 <span class="nav-link__text">{{ link.title }}</span>
