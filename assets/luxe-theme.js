@@ -86,6 +86,58 @@ cartTriggers.forEach(t=>t.addEventListener('click',e=>{e.preventDefault();openCa
 if(cartClose)cartClose.addEventListener('click',closeCartDrawer);
 if(cartOverlay)cartOverlay.addEventListener('click',closeCartDrawer);
 
+function resolveCheckoutUrl(){
+if(window.theme&&window.theme.routes&&window.theme.routes.checkout_url)return window.theme.routes.checkout_url;
+return '/checkout';
+}
+
+function triggerShopflowCheckout(source,trigger){
+var checkoutUrl=resolveCheckoutUrl();
+var detail={source:source||'unknown',checkoutUrl:checkoutUrl,trigger:trigger||null};
+var checkoutEvent=null;
+try{
+checkoutEvent=new CustomEvent('shopflow:checkout',{cancelable:true,detail:detail});
+document.dispatchEvent(checkoutEvent);
+}catch(e){}
+if(checkoutEvent&&checkoutEvent.defaultPrevented)return;
+
+var namespaces=[window.Shopflow,window.Shopflo,window.shopflow,window.shopflo];
+var methods=['startCheckout','openCheckout','checkout','redirectToCheckout'];
+for(var i=0;i<namespaces.length;i++){
+var api=namespaces[i];
+if(!api)continue;
+for(var j=0;j<methods.length;j++){
+var method=methods[j];
+if(typeof api[method]==='function'){
+try{api[method](detail);}catch(err){}
+return;
+}
+}
+}
+if(typeof window.shopflowCheckout==='function'){
+try{window.shopflowCheckout(detail);}catch(err){}
+return;
+}
+window.location.href=checkoutUrl;
+}
+
+document.addEventListener('submit',function(e){
+var form=e.target.closest('form[data-shopflow-checkout-form]');
+if(!form)return;
+e.preventDefault();
+triggerShopflowCheckout(form.getAttribute('data-shopflow-source')||'cart',form);
+});
+
+document.addEventListener('click',function(e){
+var btn=e.target.closest('[data-shopflow-checkout-button]');
+if(!btn)return;
+e.preventDefault();
+var source='cart';
+var form=btn.form||btn.closest('form[data-shopflow-checkout-form]');
+if(form&&form.getAttribute('data-shopflow-source'))source=form.getAttribute('data-shopflow-source');
+triggerShopflowCheckout(source,btn);
+});
+
 /* Refresh cart drawer HTML + count */
 function refreshCart(callback){
 var done=0,total=2,cartData=null;
@@ -156,7 +208,7 @@ h+='</div></div>';
 h+='</div>';
 h+='<div class="cart-drawer__footer"><div class="cart-drawer__subtotal"><span>Subtotal</span>';
 h+='<span class="cart-drawer__subtotal-price">'+money(cart.total_price)+'</span></div>';
-h+='<form action="/cart" method="post"><button type="submit" name="checkout" class="btn btn--primary btn--full">Checkout</button></form>';
+h+='<form action="/cart" method="post" data-shopflow-checkout-form data-shopflow-source="cart-drawer"><button type="submit" name="checkout" class="btn btn--primary btn--full" data-shopflow-checkout-button>Checkout</button></form>';
 h+='<div class="payment-icons payment-icons--drawer"><div class="payment-icons__list">';
 h+='<span class="payment-icon" title="Visa"><svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="3" fill="#1A1F71"/><path d="M15.6 16.4l1.7-10.3h2.7l-1.7 10.3h-2.7zm11.3-10c-.5-.2-1.4-.4-2.4-.4-2.7 0-4.6 1.4-4.6 3.4 0 1.5 1.4 2.3 2.4 2.8 1 .5 1.4.8 1.4 1.3 0 .7-.8 1-1.6 1-1.1 0-1.6-.2-2.5-.5l-.3-.2-.4 2.1c.6.3 1.8.5 3 .5 2.9 0 4.7-1.4 4.7-3.5 0-1.2-.7-2.1-2.3-2.8-.9-.5-1.5-.8-1.5-1.3 0-.4.5-.9 1.5-.9.9 0 1.5.2 2 .4l.2.1.4-2zm7 0h-2.1c-.7 0-1.2.2-1.4.8l-4.1 9.6h2.9l.6-1.6h3.5l.3 1.6h2.5l-2.2-10.3zm-3.4 6.6l1.5-3.9.4 3.9h-1.9zM14.2 6.1l-2.6 7-.3-1.4c-.5-1.6-2-3.4-3.7-4.3l2.5 9h2.9l4.3-10.3h-3.1z" fill="#fff"/><path d="M8.4 6.1H4.2l-.1.3c3.4.9 5.7 2.9 6.6 5.4l-1-4.9c-.2-.6-.6-.8-1.3-.8z" fill="#F9A533"/></svg></span>';
 h+='<span class="payment-icon" title="Mastercard"><svg viewBox="0 0 38 24" width="38" height="24"><rect width="38" height="24" rx="3" fill="#252525"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.3a7 7 0 0 1 2.6 4.7A7 7 0 0 1 19 16.7a7 7 0 0 1-2.6-4.7A7 7 0 0 1 19 7.3z" fill="#FF5F00"/></svg></span>';
@@ -1419,10 +1471,9 @@ if(btn.classList.contains('is-loading'))return;
 window.__buyNowInProgress=true;
 setBuyNowState('loading');
 fetch(window.theme.routes.cart_add_url+'.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:parseInt(variantInput.value,10),quantity:parseInt(qtyInput?qtyInput.value:1,10)||1}]})}).then(function(r){if(!r.ok)throw new Error('Add failed');return r.json()}).then(function(){
-var checkoutUrl=window.theme.routes.checkout_url||'/checkout';
 setBuyNowState('redirecting');
-window.location.href=checkoutUrl;
-setTimeout(function(){setBuyNowState('reset');window.__buyNowInProgress=false;window.location.href=checkoutUrl},3000);
+triggerShopflowCheckout('buy-now',btn);
+setTimeout(function(){setBuyNowState('reset');window.__buyNowInProgress=false},1500);
 }).catch(function(){setBuyNowState('error');window.__buyNowInProgress=false;setTimeout(function(){setBuyNowState('reset')},1500)});
 });
 }

@@ -65,8 +65,8 @@
 <span>Subtotal</span>
 <span class="cart-drawer__subtotal-price">{{ cart.total_price | money }}</span>
 </div>
-  <form action="{{ routes.cart_url }}" method="post">
-    <button type="submit" name="checkout" class="btn btn--primary btn--full">Checkout</button>
+  <form action="{{ routes.cart_url }}" method="post" data-shopflow-checkout-form data-shopflow-source="cart-drawer">
+    <button type="submit" name="checkout" class="btn btn--primary btn--full" data-shopflow-checkout-button>Checkout</button>
   </form>
   <div class="payment-icons payment-icons--drawer">
     <div class="payment-icons__list">
