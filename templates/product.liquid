@@ -551,11 +551,6 @@ decoding="async"
       </div>
       <strong class="pdp-review__title">{{ review_titles[ridx] }}</strong>
       <p class="pdp-review__body">{{ review_bodies[ridx] }}</p>
-      {% if rev_imgs[ridx] == '1' and product.images.size > 1 %}
-      <div class="pdp-review__photo">
-        <img src="{{ product.images[1] | image_url: width: 120 }}" alt="Customer photo" width="80" height="80" loading="lazy">
-      </div>
-      {% endif %}
       <div class="pdp-review__helpful">
         <button type="button" class="pdp-review__helpful-btn" onclick="this.innerHTML='👍 Thanked!';this.disabled=true">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
