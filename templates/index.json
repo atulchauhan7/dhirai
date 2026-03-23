@@ -157,7 +157,7 @@
         "title": "Our Collections",
         "columns": "4",
         "products_to_show": 8,
-        "show_view_all": true
+        "show_view_all": false
       }
     },
     "scrolling": {
