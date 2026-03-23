@@ -128,15 +128,15 @@
         "tab1": {
           "type": "tab",
           "settings": {
-            "tab_label": "Best Seller",
-            "collection": "frontpage"
+            "tab_label": "Summer Special",
+            "collection": "summer-special"
           }
         },
         "tab2": {
           "type": "tab",
           "settings": {
-            "tab_label": "New Arrivals",
-            "collection": "new-arrivals"
+            "tab_label": "Best Seller",
+            "collection": "sabki-pasand"
           }
         },
         "tab3": {
