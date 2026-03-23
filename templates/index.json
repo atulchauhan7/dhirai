@@ -215,10 +215,10 @@
           "type": "usp",
           "settings": {
             "icon": "returns",
-            "title": "10-Day Easy Return Policy",
+            "title": "Returns and Refund Policy",
             "text": "Hassle-free returns within 10 days",
             "link_label": "Learn More",
-            "link_url": "/policies/refund-policy"
+            "link_url": "shopify://pages/refund-exchanges-and-refunds"
           }
         },
         "usp2": {
@@ -228,7 +228,7 @@
             "title": "Free Shipping & COD",
             "text": "Free shipping and cash on delivery available",
             "link_label": "Learn More",
-            "link_url": "/pages/shipping"
+            "link_url": "shopify://pages/shipping-policy"
           }
         },
         "usp3": {
@@ -238,7 +238,7 @@
             "title": "Customer Support",
             "text": "Dedicated support for all your queries",
             "link_label": "Learn More",
-            "link_url": "/pages/contact"
+            "link_url": "shopify://pages/contact"
           }
         }
       },
