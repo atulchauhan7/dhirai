@@ -192,7 +192,7 @@ window.__buyNowInProgress=true;
 setBuyNowState('loading');
 fetch(window.theme.routes.cart_add_url+'.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:parseInt(variantInput.value,10),quantity:parseInt(qtyInput?qtyInput.value:1,10)||1}]})}).then(function(r){if(!r.ok)throw new Error('Add failed');return r.json()}).then(function(){
 setBuyNowState('redirecting');
-triggerShopflowCheckout('buy-now',btn);
+triggerShopflowCheckout('cart',btn);
 setTimeout(function(){setBuyNowState('reset');window.__buyNowInProgress=false},1500);
 }).catch(function(){setBuyNowState('error');window.__buyNowInProgress=false;setTimeout(function(){setBuyNowState('reset')},1500)});
 }
@@ -205,7 +205,32 @@ return triggerShopflowBuyNow(trigger);
 }
 
 if(typeof window.handleFloCheckoutBtn!=='function')window.handleFloCheckoutBtn=fallbackHandleFloCheckoutBtn;
-if(typeof window.handleFloBuyNowBtn!=='function')window.handleFloBuyNowBtn=fallbackHandleFloBuyNowBtn;
+// Always override buy-now to ensure add-to-cart + full cart checkout flow
+window.handleFloBuyNowBtn=fallbackHandleFloBuyNowBtn;
+
+// pdpBuyNow: called directly from Buy Now button onclick — immune to Shopflo override
+// Adds product to cart first, then opens checkout with the full cart
+window.pdpBuyNow=function(event){
+if(event&&typeof event.preventDefault==='function')event.preventDefault();
+if(event&&typeof event.stopPropagation==='function')event.stopPropagation();
+var btn=event&&event.currentTarget?event.currentTarget:(event&&event.target?event.target.closest('[data-buy-now]'):null);
+if(btn&&btn.classList&&btn.classList.contains('is-loading'))return;
+var productForm=btn&&btn.closest?btn.closest('[data-product-form]'):null;
+if(!productForm)productForm=document.querySelector('[data-product-form]');
+if(!productForm){window.location.href='/checkout';return;}
+var variantInput=productForm.querySelector('input[name="id"]');
+var qtyInput=productForm.querySelector('input[name="quantity"]');
+if(!variantInput){window.location.href='/checkout';return;}
+setBuyNowState('loading');
+fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},body:JSON.stringify({items:[{id:parseInt(variantInput.value,10),quantity:parseInt(qtyInput?qtyInput.value:1,10)||1}]})})
+.then(function(r){if(!r.ok)throw new Error('add failed');return r.json();})
+.then(function(){
+setBuyNowState('redirecting');
+triggerShopflowCheckout('cart',btn);
+setTimeout(function(){setBuyNowState('reset');},1500);
+})
+.catch(function(){setBuyNowState('error');setTimeout(function(){setBuyNowState('reset');},1500);});
+};
 
 document.addEventListener('submit',function(e){
 var form=e.target.closest('form[data-shopflow-checkout-form]');
