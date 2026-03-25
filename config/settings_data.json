@@ -46,9 +46,9 @@
         "type": "announcement-bar",
         "settings": {
           "show_announcement": true,
-          "text": "Flat 30% Off on Everything!",
+          "text": "Flat 10%",
           "link": "",
-          "timer_end": "2026-03-26T23:59:59"
+          "timer_end": "2026-03-27T23:59:59"
         }
       },
       "header": {
@@ -151,7 +151,9 @@
           "category_A8zzmY",
           "category_CNrpzp"
         ],
-        "settings": {}
+        "settings": {
+          "show_section": true
+        }
       }
     },
     "content_for_index": []
