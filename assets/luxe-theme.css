@@ -52,7 +52,7 @@ p{margin-bottom:1rem}
 }
 
 /* === MAIN CONTENT OFFSET — strip only on homepage, other pages need header clearance === */
-.main-content{overflow-x:hidden;padding-top:var(--header-height,72px);transition:padding-top 0.25s ease}
+.main-content{overflow-x:hidden;padding-top:var(--header-height,72px)}
 .template-index .main-content{padding-top:0}
 .template-product .main-content{padding-top:var(--header-height,72px)}
 
