@@ -23,6 +23,7 @@ window.addEventListener('scroll',function(){if(!progTicking){progTicking=true;re
 const header=$('.site-header');
 const announcementBar=$('.announcement-bar');
 function setHeaderHeight(){
+if(header&&!announcementBar)header.classList.remove('has-announcement');
 var hh=header?Math.round(header.offsetHeight):72;
 var cs=$('.category-strip');var sh=cs?cs.offsetHeight:0;
 document.documentElement.style.setProperty('--header-height',hh+'px');
