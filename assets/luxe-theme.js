@@ -38,12 +38,20 @@ let lastScroll=0;
 var headerTicking=false;
 function handleHeaderScroll(){
 const cs=window.pageYOffset||document.documentElement.scrollTop;
-const scrollingDown=cs>lastScroll;
+const scrollingDown=cs>lastScroll+2;
 if(header){
 header.classList.toggle('scrolled',cs>40);
 if(announcementBar){
-if(cs>10&&scrollingDown){announcementBar.classList.add('announcement-hidden');header.classList.remove('has-announcement');}
-else if(!scrollingDown||cs<=5){announcementBar.classList.remove('announcement-hidden');header.classList.add('has-announcement');}
+if(cs<=5){
+// At top — show bar and offset header
+announcementBar.classList.remove('announcement-hidden');
+header.classList.add('has-announcement');
+}else if(scrollingDown){
+// Scrolling down — hide bar, snap header to top:0
+announcementBar.classList.add('announcement-hidden');
+header.classList.remove('has-announcement');
+}
+// Scrolling up mid-page — do nothing, header stays at top:0
 }
 }
 lastScroll=cs<=0?0:cs;

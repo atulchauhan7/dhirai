@@ -155,7 +155,7 @@ p{margin-bottom:1rem}
 }
 
 /* === HEADER — Premium editorial fashion header === */
-.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0;overflow:visible;transition:top 0.25s ease}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0;overflow:visible}
 .site-header.has-announcement{top:48px}
 @supports(padding:env(safe-area-inset-top)){
   .site-header.has-announcement{top:calc(48px + env(safe-area-inset-top,0px))}
