@@ -1,3 +1,4 @@
+{% if section.settings.show_section %}
 {% if section.blocks.size > 0 %}
 <nav class="category-strip" aria-label="Shop by category">
   <div class="category-strip__track" role="list">
@@ -30,12 +31,20 @@
   <p style="text-align:center;padding:0.75rem;font-size:0.75rem;color:#888;">Category Strip — add category blocks in the editor</p>
 </div>
 {% endif %}
+{% endif %}
 
 {% schema %}
 {
   "name": "Category Strip",
   "max_blocks": 16,
-  "settings": [],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    }
+  ],
   "blocks": [
     {
       "type": "category",
