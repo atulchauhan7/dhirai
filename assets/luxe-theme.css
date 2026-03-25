@@ -116,7 +116,7 @@ p{margin-bottom:1rem}
 .header-search.open+.header-search__backdrop-el{display:block}
 
 /* === ANNOUNCEMENT BAR — Slim dark strip === */
-.announcement-bar{background:var(--color-accent);color:#ffffff;padding:5px 0;padding-top:calc(5px + env(safe-area-inset-top, 0px));font-size:0.6rem;text-align:center;letter-spacing:0.2em;font-weight:500;position:fixed;top:0;left:0;right:0;z-index:999;overflow:hidden;transition:transform 0.4s var(--ease-out-expo);text-transform:uppercase}
+.announcement-bar{background:var(--color-accent);color:#ffffff;padding:5px 0;padding-top:calc(5px + env(safe-area-inset-top, 0px));font-size:0.6rem;text-align:center;letter-spacing:0.2em;font-weight:500;position:fixed;top:0;left:0;right:0;z-index:999;overflow:hidden;transition:transform 0.25s ease;text-transform:uppercase}
 .announcement-bar.announcement-hidden{transform:translateY(-100%);pointer-events:none}
 .announcement-bar__marquee{display:flex;animation:marquee 40s linear infinite;white-space:nowrap}
 .announcement-bar__marquee span{padding:0 clamp(1.5rem, 4vw, 4rem);display:inline-flex;align-items:center;gap:clamp(0.5rem, 2vw, 1rem)}
@@ -155,7 +155,7 @@ p{margin-bottom:1rem}
 }
 
 /* === HEADER — Premium editorial fashion header === */
-.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0;overflow:visible}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0;overflow:visible;transition:top 0.25s ease}
 .site-header.has-announcement{top:48px}
 @supports(padding:env(safe-area-inset-top)){
   .site-header.has-announcement{top:calc(48px + env(safe-area-inset-top,0px))}

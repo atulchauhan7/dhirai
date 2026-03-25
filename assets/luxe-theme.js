@@ -38,11 +38,15 @@ let lastScroll=0;
 var headerTicking=false;
 function handleHeaderScroll(){
 const cs=window.pageYOffset||document.documentElement.scrollTop;
+const scrollingDown=cs>lastScroll;
 if(header){
-header.classList.toggle('scrolled',cs>50);
-if(announcementBar){if(cs>150){announcementBar.classList.add('announcement-hidden');header.classList.remove('has-announcement')}else{announcementBar.classList.remove('announcement-hidden');header.classList.add('has-announcement')}}
+header.classList.toggle('scrolled',cs>40);
+if(announcementBar){
+if(cs>10&&scrollingDown){announcementBar.classList.add('announcement-hidden');header.classList.remove('has-announcement');}
+else if(!scrollingDown||cs<=5){announcementBar.classList.remove('announcement-hidden');header.classList.add('has-announcement');}
 }
-lastScroll=cs;
+}
+lastScroll=cs<=0?0:cs;
 headerTicking=false;
 }
 window.addEventListener('scroll',function(){if(!headerTicking){headerTicking=true;requestAnimationFrame(handleHeaderScroll)}},{passive:true});
