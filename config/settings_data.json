@@ -54,7 +54,7 @@
       "header": {
         "type": "header",
         "settings": {
-          "logo": "shopify://shop_images/LOGO_GULAAB_GALI_PNG_1.png",
+          "logo": "shopify://shop_images/Untitled_design_56.png",
           "menu": "main-menu-1",
           "show_announcement": true
         }
@@ -106,7 +106,6 @@
           "category_xKCAMw": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/best_sellers2_copy.webp",
               "label": "Best sellers",
               "link": "shopify://collections/sabki-pasand"
             }
@@ -114,7 +113,6 @@
           "category_z63TCm": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/THE_GRACE.webp",
               "label": "The Grace",
               "link": "shopify://collections/the-grace"
             }
@@ -122,7 +120,6 @@
           "category_NFpbcV": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/THE_MUSE.webp",
               "label": "The Muse",
               "link": "shopify://collections/the-muse"
             }
@@ -130,7 +127,6 @@
           "category_A8zzmY": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/THE_SOUL.webp",
               "label": "The Soul",
               "link": "shopify://products/ethic-kurti"
             }
@@ -138,7 +134,6 @@
           "category_CNrpzp": {
             "type": "category",
             "settings": {
-              "image": "shopify://shop_images/THE_AURA.webp",
               "label": "The aura",
               "link": "shopify://collections/the-aura"
             }
