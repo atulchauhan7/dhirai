@@ -233,6 +233,18 @@ setTimeout(function(){
 {% render 'newsletter-popup' %}
 {% endif %}
 
+<div class="size-sheet-overlay" id="card-size-sheet-overlay"></div>
+<div class="size-sheet" id="card-size-sheet" aria-hidden="true">
+<div class="size-sheet__header">
+<span class="size-sheet__title">Select Size</span>
+<button class="size-sheet__close" aria-label="Close" type="button">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+</div>
+<div class="size-sheet__sizes" id="card-size-sheet-sizes"></div>
+<button class="btn btn--primary btn--full size-sheet__add" id="card-size-sheet-add" type="button" disabled>Select a size</button>
+</div>
+
 {% if settings.enable_custom_cursor %}
 <div class="cursor-follower"></div>
 <div class="cursor-follower-dot"></div>

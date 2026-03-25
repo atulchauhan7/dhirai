@@ -73,22 +73,6 @@ data-product-image="{% if product.featured_image != blank %}{{ product.featured_
 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
 </svg>
 </button>
-
-{% if product.available %}
-<div class="product-card__quick-add">
-{% if product.variants.size == 1 %}
-<button class="product-card__quick-add-btn" aria-label="Add to bag" data-quick-add="{{ product.variants.first.id }}">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-<span>Add to Bag</span>
-</button>
-{% else %}
-<a href="{{ product.url }}" class="product-card__quick-add-btn">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-<span>Select Options</span>
-</a>
-{% endif %}
-</div>
-{% endif %}
 </div>
 
 <div class="product-card__info">
@@ -195,6 +179,22 @@ aria-label="{{ value | escape }}"
 {% endfor %}
 </div>
 {% endif %}
+{% endif %}
+
+{% if product.available %}
+<div class="product-card__quick-add">
+{% if product.variants.size == 1 %}
+<button class="product-card__quick-add-btn" aria-label="Add to bag" data-quick-add="{{ product.variants.first.id }}">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+<span>Add to Bag</span>
+</button>
+{% else %}
+<button class="product-card__quick-add-btn" type="button" data-quick-add-handle="{{ product.handle }}" data-quick-add-url="{{ product.url }}" data-quick-add-options='{{ product.options | json | escape }}' data-quick-add-variants='{{ product.variants | json | escape }}' aria-label="Add to cart">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+<span>Add to Cart</span>
+</button>
+{% endif %}
+</div>
 {% endif %}
 </div>
 </div>

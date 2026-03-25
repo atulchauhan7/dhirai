@@ -641,10 +641,162 @@ initHeroSlideshow();
 
 /* === QUICK ADD TO CART (product card overlay) === */
 function initQuickAdd(){
+var cardSheetOverlay=$('#card-size-sheet-overlay');
+var cardSheet=$('#card-size-sheet');
+var cardSheetSizes=$('#card-size-sheet-sizes');
+var cardSheetAdd=$('#card-size-sheet-add');
+var cardSheetCloseBtn=cardSheet?cardSheet.querySelector('.size-sheet__close'):null;
+var cardSheetState={activeBtn:null,selectedVariantId:null};
+
+function setButtonState(btn,label,disabled){
+if(!btn)return;
+btn.innerHTML='<span>'+label+'</span>';
+btn.disabled=!!disabled;
+}
+
+function addVariantToCart(variantId){
+return fetch(window.theme.routes.cart_add_url+'.js',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({items:[{id:parseInt(variantId,10),quantity:1}]})
+}).then(function(r){if(!r.ok)throw new Error('Add failed');return r.json()});
+}
+
+function closeCardSizeSheet(){
+if(!cardSheetOverlay||!cardSheet)return;
+cardSheetOverlay.classList.remove('open');
+cardSheet.classList.remove('open');
+cardSheet.setAttribute('aria-hidden','true');
+document.body.classList.remove('overflow-hidden');
+cardSheetState.selectedVariantId=null;
+if(cardSheetSizes)cardSheetSizes.innerHTML='';
+if(cardSheetAdd){cardSheetAdd.disabled=true;cardSheetAdd.textContent='Select a size';}
+}
+
+function getSizeOptionIndex(productData){
+if(!productData||!productData.options||!productData.options.length)return -1;
+for(var i=0;i<productData.options.length;i++){
+var name=(productData.options[i]||'').toLowerCase();
+if(name==='size'||name==='sizes')return i;
+}
+return -1;
+}
+
+function getInlineQuickAddProduct(btn){
+if(!btn)return null;
+if(btn._quickAddProduct)return btn._quickAddProduct;
+var optionsRaw=btn.getAttribute('data-quick-add-options');
+var variantsRaw=btn.getAttribute('data-quick-add-variants');
+if(!optionsRaw||!variantsRaw)return null;
+try{
+var payload={options:JSON.parse(optionsRaw),variants:JSON.parse(variantsRaw)};
+btn._quickAddProduct=payload;
+return payload;
+}catch(e){
+return null;
+}
+}
+
+function openCardSizeSheet(productData){
+if(!cardSheetOverlay||!cardSheet||!cardSheetSizes||!cardSheetAdd)return false;
+var sizeIndex=getSizeOptionIndex(productData);
+if(sizeIndex<0)return false;
+
+var uniqueSizes=[];
+var sizeAvailability={};
+for(var i=0;i<productData.variants.length;i++){
+var v=productData.variants[i];
+var options=v.options||[];
+var sizeVal=options[sizeIndex];
+if(!sizeVal)continue;
+if(uniqueSizes.indexOf(sizeVal)===-1)uniqueSizes.push(sizeVal);
+if(v.available)sizeAvailability[sizeVal]=true;
+}
+
+cardSheetSizes.innerHTML='';
+for(var j=0;j<uniqueSizes.length;j++){
+var value=uniqueSizes[j];
+var sizeBtn=document.createElement('button');
+sizeBtn.type='button';
+sizeBtn.className='size-sheet__size';
+sizeBtn.textContent=value;
+sizeBtn.setAttribute('data-value',value);
+if(!sizeAvailability[value])sizeBtn.classList.add('unavailable');
+cardSheetSizes.appendChild(sizeBtn);
+}
+
+cardSheetAdd.disabled=true;
+cardSheetAdd.textContent='Select a size';
+cardSheetState.selectedVariantId=null;
+cardSheetOverlay.classList.add('open');
+cardSheet.classList.add('open');
+cardSheet.setAttribute('aria-hidden','false');
+document.body.classList.add('overflow-hidden');
+return true;
+}
+
+if(cardSheetOverlay)cardSheetOverlay.addEventListener('click',closeCardSizeSheet);
+if(cardSheetCloseBtn)cardSheetCloseBtn.addEventListener('click',closeCardSizeSheet);
+
+if(cardSheetSizes)cardSheetSizes.addEventListener('click',function(e){
+var btn=e.target.closest('.size-sheet__size');
+if(!btn||btn.classList.contains('unavailable'))return;
+if(!cardSheetState.activeBtn)return;
+
+cardSheetSizes.querySelectorAll('.size-sheet__size').forEach(function(b){b.classList.remove('selected')});
+btn.classList.add('selected');
+
+var productData=cardSheetState.activeBtn._quickAddProduct;
+if(!productData)return;
+var sizeValue=btn.getAttribute('data-value');
+var sizeIndex=getSizeOptionIndex(productData);
+var selectedVariant=null;
+for(var i=0;i<productData.variants.length;i++){
+var variant=productData.variants[i];
+if((variant.options||[])[sizeIndex]===sizeValue&&variant.available){selectedVariant=variant;break}
+}
+
+cardSheetState.selectedVariantId=selectedVariant?selectedVariant.id:null;
+cardSheetAdd.disabled=!cardSheetState.selectedVariantId;
+cardSheetAdd.textContent=cardSheetState.selectedVariantId?'Add to Cart':'Unavailable';
+});
+
+if(cardSheetAdd)cardSheetAdd.addEventListener('click',function(){
+if(!cardSheetState.selectedVariantId||!cardSheetState.activeBtn)return;
+var triggerBtn=cardSheetState.activeBtn;
+var original=triggerBtn._quickAddOrigHtml||triggerBtn.innerHTML;
+setButtonState(triggerBtn,'Adding...',true);
+this.disabled=true;
+addVariantToCart(cardSheetState.selectedVariantId).then(function(){
+closeCardSizeSheet();
+setButtonState(triggerBtn,'Added!',true);
+refreshCart(function(){
+setTimeout(function(){triggerBtn.innerHTML=original;triggerBtn.disabled=false},500);
+});
+}).catch(function(){
+setButtonState(triggerBtn,'Error',true);
+setTimeout(function(){triggerBtn.innerHTML=original;triggerBtn.disabled=false},1500);
+});
+});
+
 document.addEventListener('click',function(e){
 /* Quick-view: navigate to product page */
 var qv=e.target.closest('[data-quick-view]');
 if(qv){e.preventDefault();var url=qv.getAttribute('data-quick-view');if(url)window.location.href=url;return}
+/* Quick-add with size selection (product cards with multiple variants) */
+var sizeQuickBtn=e.target.closest('[data-quick-add-handle]');
+if(sizeQuickBtn){
+e.preventDefault();
+if(sizeQuickBtn.disabled)return;
+var fallbackUrl=sizeQuickBtn.getAttribute('data-quick-add-url');
+var productData=getInlineQuickAddProduct(sizeQuickBtn);
+if(!productData){if(fallbackUrl)window.location.href=fallbackUrl;return;}
+var sizeIndex=getSizeOptionIndex(productData);
+if(sizeIndex<0){if(fallbackUrl)window.location.href=fallbackUrl;return;}
+cardSheetState.activeBtn=sizeQuickBtn;
+if(!openCardSizeSheet(productData)&&fallbackUrl)window.location.href=fallbackUrl;
+return;
+}
 /* Quick-add to cart */
 var btn=e.target.closest('[data-quick-add]');
 if(!btn)return;
@@ -652,7 +804,7 @@ e.preventDefault();
 var variantId=btn.getAttribute('data-quick-add');
 if(!variantId)return;
 var orig=btn.innerHTML;btn.disabled=true;btn.innerHTML='<span>Adding...</span>';
-fetch(window.theme.routes.cart_add_url+'.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:parseInt(variantId),quantity:1}]})}).then(r=>{if(!r.ok)throw new Error('Add failed');return r.json()}).then(()=>{
+addVariantToCart(variantId).then(()=>{
 btn.innerHTML='<span>Added!</span>';
 refreshCart(function(){
 openCartDrawer();
@@ -682,8 +834,14 @@ else if(state==='error'){btn.classList.remove('is-loading');btn.innerHTML='Error
 function initAddToCart(){
 $$('[data-add-to-cart],[data-product-form]').forEach(f=>{f.addEventListener('submit',function(e){e.preventDefault();if(window.__buyNowInProgress)return;var btns=this.querySelectorAll('[type="submit"]');if(!btns.length)return;if(btns[0].classList.contains('is-loading'))return;
 var form=this;
+/* If size not yet selected, hand off to size sheet and abort */
+if(form._isSizeSelected&&!form._isSizeSelected()){if(form._openSizeSheet)form._openSizeSheet('cart');return;}
+var hiddenInput=form.querySelector('input[name="id"]');
+var qtyInput=form.querySelector('input[name="quantity"]');
+var variantId=hiddenInput?parseInt(hiddenInput.value,10):0;
+if(!variantId){setATCBtnsState(form,'error');setTimeout(()=>{form.querySelectorAll('[type="submit"]').forEach(resetATCBtn)},1500);return;}
 setATCBtnsState(form,'loading');
-fetch(window.theme.routes.cart_add_url+'.js',{method:'POST',body:new FormData(form)}).then(r=>{if(!r.ok)throw new Error('Add failed');return r.json()}).then(()=>{
+fetch(window.theme.routes.cart_add_url+'.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:variantId,quantity:parseInt(qtyInput&&qtyInput.value||1,10)||1}]})}).then(r=>{if(!r.ok)throw new Error('Add failed');return r.json()}).then(()=>{
 setATCBtnsState(form,'added');
 refreshCart(function(){openCartDrawer();setTimeout(function(){form.querySelectorAll('[type="submit"]').forEach(resetATCBtn)},500)});
 }).catch(()=>{setATCBtnsState(form,'error');setTimeout(()=>{form.querySelectorAll('[type="submit"]').forEach(resetATCBtn)},1500)})})});
@@ -923,6 +1081,7 @@ var variantJson=form.querySelector('[data-product-variants]');
 var variants=variantJson?JSON.parse(variantJson.textContent):[];
 var hiddenInput=form.querySelector('input[name="id"]');
 var pendingAction=null;/* 'cart' or 'buy' */
+var pendingVariantId=null;
 
 /* Find the size option element */
 function getSizeOption(){
@@ -966,6 +1125,7 @@ sheetAddBtn.textContent='Select a size';
 
 function openSheet(action){
 pendingAction=action;
+pendingVariantId=null;
 populateSheet();
 overlay.classList.add('open');
 sheet.classList.add('open');
@@ -979,10 +1139,14 @@ sheet.classList.remove('open');
 sheet.setAttribute('aria-hidden','true');
 document.body.classList.remove('overflow-hidden');
 pendingAction=null;
+pendingVariantId=null;
 }
 
 overlay.addEventListener('click',closeSheet);
 var sheetCloseBtn=sheet.querySelector('.size-sheet__close');if(sheetCloseBtn)sheetCloseBtn.addEventListener('click',closeSheet);
+/* Expose size helpers so initAddToCart can call them */
+form._isSizeSelected=isSizeSelected;
+form._openSizeSheet=openSheet;
 
 /* Size selection inside sheet */
 sizesWrap.addEventListener('click',function(e){
@@ -990,44 +1154,55 @@ var btn=e.target.closest('.size-sheet__size');
 if(!btn||btn.classList.contains('unavailable'))return;
 sizesWrap.querySelectorAll('.size-sheet__size').forEach(function(b){b.classList.remove('selected')});
 btn.classList.add('selected');
-sheetAddBtn.disabled=false;
-sheetAddBtn.textContent=pendingAction==='buy'?'Buy Now':'Add to Cart';
-/* Also select in main form */
-var val=btn.getAttribute('data-value');
+var sizeValue=btn.getAttribute('data-value');
 var sizeOpt=getSizeOption();
+var sizeIdx=sizeOpt?parseInt(sizeOpt.getAttribute('data-option-index')):0;
+/* Build full options array for direct variant lookup */
+var currentOpts=[];
+form.querySelectorAll('.product-option').forEach(function(opt){
+var i=parseInt(opt.getAttribute('data-option-index'));
+if(i===sizeIdx){currentOpts[i]=sizeValue;}
+else{var a=opt.querySelector('.product-option__value.selected');if(a)currentOpts[i]=a.getAttribute('data-value');}
+});
+/* Find matching available variant directly from variants JSON — no hidden-input dependency */
+pendingVariantId=null;
+for(var vi=0;vi<variants.length;vi++){
+var vv=variants[vi];var vopts=vv.options||[];var vMatch=true;
+for(var vj=0;vj<currentOpts.length;vj++){if(currentOpts[vj]!==undefined&&vopts[vj]!==currentOpts[vj]){vMatch=false;break}}
+if(vMatch&&vv.available){pendingVariantId=vv.id;break}
+}
+sheetAddBtn.disabled=!pendingVariantId;
+sheetAddBtn.textContent=pendingVariantId?(pendingAction==='buy'?'Buy Now':'Add to Cart'):'Unavailable';
+/* Also update main form UI (price, availability) via initProductOptions */
 if(sizeOpt){
-var mainBtn=sizeOpt.querySelector('.product-option__value[data-value="'+val+'"]');
-if(mainBtn)mainBtn.click();/* triggers variant matching via initProductOptions */
+var mainBtn=sizeOpt.querySelector('.product-option__value[data-value="'+sizeValue+'"]');
+if(mainBtn)mainBtn.click();
 }
 });
 
 /* Sheet add button */
 sheetAddBtn.addEventListener('click',function(){
-if(this.disabled)return;
+if(this.disabled||!pendingVariantId)return;
 var action=pendingAction;
-closeSheet();
 if(action==='buy'){
+closeSheet();
 window.__buyNowInProgress=true;
 var buyBtn=document.querySelector('[data-buy-now]');
 if(buyBtn)buyBtn.click();
-}else{
-var submitBtn=form.querySelector('[type="submit"]');
-if(submitBtn&&!submitBtn.disabled){
-/* Trigger native form submit */
-form.requestSubmit?form.requestSubmit(submitBtn):submitBtn.click();
+return;
 }
-}
+var addBtn=sheetAddBtn;
+addBtn.disabled=true;
+addBtn.textContent='Adding...';
+fetch(window.theme.routes.cart_add_url+'.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:pendingVariantId,quantity:1}]})}).then(function(r){if(!r.ok)throw new Error('Add failed');return r.json()}).then(function(){
+closeSheet();
+var submitBtns=form.querySelectorAll('[type="submit"]');
+submitBtns.forEach(function(b){b.classList.add('is-added');b.innerHTML=ATC_CHECK+' Added!'});
+refreshCart(function(){openCartDrawer();setTimeout(function(){submitBtns.forEach(resetATCBtn)},700)});
+}).catch(function(){addBtn.disabled=false;addBtn.textContent='Add to Cart';});
 });
 
-/* Intercept Add to Cart form submit */
-form.addEventListener('submit',function(e){
-if(!isSizeSelected()){
-e.preventDefault();
-e.stopImmediatePropagation();
-openSheet('cart');
-return false;
-}
-},true);/* capture phase to intercept before the existing handler */
+/* Size intercept is handled inside initAddToCart via form._isSizeSelected / form._openSizeSheet */
 
 /* Intercept Buy Now */
 document.addEventListener('click',function(e){
