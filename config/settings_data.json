@@ -46,7 +46,7 @@
         "type": "announcement-bar",
         "settings": {
           "show_announcement": true,
-          "text": "Flat 10%",
+          "text": "Flat 10% On Everything",
           "link": "",
           "timer_end": "2026-03-28T23:59:59"
         }
@@ -152,7 +152,7 @@
           "category_CNrpzp"
         ],
         "settings": {
-          "show_section": true
+          "show_section": false
         }
       }
     },

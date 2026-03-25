@@ -82,6 +82,57 @@
         "show_scroll_indicator": false
       }
     },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "subtitle": "Curated For You",
+        "title": "Featured Kurtis",
+        "description": "Handpicked ethnic wear that embodies elegance and timeless Indian craftsmanship",
+        "collection": "frontpage",
+        "products_to_show": 8,
+        "columns": "4",
+        "autoplay": true,
+        "show_view_all": true
+      }
+    },
+    "tabbed": {
+      "type": "tabbed-collections",
+      "blocks": {
+        "tab1": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Best Seller",
+            "collection": "best-sellers"
+          }
+        },
+        "tab2": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "chanchal",
+            "collection": "chanchal"
+          }
+        },
+        "tab3": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Coord Set",
+            "collection": "coord-set"
+          }
+        }
+      },
+      "block_order": [
+        "tab1",
+        "tab2",
+        "tab3"
+      ],
+      "settings": {
+        "subtitle": "Shop By",
+        "title": "Our Collections",
+        "columns": "4",
+        "products_to_show": 8,
+        "show_view_all": true
+      }
+    },
     "banners": {
       "type": "image-banners",
       "blocks": {
@@ -108,57 +159,6 @@
       ],
       "disabled": true,
       "settings": {}
-    },
-    "featured": {
-      "type": "featured-collection",
-      "settings": {
-        "subtitle": "Curated For You",
-        "title": "Featured Kurtis",
-        "description": "Handpicked ethnic wear that embodies elegance and timeless Indian craftsmanship",
-        "collection": "frontpage",
-        "products_to_show": 8,
-        "columns": "4",
-        "autoplay": true,
-        "show_view_all": true
-      }
-    },
-    "tabbed": {
-      "type": "tabbed-collections",
-      "blocks": {
-        "tab1": {
-          "type": "tab",
-          "settings": {
-            "tab_label": "Aabroo",
-            "collection": "aabroo"
-          }
-        },
-        "tab2": {
-          "type": "tab",
-          "settings": {
-            "tab_label": "Best Seller",
-            "collection": "best-sellers"
-          }
-        },
-        "tab3": {
-          "type": "tab",
-          "settings": {
-            "tab_label": "Coord Set",
-            "collection": "coord-set"
-          }
-        }
-      },
-      "block_order": [
-        "tab1",
-        "tab2",
-        "tab3"
-      ],
-      "settings": {
-        "subtitle": "Shop By",
-        "title": "Our Collections",
-        "columns": "4",
-        "products_to_show": 8,
-        "show_view_all": true
-      }
     },
     "scrolling": {
       "type": "scrolling-text",
@@ -218,7 +218,7 @@
             "title": "Returns and Refund Policy",
             "text": "Hassle-free returns within 10 days",
             "link_label": "Learn More",
-            "link_url": "shopify://pages/refund-exchanges-and-refunds"
+            "link_url": "shopify://pages/return-exchanges-and-refunds"
           }
         },
         "usp2": {
@@ -263,9 +263,9 @@
   "order": [
     "hero",
     "hero_banner_nYYJ4f",
-    "banners",
     "featured",
     "tabbed",
+    "banners",
     "scrolling",
     "image-text",
     "usp",
