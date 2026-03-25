@@ -124,11 +124,45 @@ p{margin-bottom:1rem}
 .announcement-bar__link{display:block;color:inherit;text-decoration:none}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
+/* === TIMER BAR — Premium redesign === */
+.announcement-bar--timer{padding:0;height:48px;display:flex;align-items:stretch;overflow:hidden;background:linear-gradient(105deg,#0c0008 0%,#5a1030 42%,#b22066 100%);position:relative}
+/* Shimmer sweep animation */
+.announcement-bar--timer::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,0.07) 50%,transparent 80%);animation:ann-shimmer 5s ease-in-out infinite;pointer-events:none;z-index:0}
+@keyframes ann-shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+.announcement-bar__timer-layout{display:flex;align-items:center;width:100%;padding:0;position:relative;z-index:1}
+/* Icon */
+.ann-icon{font-size:1rem;flex-shrink:0;margin-right:0;line-height:1}
+/* Left: promo text */
+.announcement-bar__timer-msg{display:flex;align-items:center;justify-content:center;gap:8px;flex:1;min-width:0;font-size:clamp(1rem,2.2vw,1.4rem);font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:none;letter-spacing:0.03em;line-height:1;padding:0 10px 0 14px}
+.announcement-bar__timer-msg .announcement-bar__link{color:inherit;text-decoration:none;font-weight:inherit;overflow:hidden;text-overflow:ellipsis}
+/* Vertical divider */
+.ann-vdivider{width:1px;height:55%;background:rgba(255,255,255,0.2);flex-shrink:0;align-self:center}
+/* Right: countdown */
+.announcement-bar__countdown{display:flex;align-items:center;gap:6px;flex-shrink:0;padding:7px 20px 7px 16px}
+.ann-ends-label{font-size:0.58rem;font-weight:600;text-transform:uppercase;letter-spacing:0.16em;color:rgba(255,255,255,0.55);flex-shrink:0;margin-right:2px;white-space:nowrap;line-height:1}
+/* Glass-morphism timer boxes */
+.ann-timer-seg{display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);border-radius:6px;min-width:46px;height:34px;gap:1px}
+.ann-timer-num{font-size:1.35rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:#fff;text-align:center;letter-spacing:-0.01em}
+.ann-timer-label{font-size:0.5rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.65);line-height:1;margin-top:2px}
+@media(max-width:768px){
+  .announcement-bar__timer-msg{font-size:clamp(0.82rem,2.8vw,1rem);letter-spacing:0.02em;padding:0 8px 0 12px}
+  .ann-ends-label{display:none}
+}
+@media(max-width:480px){
+  .announcement-bar--timer{height:50px}
+  .announcement-bar__timer-msg{font-size:14px;letter-spacing:1px;padding:0 6px 0 10px}
+  .ann-icon{display:none}
+  .announcement-bar__countdown{padding:5px 8px 5px 8px;gap:3px}
+  .ann-timer-seg{min-width:36px;height:34px}
+  .ann-timer-num{font-size:1rem}
+  .ann-timer-label{font-size:0.42rem}
+}
+
 /* === HEADER — Premium editorial fashion header === */
 .site-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0;overflow:visible}
-.site-header.has-announcement{top:28px}
+.site-header.has-announcement{top:48px}
 @supports(padding:env(safe-area-inset-top)){
-  .site-header.has-announcement{top:calc(28px + env(safe-area-inset-top,0px))}
+  .site-header.has-announcement{top:calc(48px + env(safe-area-inset-top,0px))}
 }
 .site-header__inner{position:relative;display:grid;grid-template-columns:1fr auto 1fr;grid-template-areas:"left center right";align-items:center;padding:14px clamp(16px,4vw,52px);background:var(--color-header-bg);transition:all 0.5s var(--ease-out-expo);border-bottom:1px solid transparent}
 .site-header__inner::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--color-accent);opacity:1;transition:opacity 0.4s var(--ease-out-expo)}
@@ -634,7 +668,10 @@ p{margin-bottom:1rem}
 
 /* === CATEGORY STRIP — scrolls with page, in normal flow === */
 /* === CATEGORY STRIP — On-brand vertical icon grid === */
-#shopify-section-category-strip{margin-top:calc(var(--header-height,72px) + 0.2rem)}
+#shopify-section-category-strip{margin-top:63px}
+@media(max-width:1024px){#shopify-section-category-strip{margin-top:60px}}
+@media(max-width:768px){#shopify-section-category-strip{margin-top:58px}}
+@media(max-width:480px){#shopify-section-category-strip{margin-top:55px}}
 .category-strip{background:var(--color-background,#fff);position:relative;width:100%;border-bottom:1px solid var(--color-border,#d5d5d5)}
 .category-strip--empty{background:var(--color-background,#fff);border-bottom:1px solid var(--color-border);position:relative;width:100%}
 /* Overflow fade hints — match page bg */
@@ -2037,7 +2074,9 @@ iframe{max-width:100%}
 
 /* === SAFE AREA INSETS FOR NOTCHED PHONES === */
 @supports(padding:env(safe-area-inset-top)){
-  .announcement-bar{padding-top:calc(5px + env(safe-area-inset-top,0px))}
+  .announcement-bar:not(.announcement-bar--timer){padding-top:calc(5px + env(safe-area-inset-top,0px))}
+  .announcement-bar--timer{height:calc(48px + env(safe-area-inset-top,0px))}
+  .announcement-bar--timer .announcement-bar__timer-layout{padding-top:env(safe-area-inset-top,0px)}
   .site-footer__bottom{padding-bottom:calc(4rem + env(safe-area-inset-bottom))}
   .back-to-top{bottom:calc(24px + env(safe-area-inset-bottom))}
   .whatsapp-float{bottom:calc(80px + env(safe-area-inset-bottom))}

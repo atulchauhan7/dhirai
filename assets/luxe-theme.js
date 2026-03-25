@@ -23,7 +23,11 @@ window.addEventListener('scroll',function(){if(!progTicking){progTicking=true;re
 const header=$('.site-header');
 const announcementBar=$('.announcement-bar');
 function setHeaderHeight(){
-var hh=header?Math.round(header.getBoundingClientRect().bottom):105;
+var ab=$('.announcement-bar');
+var abH=(ab && !ab.classList.contains('announcement-hidden'))?ab.offsetHeight:0;
+var hInner=header?header.querySelector('.site-header__inner'):null;
+var hH=hInner?hInner.offsetHeight:72;
+var hh=abH+hH;
 var cs=$('.category-strip');var sh=cs?cs.offsetHeight:0;
 document.documentElement.style.setProperty('--header-height',hh+'px');
 document.documentElement.style.setProperty('--strip-height',sh+'px');
@@ -37,7 +41,6 @@ const cs=window.pageYOffset||document.documentElement.scrollTop;
 if(header){
 header.classList.toggle('scrolled',cs>50);
 if(announcementBar){if(cs>150){announcementBar.classList.add('announcement-hidden');header.classList.remove('has-announcement')}else{announcementBar.classList.remove('announcement-hidden');header.classList.add('has-announcement')}}
-setHeaderHeight();
 }
 lastScroll=cs;
 headerTicking=false;
@@ -1792,9 +1795,37 @@ document.startViewTransition(function(){window.location.href=href});
 });
 })();
 
+/* === ANNOUNCEMENT COUNTDOWN TIMER === */
+function initAnnouncementTimer(){
+  var el=document.getElementById('ann-countdown');
+  if(!el)return;
+  var endStr=el.getAttribute('data-end');
+  if(!endStr)return;
+  var end=new Date(endStr).getTime();
+  if(isNaN(end))return;
+  var hEl=document.getElementById('ann-hours');
+  var mEl=document.getElementById('ann-mins');
+  var sEl=document.getElementById('ann-secs');
+  if(!hEl||!mEl||!sEl)return;
+  function pad(n){return String(n).padStart(2,'0')}
+  function tick(){
+    var diff=end-Date.now();
+    if(diff<=0){
+      hEl.textContent=mEl.textContent=sEl.textContent='00';
+      return;
+    }
+    hEl.textContent=pad(Math.floor(diff/3600000));
+    mEl.textContent=pad(Math.floor((diff%3600000)/60000));
+    sEl.textContent=pad(Math.floor((diff%60000)/1000));
+  }
+  tick();
+  setInterval(tick,1000);
+}
+
 /* === DOM READY === */
 document.addEventListener('DOMContentLoaded',function(){
 /* Priority inits */
+initAnnouncementTimer();
 initScrollAnimations();initSmoothReveal();initParallax();initMagneticButtons();initSplitText();initCustomCursor();initCounterAnimations();initImageReveals();
 /* Defer non-critical inits to idle time */
 var idle=window.requestIdleCallback||function(fn){setTimeout(fn,200)};
