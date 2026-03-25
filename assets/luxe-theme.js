@@ -23,16 +23,13 @@ window.addEventListener('scroll',function(){if(!progTicking){progTicking=true;re
 const header=$('.site-header');
 const announcementBar=$('.announcement-bar');
 function setHeaderHeight(){
-var ab=$('.announcement-bar');
-var abH=(ab && !ab.classList.contains('announcement-hidden'))?ab.offsetHeight:0;
-var hInner=header?header.querySelector('.site-header__inner'):null;
-var hH=hInner?hInner.offsetHeight:72;
-var hh=abH+hH;
+var hh=header?Math.round(header.offsetHeight):72;
 var cs=$('.category-strip');var sh=cs?cs.offsetHeight:0;
 document.documentElement.style.setProperty('--header-height',hh+'px');
 document.documentElement.style.setProperty('--strip-height',sh+'px');
 }
 setHeaderHeight();
+window.addEventListener('load',function(){requestAnimationFrame(setHeaderHeight)});
 window.addEventListener('resize',setHeaderHeight);
 let lastScroll=0;
 var headerTicking=false;
@@ -43,15 +40,12 @@ if(header){
 header.classList.toggle('scrolled',cs>40);
 if(announcementBar){
 if(cs<=5){
-// At top — show bar and offset header
 announcementBar.classList.remove('announcement-hidden');
 header.classList.add('has-announcement');
 }else if(scrollingDown){
-// Scrolling down — hide bar, snap header to top:0
 announcementBar.classList.add('announcement-hidden');
 header.classList.remove('has-announcement');
 }
-// Scrolling up mid-page — do nothing, header stays at top:0
 }
 }
 lastScroll=cs<=0?0:cs;
