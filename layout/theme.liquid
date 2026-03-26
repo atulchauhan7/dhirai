@@ -155,6 +155,7 @@ setTimeout(function(){
   if(!document.body.classList.contains('page-loaded')){ document.body.classList.add('page-loaded'); }
 }, 1500);
 </script>
+{% if settings.enable_shopflo %}
 <script>
 (function(){
   var h=window.location.hostname;
@@ -176,6 +177,7 @@ setTimeout(function(){
   document.head.appendChild(s);
 })();
 </script>
+{% endif %}
 
 <!-- Preload main JS -->
 {{ 'luxe-theme.js' | asset_url | preload_tag: as: 'script' }}

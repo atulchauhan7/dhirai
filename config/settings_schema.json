@@ -169,6 +169,18 @@
     ]
   },
   {
+    "name": "Integrations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_shopflo",
+        "label": "Enable Shopflo checkout",
+        "default": false,
+        "info": "Loads the Shopflo checkout bridge script. Disable to use Shopify's native checkout."
+      }
+    ]
+  },
+  {
     "name": "Animations & Effects",
     "settings": [
       {
