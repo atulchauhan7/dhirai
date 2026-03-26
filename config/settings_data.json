@@ -28,7 +28,7 @@
     "enable_custom_cursor": false,
     "enable_newsletter_popup": false,
     "whatsapp_number": "+916356405060",
-    "product_promo_enabled": true,
+    "product_promo_enabled": false,
     "product_promo_text": "Buy 2 Get 30% Off",
     "product_promo_code": "SUMMER30",
     "product_show_rating": true,
@@ -46,7 +46,7 @@
         "type": "announcement-bar",
         "settings": {
           "show_announcement": true,
-          "text": "Flat 10%",
+          "text": "Flat 10% Off On Everything",
           "link": "",
           "timer_end": "2026-03-28T23:59:59"
         }
@@ -97,7 +97,7 @@
           "about_text": "",
           "address_text": "G1-30, Apparel Park, Jagatpura, Jaipur, Rajasthan, 302017",
           "whatsapp_number": "+916356405060",
-          "support_email": "gulaabgali.com@gmail.com"
+          "support_email": "sakhiyaan.com@gmail.com"
         }
       },
       "category-strip": {
@@ -152,7 +152,7 @@
           "category_CNrpzp"
         ],
         "settings": {
-          "show_section": true
+          "show_section": false
         }
       }
     },
