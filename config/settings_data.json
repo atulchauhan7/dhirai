@@ -34,7 +34,7 @@
     "product_show_rating": true,
     "product_delivery_min_days": 5,
     "product_delivery_max_days": 7,
-    "product_tax_note": "incl. of all taxes",
+    "product_tax_note": "incl. of all taxes  <br> <b> 🎁 Free gift on prepaid orders  </b>",
     "product_trust_1": "Free Shipping ₹999+",
     "product_trust_2": "10-Day Returns",
     "product_trust_3": "Secure Checkout",
