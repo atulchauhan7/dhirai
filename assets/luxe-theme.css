@@ -1627,9 +1627,9 @@ p{margin-bottom:1rem}
   .acct-grid{grid-template-columns:1fr;gap:2rem}
   .acct-hero__greeting{font-size:1.25rem}
   /* Strip only on homepage — other pages use header clearance */
-  .main-content{padding-top:var(--header-height,53px)}
+  .main-content{padding-top:calc(var(--header-height,53px) + var(--announcement-content-offset,0px))}
   .template-index .main-content{padding-top:0}
-  .template-product .main-content{padding-top:var(--header-height,53px)}
+  .template-product .main-content{padding-top:calc(var(--header-height,53px) + var(--announcement-content-offset,0px))}
   .section{padding:0.4rem 0}
   .section--no-padding{padding:0}
   .container{padding:0 16px}
@@ -1837,9 +1837,9 @@ p{margin-bottom:1rem}
 /* === TABLET (769px to 1024px) === */
 @media(min-width:769px) and (max-width:1024px){
   .grid--4{grid-template-columns:repeat(3,1fr)}
-  .main-content{padding-top:var(--header-height,72px)}
+  .main-content{padding-top:calc(var(--header-height,72px) + var(--announcement-content-offset,0px))}
   .template-index .main-content{padding-top:0}
-  .template-product .main-content{padding-top:var(--header-height,72px)}
+  .template-product .main-content{padding-top:calc(var(--header-height,72px) + var(--announcement-content-offset,0px))}
   .product-page__grid{grid-template-columns:1fr 1fr;gap:1.5rem}
   .product-gallery--slider{position:static}
   .product-gallery__viewport{aspect-ratio:3/4;max-height:calc(100vh - 50px)}
@@ -1926,9 +1926,9 @@ p{margin-bottom:1rem}
   .cart-drawer__note{font-size:0.68rem}
   /* Global small phone polish */
   .container{padding:0 10px}
-  .main-content{padding-top:var(--header-height,53px)}
+  .main-content{padding-top:calc(var(--header-height,53px) + var(--announcement-content-offset,0px))}
   .template-index .main-content{padding-top:0}
-  .template-product .main-content{padding-top:var(--header-height,53px)}
+  .template-product .main-content{padding-top:calc(var(--header-height,53px) + var(--announcement-content-offset,0px))}
   .section{padding:0.75rem 0}
   .section--no-padding{padding:0}
   .section-header{margin-bottom:0.5rem}
