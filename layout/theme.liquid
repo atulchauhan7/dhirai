@@ -10,6 +10,9 @@
 <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdn.shopify.com">
 <link rel="dns-prefetch" href="https://fonts.shopifycdn.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <!-- View Transitions API for smooth page transitions -->
 <meta name="view-transition" content="same-origin">
@@ -251,6 +254,8 @@ setTimeout(function(){
 <div class="cursor-follower"></div>
 <div class="cursor-follower-dot"></div>
 {% endif %}
+
+{% render 'bottom-nav' %}
 
 <script src="{{ 'luxe-theme.js' | asset_url }}" defer></script>
 

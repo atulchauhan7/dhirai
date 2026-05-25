@@ -1896,7 +1896,214 @@ initScrollAnimations();initSmoothReveal();initParallax();initMagneticButtons();i
 var idle=window.requestIdleCallback||function(fn){setTimeout(fn,200)};
 idle(function(){
 initSectionReveals();initAddressToggle();initCollectionSort();initFooterToggle();
+initFilterDrawer();initFilterGroups();initFilterCheckboxes();initFilterPriceForms();
+initPincodeBar();initBottomNav();initPromoCopy();setStripHeight();
 setTimeout(function(){var hasOpen=document.querySelector('.cart-drawer.open')||document.querySelector('.header-search.open')||document.querySelector('.newsletter-popup-overlay.open')||document.querySelector('.site-header__nav.open');if(!hasOpen)document.body.classList.remove('overflow-hidden')},800);
 });
+window.addEventListener('resize',setStripHeight,{passive:true});
 });
+
+/* ============================================================
+   MARKETPLACE FEATURES — Filter Drawer, Filter Groups,
+   Filter Checkboxes, Price Filter
+   ============================================================ */
+
+/* === COLLECTION FILTER DRAWER (mobile) === */
+function initFilterDrawer(){
+var openBtn=document.getElementById('filter-drawer-open');
+var closeBtn=document.getElementById('filter-drawer-close');
+var drawer=document.getElementById('filter-drawer');
+var overlay=document.getElementById('filter-drawer-overlay');
+if(!openBtn||!drawer)return;
+
+/* Set initial active count badge */
+var count=window._collectionActiveFilters||0;
+var badge=document.getElementById('filter-active-count');
+if(badge){
+  if(count>0){badge.textContent=count;badge.style.display='inline-flex';}
+  else{badge.style.display='none';}
+}
+
+function openDrawer(){
+  drawer.classList.add('open');
+  if(overlay)overlay.classList.add('open');
+  document.body.classList.add('overflow-hidden');
+  openBtn.setAttribute('aria-expanded','true');
+  drawer.setAttribute('aria-hidden','false');
+  /* Focus first interactive element */
+  var firstEl=drawer.querySelector('button,input,[tabindex]');
+  if(firstEl)requestAnimationFrame(function(){firstEl.focus()});
+}
+
+function closeDrawer(){
+  drawer.classList.remove('open');
+  if(overlay)overlay.classList.remove('open');
+  document.body.classList.remove('overflow-hidden');
+  openBtn.setAttribute('aria-expanded','false');
+  drawer.setAttribute('aria-hidden','true');
+  openBtn.focus();
+}
+
+openBtn.addEventListener('click',openDrawer);
+if(closeBtn)closeBtn.addEventListener('click',closeDrawer);
+if(overlay)overlay.addEventListener('click',closeDrawer);
+
+/* Escape key closes drawer */
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&drawer.classList.contains('open'))closeDrawer();
+});
+
+/* Apply button closes drawer and navigates (checkboxes already navigated) */
+var applyBtn=document.getElementById('filter-drawer-apply');
+if(applyBtn)applyBtn.addEventListener('click',closeDrawer);
+}
+
+/* === FILTER GROUP ACCORDION === */
+function initFilterGroups(){
+document.querySelectorAll('[data-filter-group] .filter-group__toggle').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var group=this.closest('[data-filter-group]');
+    if(!group)return;
+    var isOpen=group.classList.contains('open');
+    group.classList.toggle('open',!isOpen);
+    this.setAttribute('aria-expanded',String(!isOpen));
+  });
+});
+}
+
+/* === FILTER CHECKBOXES — navigate on change === */
+function initFilterCheckboxes(){
+document.querySelectorAll('.filter-option__checkbox').forEach(function(cb){
+  cb.addEventListener('change',function(){
+    var url=this.checked
+      ?this.getAttribute('data-filter-url-add')
+      :this.getAttribute('data-filter-url-remove');
+    if(url)window.location.href=url;
+  });
+});
+}
+
+/* === PRICE RANGE FILTER FORM — build URL and navigate === */
+function initFilterPriceForms(){
+document.querySelectorAll('[data-filter-price-form]').forEach(function(form){
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var minInput=form.querySelector('input[aria-label="Minimum price"]');
+    var maxInput=form.querySelector('input[aria-label="Maximum price"]');
+    var url=new URL(window.location.href);
+    var minName=minInput?minInput.name:'filter.v.price.gte';
+    var maxName=maxInput?maxInput.name:'filter.v.price.lte';
+    url.searchParams.delete(minName);
+    url.searchParams.delete(maxName);
+    if(minInput&&minInput.value!=='')url.searchParams.set(minName,minInput.value);
+    if(maxInput&&maxInput.value!=='')url.searchParams.set(maxName,maxInput.value);
+    url.searchParams.delete('page');
+    window.location.href=url.toString();
+  });
+});
+}
+
+/* === PINCODE BAR === */
+function initPincodeBar(){
+var bar=document.getElementById('pincode-bar');
+var modal=document.getElementById('pincode-modal');
+var toggleBtn=document.querySelector('[data-pincode-toggle]');
+var checkBtn=document.querySelector('[data-pincode-check]');
+var input=document.getElementById('pincode-input');
+var result=document.getElementById('pincode-result');
+var label=document.querySelector('[data-pincode-label]');
+if(!bar||!modal)return;
+
+var saved=localStorage.getItem('sakhi_pincode');
+if(saved&&label){label.textContent=saved}
+
+function openModal(){
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  if(toggleBtn)toggleBtn.setAttribute('aria-expanded','true');
+  setTimeout(function(){if(input)input.focus();},320);
+}
+function closeModal(){
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+  if(toggleBtn){toggleBtn.setAttribute('aria-expanded','false');toggleBtn.focus();}
+}
+
+if(toggleBtn)toggleBtn.addEventListener('click',function(){
+  modal.classList.contains('open')?closeModal():openModal();
+});
+document.querySelectorAll('[data-pincode-close]').forEach(function(el){
+  el.addEventListener('click',closeModal);
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();
+});
+
+if(checkBtn&&input&&result&&label){
+  function doCheck(){
+    var pin=input.value.trim();
+    if(!/^\d{6}$/.test(pin)){
+      result.textContent='Please enter a valid 6-digit pincode.';
+      result.className='pincode-modal__result error';
+      return;
+    }
+    result.textContent='Delivery available to '+pin+' — estimated 3–5 business days.';
+    result.className='pincode-modal__result success';
+    label.textContent=pin;
+    localStorage.setItem('sakhi_pincode',pin);
+    setTimeout(closeModal,1400);
+  }
+  checkBtn.addEventListener('click',doCheck);
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')doCheck();});
+}
+}
+
+/* === BOTTOM NAV — active state === */
+function initBottomNav(){
+var items=document.querySelectorAll('.bottom-nav__item');
+if(!items.length)return;
+var path=window.location.pathname.replace(/\/+$/,'');
+items.forEach(function(item){
+  var href=item.getAttribute('href');
+  if(!href)return;
+  try{
+    var url=new URL(href,window.location.origin);
+    var itemPath=url.pathname.replace(/\/+$/,'');
+    if(itemPath===''||itemPath==='/'){
+      if(path===''||path==='/'){item.classList.add('active');}
+    } else if(path.startsWith(itemPath)){
+      item.classList.add('active');
+    }
+  }catch(e){}
+});
+}
+
+/* === PROMO CODE — copy to clipboard === */
+function initPromoCopy(){
+document.querySelectorAll('[data-copy-promo]').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var code=btn.getAttribute('data-copy-promo');
+    if(!code)return;
+    var orig=btn.innerHTML;
+    navigator.clipboard.writeText(code).then(function(){
+      btn.classList.add('copied');
+      btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+      setTimeout(function(){btn.innerHTML=orig;btn.classList.remove('copied');},1600);
+    }).catch(function(){});
+  });
+});
+}
+
+/* === STRIP HEIGHT — adjusts hero viewport for elements above it === */
+function setStripHeight(){
+var h=0;
+var pincode=document.getElementById('shopify-section-pincode-bar');
+var catStrip=document.querySelector('[id^="shopify-section-"][id*="category-strip"]');
+if(pincode)h+=pincode.offsetHeight;
+if(catStrip)h+=catStrip.offsetHeight;
+document.documentElement.style.setProperty('--strip-height',h+'px');
+}
+
 })();

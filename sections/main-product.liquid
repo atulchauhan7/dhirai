@@ -271,7 +271,7 @@ decoding="async"
     <button type="submit" class="btn btn--primary btn--full btn--large" {% unless product.available %}disabled{% endunless %}>
       {% if product.available %}
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-      Add to Cart
+      ADD TO BAG
       {% else %}
       Sold Out
       {% endif %}
@@ -284,33 +284,30 @@ decoding="async"
     {% endif %}
   </div>
 
-  <!-- Mobile fixed CTA bar -->
+  <!-- Mobile fixed CTA bar — Bewakoof yellow style -->
   <div class="product-info__cta-group">
-    <div class="product-info__add-to-cart">
-      <button type="submit" class="btn btn--primary btn--full btn--large" {% unless product.available %}disabled{% endunless %}>
-        {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
-      </button>
-    </div>
-    {% if product.available %}
-    <button type="button" class="btn btn--buy-now btn--full btn--large" data-buy-now data-inline-buy-now="true" onclick="pdpBuyNow(event)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      Buy Now
+    <button type="submit" class="btn btn--atb btn--full" {% unless product.available %}disabled{% endunless %}>
+      {% if product.available %}
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      ADD TO BAG
+      {% if product.price > 0 %}<span class="btn--atb__price"> {{ product.price | money_without_trailing_zeros }}</span>{% endif %}
+      {% else %}Sold Out{% endif %}
     </button>
-    {% endif %}
   </div>
   {% endform %}
 
-  <!-- Delivery estimate -->
-  {% assign delivery_min_sec = settings.product_delivery_min_days | default: 5 | times: 86400 %}
-  {% assign delivery_max_sec = settings.product_delivery_max_days | default: 7 | times: 86400 %}
-  <div class="product-delivery">
-    <div class="product-delivery__icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+  <!-- Pincode delivery check — Bewakoof style -->
+  <div class="pdp-pincode">
+    <p class="pdp-pincode__label">Check for Delivery Details</p>
+    <div class="pdp-pincode__row">
+      <input type="number" class="pdp-pincode__input" id="pdp-pincode-input" placeholder="Enter Pincode" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" aria-label="Enter pincode">
+      <button type="button" class="pdp-pincode__btn" id="pdp-pincode-check">Check</button>
     </div>
-    <div class="product-delivery__text">
-      <strong>Estimated Delivery</strong>
-      <span>{{ 'now' | date: '%s' | plus: delivery_min_sec | date: '%b %d' }} — {{ 'now' | date: '%s' | plus: delivery_max_sec | date: '%b %d, %Y' }}</span>
-    </div>
+    <p class="pdp-pincode__result" id="pdp-pincode-result" aria-live="polite"></p>
+  </div>
+  <div class="pdp-free-shipping">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    <span>This product is eligible for <strong>FREE SHIPPING</strong></span>
   </div>
 
   <!-- Trust badges -->
@@ -422,7 +419,23 @@ decoding="async"
     {% endif %}
   </div>
 
-  <!-- Product meta -->
+  <!-- Trust trio — Bewakoof 3-column style -->
+  <div class="pdp-trust-trio">
+    <div class="pdp-trust-trio__item">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <span>100% GENUINE PRODUCT</span>
+    </div>
+    <div class="pdp-trust-trio__item">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/><circle cx="12" cy="15" r="1" fill="currentColor"/></svg>
+      <span>100% SECURE PAYMENT</span>
+    </div>
+    <div class="pdp-trust-trio__item">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+      <span>EASY RETURNS &amp; INSTANT REFUNDS</span>
+    </div>
+  </div>
+
+  <!-- Key Highlights (from product tags) -->
   <div class="product-info__meta">
     {% for tag in product.tags %}
       {% assign tag_lower = tag | downcase %}
@@ -576,11 +589,8 @@ decoding="async"
 {% if rec_count > 0 %}
 <div class="pdp-recommendations">
 <div class="container">
-  <div class="section-header--with-nav">
-    <div>
-      <div class="section-header__subtitle">Curated for you</div>
-      <h2 class="section-header__title">You Might Also Like</h2>
-    </div>
+  <div class="bwk-section__head">
+    <h2 class="bwk-section__title">You May Also Like</h2>
   </div>
   <div class="carousel pdp-reco-carousel" data-carousel data-carousel-per-view="4" data-carousel-gap="24" data-carousel-loop="true">
     <div class="carousel__viewport">
@@ -752,6 +762,29 @@ decoding="async"
 </script>
 
 <script src="{{ 'lunatic-product.js' | asset_url }}" defer></script>
+<script>
+(function(){
+  var btn = document.getElementById('pdp-pincode-check');
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    var inp = document.getElementById('pdp-pincode-input');
+    var res = document.getElementById('pdp-pincode-result');
+    var val = (inp.value || '').replace(/\D/g, '');
+    if (val.length === 6) {
+      var d = new Date();
+      d.setDate(d.getDate() + 5);
+      res.textContent = 'Delivery available by ' + d.toLocaleDateString('en-IN', {weekday:'short', month:'short', day:'numeric'});
+      res.style.color = '#1fa552';
+    } else {
+      res.textContent = 'Please enter a valid 6-digit pincode';
+      res.style.color = '#ee4d37';
+    }
+  });
+  document.getElementById('pdp-pincode-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') btn.click();
+  });
+})();
+</script>
 
 {% schema %}
 {

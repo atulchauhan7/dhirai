@@ -22,7 +22,7 @@
     "container_width": "1440px",
     "grid_gutter": "20px",
     "section_spacing": 60,
-    "border_radius": 0,
+    "border_radius": 4,
     "text_direction": "ltr",
     "enable_animations": true,
     "enable_custom_cursor": false,

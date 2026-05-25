@@ -9,6 +9,30 @@
  */
 {
   "sections": {
+    "category-strip": {
+      "type": "category-strip",
+      "blocks": {
+        "cat1": {"type":"category","settings":{"label":"New Arrivals","badge_label":"New","badge_color":"green"}},
+        "cat2": {"type":"category","settings":{"label":"Best Sellers","badge_label":"Hot","badge_color":"red"}},
+        "cat3": {"type":"category","settings":{"label":"Kurtis"}},
+        "cat4": {"type":"category","settings":{"label":"Coord Sets"}},
+        "cat5": {"type":"category","settings":{"label":"Tops"}},
+        "cat6": {"type":"category","settings":{"label":"Sale","badge_label":"Sale","badge_color":"accent"}}
+      },
+      "block_order": ["cat1","cat2","cat3","cat4","cat5","cat6"],
+      "settings": {"show_section": true}
+    },
+    "promo-banner": {
+      "type": "promo-banner",
+      "settings": {
+        "show_section": true,
+        "bg_color": "#1a1a1a",
+        "eyebrow": "Limited Period Offer",
+        "offer_text": "GET 10% CASHBACK",
+        "subtext": "Valid on all orders above ₹499",
+        "coupon_code": "SAVE10"
+      }
+    },
     "hero": {
       "type": "hero-banner",
       "blocks": {
@@ -86,13 +110,53 @@
       "type": "featured-collection",
       "settings": {
         "subtitle": "Curated For You",
-        "title": "Featured Kurtis",
+        "title": "Newest Drops",
+        "title_suffix": "Of The Season",
         "description": "Handpicked ethnic wear that embodies elegance and timeless Indian craftsmanship",
         "collection": "frontpage",
         "products_to_show": 8,
         "columns": "4",
         "autoplay": true,
         "show_view_all": true
+      }
+    },
+    "image-grid": {
+      "type": "image-grid",
+      "blocks": {
+        "ig1": {"type":"item","settings":{"label":"Hyper Prints","link":""}},
+        "ig2": {"type":"item","settings":{"label":"Minimalistic","link":""}},
+        "ig3": {"type":"item","settings":{"label":"Acid-Washed","link":""}},
+        "ig4": {"type":"item","settings":{"label":"Word Drip","link":""}},
+        "ig5": {"type":"item","settings":{"label":"Solids","link":""}},
+        "ig6": {"type":"item","settings":{"label":"Explore All","link":""}}
+      },
+      "block_order": ["ig1","ig2","ig3","ig4","ig5","ig6"],
+      "settings": {
+        "show_section": true,
+        "title_bold": "Shop By Style",
+        "title_normal": "",
+        "subtitle_highlight": "Bestsellers",
+        "subtitle": "in one place",
+        "last_as_explore": true
+      }
+    },
+    "trending-categories": {
+      "type": "trending-categories",
+      "blocks": {
+        "tc1": {"type":"category","settings":{"label":"Kurtis","link":""}},
+        "tc2": {"type":"category","settings":{"label":"Coord Sets","link":""}},
+        "tc3": {"type":"category","settings":{"label":"Tops","link":""}},
+        "tc4": {"type":"category","settings":{"label":"Straight Kurtis","link":""}},
+        "tc5": {"type":"category","settings":{"label":"A-Line Kurtis","link":""}},
+        "tc6": {"type":"category","settings":{"label":"Dresses","link":""}}
+      },
+      "block_order": ["tc1","tc2","tc3","tc4","tc5","tc6"],
+      "settings": {
+        "show_section": true,
+        "title_bold": "Trending",
+        "title_normal": "Categories",
+        "title_emoji": "🥊",
+        "show_view_all": false
       }
     },
     "tabbed": {
@@ -131,6 +195,22 @@
         "columns": "4",
         "products_to_show": 8,
         "show_view_all": true
+      }
+    },
+    "savings-corner": {
+      "type": "savings-corner",
+      "blocks": {
+        "sc1": {"type":"deal","settings":{"eyebrow":"BUY 2","heading":"OVERSIZED KURTIS","price_text":"₹1199"}},
+        "sc2": {"type":"deal","settings":{"eyebrow":"BUY 3","heading":"COORD SETS","price_text":"₹1499"}},
+        "sc3": {"type":"deal","settings":{"eyebrow":"TOPS","heading":"UNDER ₹599","price_text":""}},
+        "sc4": {"type":"deal","settings":{"eyebrow":"KURTIS","heading":"UNDER ₹899","price_text":""}}
+      },
+      "block_order": ["sc1","sc2","sc3","sc4"],
+      "settings": {
+        "show_section": true,
+        "title_bold": "Savings",
+        "title_normal": "Corner",
+        "title_emoji": "⬇️"
       }
     },
     "banners": {
@@ -261,10 +341,15 @@
     }
   },
   "order": [
+    "category-strip",
     "hero",
     "hero_banner_nYYJ4f",
     "featured",
+    "image-grid",
+    "trending-categories",
+    "promo-banner",
     "tabbed",
+    "savings-corner",
     "banners",
     "scrolling",
     "image-text",
