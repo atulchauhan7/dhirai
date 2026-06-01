@@ -231,9 +231,6 @@ checkout_url: '{{ routes.checkout_url }}'
 
 {% section 'header' %}
 
-{% if template.name == 'index' %}
-{% section 'category-strip' %}
-{% endif %}
 
 <script>
 (function(){var d=document.documentElement;var ann=document.querySelector('.announcement-bar');var hdr=document.querySelector('.site-header');var annH=ann?ann.offsetHeight:0;var hh=hdr?hdr.querySelector('.site-header__inner').offsetHeight:64;d.style.setProperty('--header-height',hh+'px');d.style.setProperty('--announcement-height',annH+'px');d.style.setProperty('--announcement-content-offset',annH+'px')})();

@@ -1081,8 +1081,9 @@ function initAddToCart(){
 $$('[data-add-to-cart],[data-product-form]').forEach(f=>{f.addEventListener('submit',function(e){e.preventDefault();if(window.__buyNowInProgress)return;var btns=this.querySelectorAll('[type="submit"]');if(!btns.length)return;if(btns[0].classList.contains('is-loading'))return;
 var form=this;
 var pdpForm=$('[data-product-form]')||form;
-/* If size not yet selected, hand off to size sheet and abort */
-if(pdpForm._isSizeSelected&&!pdpForm._isSizeSelected()){if(pdpForm._openSizeSheet)pdpForm._openSizeSheet('cart');return;}
+/* If size not yet selected, hand off to size sheet and abort — check DOM directly */
+var sizeOpt=pdpForm.querySelector('.product-option[data-option-name="Size"]')||pdpForm.querySelector('.product-option[data-option-name="Sizes"]');
+if(sizeOpt&&!sizeOpt.querySelector('.product-option__value.selected')){if(pdpForm._openSizeSheet)pdpForm._openSizeSheet('cart');return;}
 /* If color not yet selected, hand off to color sheet and abort */
 if(!hasColorOptionSelected(pdpForm)){if(pdpForm._openColorSheet)pdpForm._openColorSheet('cart');else if(window.showToast)window.showToast('Please select a colour','error');return;}
 var hiddenInput=form.querySelector('input[name="id"]');
@@ -1101,30 +1102,7 @@ if(window.sakhiToast)window.sakhiToast.error('Could not add to bag. Please try a
 }
 initAddToCart();
 
-/* Add to Cart click intercept — more reliable than submit event */
-(function(){
-document.addEventListener('click',function(e){
-var btn=e.target.closest('[type="submit"]');
-if(!btn)return;
-var pdpForm=btn.closest('[data-product-form],[data-add-to-cart]');
-if(!pdpForm)return;
-/* Check size first */
-if(pdpForm._isSizeSelected&&!pdpForm._isSizeSelected()){
-e.preventDefault();
-e.stopImmediatePropagation();
-if(pdpForm._openSizeSheet)pdpForm._openSizeSheet('cart');
-return;
-}
-/* Check color */
-if(!hasColorOptionSelected(pdpForm)){
-e.preventDefault();
-e.stopImmediatePropagation();
-if(pdpForm._openColorSheet)pdpForm._openColorSheet('cart');
-else if(window.showToast)window.showToast('Please select a colour','error');
-return;
-}
-},true);/* capture phase */
-})();
+/* Add to Cart click intercept — moved inside initSizeSheet for direct isSizeSelected access */
 
 /* === FOOTER MOBILE TOGGLE === */
 function initFooterToggle(){
@@ -1542,7 +1520,7 @@ refreshCart(function(){openCartDrawer();setTimeout(function(){submitBtns.forEach
 }).catch(function(){addBtn.disabled=false;addBtn.textContent='Add to Cart';});
 });
 
-/* Size intercept is handled inside initAddToCart via form._isSizeSelected / form._openSizeSheet */
+/* Size/color intercepts for both Buy Now and Add to Cart are below */
 
 /* Intercept Buy Now */
 document.addEventListener('click',function(e){
@@ -1561,6 +1539,29 @@ e.preventDefault();
 e.stopImmediatePropagation();
 if(pdpForm&&pdpForm._openColorSheet)pdpForm._openColorSheet('buy');
 else if(window.showToast)window.showToast('Please select a colour','error');
+}
+},true);/* capture phase */
+
+/* Intercept Add to Cart — uses isSizeSelected() directly for reliability */
+document.addEventListener('click',function(e){
+var btn=e.target.closest('[type="submit"]');
+if(!btn)return;
+var pdpForm=btn.closest('[data-product-form],[data-add-to-cart]');
+if(!pdpForm)return;
+/* Check size first */
+if(!isSizeSelected()){
+e.preventDefault();
+e.stopImmediatePropagation();
+openSheet('cart');
+return;
+}
+/* Check color */
+if(!hasColorOptionSelected(pdpForm)){
+e.preventDefault();
+e.stopImmediatePropagation();
+if(pdpForm._openColorSheet)pdpForm._openColorSheet('cart');
+else if(window.showToast)window.showToast('Please select a colour','error');
+return;
 }
 },true);/* capture phase */
 }
