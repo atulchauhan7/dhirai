@@ -35,15 +35,17 @@
         "cat3": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/2L1A9876.webp",
             "label": "Kurtis",
             "link": "",
-            "badge_label": "",
+            "badge_label": "Best",
             "badge_color": "green"
           }
         },
         "cat4": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/2L1A0293.webp",
             "label": "Coord Sets",
             "link": "",
             "badge_label": "",
@@ -53,6 +55,7 @@
         "cat5": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/2L1A0332_9d12191e-e8c6-4fee-b195-04bcb4d4e9e6.webp",
             "label": "Tops",
             "link": "",
             "badge_label": "",
