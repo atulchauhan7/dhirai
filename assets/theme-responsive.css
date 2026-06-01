@@ -555,7 +555,6 @@ img,video,iframe{max-width:100%!important}
 .section,
 .shopify-section > section,
 .shopify-section > .section{
-  padding-top:var(--sk-section-y)!important;
   padding-bottom:var(--sk-section-y)!important;
 }
 .section--no-padding,

@@ -249,7 +249,7 @@ return;
 /* Check color */
 if(typeof hasColorOptionSelected==='function'&&!hasColorOptionSelected(productForm)){
 if(productForm._openColorSheet)productForm._openColorSheet('buy');
-else if(window.showToast)window.showToast('Please select a colour','error');
+else if(window.sakhiToast)window.sakhiToast.error('Please select a colour');
 return;
 }
 var variantInput=productForm.querySelector('input[name="id"]');
@@ -1085,7 +1085,7 @@ var pdpForm=$('[data-product-form]')||form;
 var sizeOpt=pdpForm.querySelector('.product-option[data-option-name="Size"]')||pdpForm.querySelector('.product-option[data-option-name="Sizes"]');
 if(sizeOpt&&!sizeOpt.querySelector('.product-option__value.selected')){if(pdpForm._openSizeSheet)pdpForm._openSizeSheet('cart');return;}
 /* If color not yet selected, hand off to color sheet and abort */
-if(!hasColorOptionSelected(pdpForm)){if(pdpForm._openColorSheet)pdpForm._openColorSheet('cart');else if(window.showToast)window.showToast('Please select a colour','error');return;}
+if(!hasColorOptionSelected(pdpForm)){if(pdpForm._openColorSheet)pdpForm._openColorSheet('cart');else if(window.sakhiToast)window.sakhiToast.error('Please select a colour');return;}
 var hiddenInput=form.querySelector('input[name="id"]');
 var qtyInput=form.querySelector('input[name="quantity"]');
 var variantId=hiddenInput?parseInt(hiddenInput.value,10):0;
@@ -1509,6 +1509,17 @@ var buyBtn=document.querySelector('[data-buy-now]');
 if(buyBtn)buyBtn.click();
 return;
 }
+/* Check if color is selected before adding to cart */
+if(!hasColorOptionSelected(form)){
+if(form._openColorSheet){
+closeSheet();
+form._openColorSheet('cart');
+}else{
+/* No color sheet available - show error and keep size sheet open */
+if(window.sakhiToast)window.sakhiToast.error('Please select a colour');
+}
+return;
+}
 var addBtn=sheetAddBtn;
 addBtn.disabled=true;
 addBtn.textContent='Adding...';
@@ -1538,7 +1549,7 @@ if(!hasColorOptionSelected(pdpForm)){
 e.preventDefault();
 e.stopImmediatePropagation();
 if(pdpForm&&pdpForm._openColorSheet)pdpForm._openColorSheet('buy');
-else if(window.showToast)window.showToast('Please select a colour','error');
+else if(window.sakhiToast)window.sakhiToast.error('Please select a colour');
 }
 },true);/* capture phase */
 
@@ -1560,7 +1571,7 @@ if(!hasColorOptionSelected(pdpForm)){
 e.preventDefault();
 e.stopImmediatePropagation();
 if(pdpForm._openColorSheet)pdpForm._openColorSheet('cart');
-else if(window.showToast)window.showToast('Please select a colour','error');
+else if(window.sakhiToast)window.sakhiToast.error('Please select a colour');
 return;
 }
 },true);/* capture phase */
@@ -1599,7 +1610,7 @@ form._isColorSelected=isColorSelected;
 /* If no sheet UI, provide a fallback that shows toast */
 if(!hasSheetUI){
 form._openColorSheet=function(){
-if(window.showToast)window.showToast('Please select a colour','error');
+if(window.sakhiToast)window.sakhiToast.error('Please select a colour');
 };
 return;
 }
@@ -1688,6 +1699,17 @@ closeSheet();
 window.__buyNowInProgress=true;
 var buyBtn=document.querySelector('[data-buy-now]');
 if(buyBtn)buyBtn.click();
+return;
+}
+/* Check if size is selected before adding to cart */
+if(form._isSizeSelected&&!form._isSizeSelected()){
+if(form._openSizeSheet){
+closeSheet();
+form._openSizeSheet('cart');
+}else{
+/* No size sheet available - show error and keep color sheet open */
+if(window.sakhiToast)window.sakhiToast.error('Please select a size');
+}
 return;
 }
 var addBtn=sheetAddBtn;
