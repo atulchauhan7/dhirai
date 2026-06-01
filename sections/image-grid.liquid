@@ -1,5 +1,5 @@
 {% if section.settings.show_section and section.blocks.size > 0 %}
-<section class="section img-grid-section" data-section-id="{{ section.id }}">
+<section class="section img-grid-section img-grid-section--{{ section.settings.density | default: 'comfortable' }}" data-section-id="{{ section.id }}">
   <div class="container">
 
     {% if section.settings.title_bold != blank or section.settings.title_normal != blank %}
@@ -99,6 +99,17 @@
       "id": "subtitle",
       "label": "Subtitle — rest of text",
       "default": "in one place"
+    },
+    {
+      "type": "select",
+      "id": "density",
+      "label": "Density",
+      "default": "comfortable",
+      "options": [
+        { "value": "comfortable", "label": "Comfortable (default)" },
+        { "value": "compact", "label": "Compact (denser grid)" }
+      ],
+      "info": "Compact shows more items per row on tablet/desktop with tighter gaps — useful for narrower layouts or category-heavy lookbooks."
     },
     {
       "type": "checkbox",

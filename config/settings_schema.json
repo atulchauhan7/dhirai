@@ -404,6 +404,70 @@
         "label": "Progress message",
         "default": "Add <strong>[amount]</strong> more for <strong>free shipping</strong>",
         "info": "Use [amount] as placeholder for the remaining amount"
+      },
+      {
+        "type": "header",
+        "content": "Available Offers (shown on PDP & Cart)"
+      },
+      {
+        "type": "checkbox",
+        "id": "offers_enabled",
+        "label": "Show available offers",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "offer1_code",
+        "label": "Offer 1 — Code",
+        "default": "SAVE10"
+      },
+      {
+        "type": "text",
+        "id": "offer1_title",
+        "label": "Offer 1 — Title",
+        "default": "10% off above ₹499"
+      },
+      {
+        "type": "text",
+        "id": "offer1_desc",
+        "label": "Offer 1 — Description",
+        "default": "Use code at checkout. Valid on all orders."
+      },
+      {
+        "type": "text",
+        "id": "offer2_code",
+        "label": "Offer 2 — Code",
+        "default": "FIRST20"
+      },
+      {
+        "type": "text",
+        "id": "offer2_title",
+        "label": "Offer 2 — Title",
+        "default": "20% off on first order"
+      },
+      {
+        "type": "text",
+        "id": "offer2_desc",
+        "label": "Offer 2 — Description",
+        "default": "New users only. Max discount ₹300."
+      },
+      {
+        "type": "text",
+        "id": "offer3_code",
+        "label": "Offer 3 — Code",
+        "default": "PREPAID5"
+      },
+      {
+        "type": "text",
+        "id": "offer3_title",
+        "label": "Offer 3 — Title",
+        "default": "Extra 5% off on prepaid"
+      },
+      {
+        "type": "text",
+        "id": "offer3_desc",
+        "label": "Offer 3 — Description",
+        "default": "Pay online and save more. Auto-applies at checkout."
       }
     ]
   },

@@ -79,6 +79,45 @@
     </div>
     {% endif %}
 
+    {% comment %} Quick filter chips — surfaces top values from first 2 filters {% endcomment %}
+    {% assign chip_filters_shown = 0 %}
+    {% capture quick_chips_html %}
+      {% for filter in collection.filters %}
+        {% if chip_filters_shown >= 2 %}{% break %}{% endif %}
+        {% if filter.type == 'list' or filter.type == 'boolean' %}
+          {% assign vals_with_count = 0 %}
+          {% for v in filter.values %}{% if v.count > 0 %}{% assign vals_with_count = vals_with_count | plus: 1 %}{% endif %}{% endfor %}
+          {% if vals_with_count > 1 %}
+            {% assign chip_filters_shown = chip_filters_shown | plus: 1 %}
+            {% assign chip_count = 0 %}
+            {% for value in filter.values %}
+              {% if chip_count >= 6 %}{% break %}{% endif %}
+              {% if value.count > 0 %}
+                {% assign chip_count = chip_count | plus: 1 %}
+                <a href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}"
+                   class="quick-chip{% if value.active %} quick-chip--active{% endif %}"
+                   aria-pressed="{% if value.active %}true{% else %}false{% endif %}">
+                  {{ value.label }}
+                  <span class="quick-chip__count">({{ value.count }})</span>
+                  {% if value.active %}
+                  <svg class="quick-chip__x" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  {% endif %}
+                </a>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endcapture %}
+    {% assign quick_chips_html_stripped = quick_chips_html | strip %}
+    {% if quick_chips_html_stripped != blank %}
+    <div class="quick-filters" data-animate="fade-up" role="group" aria-label="Quick filters">
+      <div class="quick-filters__scroller">
+        {{ quick_chips_html }}
+      </div>
+    </div>
+    {% endif %}
+
     {% comment %} Description {% endcomment %}
     {% if collection.description != blank %}
     <p class="collection-desc">{{ collection.description }}</p>

@@ -43,28 +43,10 @@
     "17737752434b549832": {
       "type": "apps",
       "settings": {}
-    },
-    "177490796931b6f770": {
-      "type": "apps",
-      "blocks": {
-        "kiwi_size_chart_recommender_kiwi_sizing_wV4LKe": {
-          "type": "shopify://apps/kiwi-size-chart-recommender/blocks/kiwiSizing/b7369922-bf15-44ce-a121-a22a8fcbc4b0",
-          "settings": {
-            "fallbackToBlockPosition": false,
-            "waitForElementSelector": "",
-            "waitForElementDelay": 5
-          }
-        }
-      },
-      "block_order": [
-        "kiwi_size_chart_recommender_kiwi_sizing_wV4LKe"
-      ],
-      "settings": {}
     }
   },
   "order": [
     "main",
-    "17737752434b549832",
-    "177490796931b6f770"
+    "17737752434b549832"
   ]
 }

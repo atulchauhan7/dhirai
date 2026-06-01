@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "category-strip": {
@@ -25,6 +16,7 @@
     "promo-banner": {
       "type": "promo-banner",
       "settings": {
+        
         "show_section": true,
         "bg_color": "#1a1a1a",
         "eyebrow": "Limited Period Offer",
@@ -105,6 +97,17 @@
         "slideshow_speed": 6,
         "show_scroll_indicator": false
       }
+    },
+    "social-proof": {
+      "type": "social-proof",
+      "blocks": {
+        "sp1": {"type":"stat","settings":{"icon":"bag","number":"5 Lakh+","count_to":500000,"suffix":"+","label":"Orders Delivered"}},
+        "sp2": {"type":"stat","settings":{"icon":"users","number":"2 Lakh+","count_to":200000,"suffix":"+","label":"Happy Customers"}},
+        "sp3": {"type":"stat","settings":{"icon":"star","number":"4.7","label":"Average Rating"}},
+        "sp4": {"type":"stat","settings":{"icon":"map","number":"27000","count_to":27000,"suffix":"+","label":"Pincodes Served"}}
+      },
+      "block_order": ["sp1","sp2","sp3","sp4"],
+      "settings": {"show_section": true, "background": "surface"}
     },
     "featured": {
       "type": "featured-collection",
@@ -344,6 +347,7 @@
     "category-strip",
     "hero",
     "hero_banner_nYYJ4f",
+    "social-proof",
     "featured",
     "image-grid",
     "trending-categories",
