@@ -156,6 +156,7 @@ moneyFormat: {{ shop.money_format | json }},
 currency: {{ cart.currency.iso_code | json }},
 cartCount: {{ cart.item_count }},
 goEnabled: {{ settings.goEnable | json }},
+cartRecsHandle: {{ settings.cart_recs_collection | default: 'accessories' | json }},
 routes: {
 cart_url: '{{ routes.cart_url }}',
 cart_add_url: '{{ routes.cart_add_url }}',
