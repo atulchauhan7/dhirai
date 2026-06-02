@@ -82,8 +82,8 @@
   var cartIds = {{ cart.items | map: 'product_id' | json }};
   var moneyFormat = {{ shop.money_format | json }};
   var recsHandle = {{ settings.cart_recs_collection | default: 'accessories' | json }};
-  function fmtMoney(cents) {
-    var n = parseInt(cents, 10) / 100;
+  function fmtMoney(price) {
+    var n = parseFloat(price);
     var formatted = n.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
     /* Split {{ }} so Liquid does not evaluate these as template tags */
     var oc='{'+'{', cc='}'+'}';
