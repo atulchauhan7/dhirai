@@ -4193,3 +4193,42 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
 /* ================================================================
    END HEADER FINAL FIX
    ================================================================ */
+
+/* ================================================================
+   HERO SLIDE CONTENT — ANCHOR BUTTON TO BOTTOM
+   SAKHI v15.2 in theme-sections.css sets .hero-slide{position:relative}
+   which breaks absolute children — the slide height becomes the image's
+   natural height (shorter than the 85dvh viewport), so bottom:8% lands
+   visually in the middle. Fix: force each slide to fill the viewport via
+   position:absolute;inset:0, and use flex to pin content to the bottom.
+   ================================================================ */
+.hero-slide {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.hero-slide__media img,
+.hero-slide__media video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  aspect-ratio: unset !important;
+}
+.hero-slide__content {
+  position: absolute !important;
+  inset: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  text-align: center !important;
+  padding: 0 clamp(1rem, 5vw, 4rem) clamp(56px, 8vw, 96px) !important;
+  transform: none !important;
+  left: unset !important;
+  bottom: unset !important;
+}
+/* ================================================================
+   END HERO SLIDE CONTENT
+   ================================================================ */
