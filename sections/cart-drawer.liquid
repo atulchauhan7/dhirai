@@ -85,12 +85,14 @@
   function fmtMoney(cents) {
     var n = parseInt(cents, 10) / 100;
     var formatted = n.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
-    return moneyFormat
-      .replace('{{amount}}', n.toFixed(2))
-      .replace('{{amount_no_decimals}}', formatted)
-      .replace('{{amount_with_comma_separator}}', formatted)
-      .replace('{{amount_no_decimals_with_comma_separator}}', formatted)
-      || ('&#8377;' + formatted);
+    /* Split {{ }} so Liquid does not evaluate these as template tags */
+    var oc='{'+'{', cc='}'+'}';
+    var fmt = moneyFormat
+      .replace(oc+'amount'+cc, n.toFixed(2))
+      .replace(oc+'amount_no_decimals'+cc, formatted)
+      .replace(oc+'amount_with_comma_separator'+cc, formatted)
+      .replace(oc+'amount_no_decimals_with_comma_separator'+cc, formatted);
+    return fmt || ('&#8377;' + formatted);
   }
   fetch('/collections/' + recsHandle + '/products.json?limit=20&fields=id,handle,title,images,variants')
     .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
