@@ -539,6 +539,7 @@ body,button,input,select,textarea,h1,h2,h3,h4,h5,h6{
 }
 
 /* ---- GLOBAL ---- */
+html{background:#111!important}
 body{background:#fff!important;color:var(--bwk-dark)!important}
 *{-webkit-font-smoothing:antialiased!important}
 a{color:inherit}
@@ -903,7 +904,8 @@ a{color:inherit}
 .tabbed-collections__tabs::-webkit-scrollbar{display:none!important}
 .tabbed-collections__tab{padding:10px 20px!important;font-size:0.7rem!important;font-weight:800!important;text-transform:uppercase!important;letter-spacing:0.1em!important;color:var(--bwk-muted)!important;border:none!important;background:none!important;cursor:pointer!important;border-bottom:2.5px solid transparent!important;margin-bottom:-2px!important;white-space:nowrap!important;transition:color 0.18s,border-color 0.18s!important;font-family:inherit!important}
 .tabbed-collections__tab.active{color:#fff!important;background:var(--bwk-dark)!important;border-bottom-color:var(--bwk-dark)!important;border-radius:6px 6px 0 0!important}
-.tabbed-collections__tab:hover{color:var(--bwk-dark)!important}
+.tabbed-collections__tab:hover:not(.active){color:var(--bwk-dark)!important}
+.tabbed-collections__tab:focus:not(:focus-visible){outline:none!important}
 
 /* ---- TESTIMONIALS ---- */
 .testimonial-card{background:#fff!important;border:1.5px solid var(--bwk-border)!important;border-radius:8px!important;padding:20px!important;height:100%!important;box-shadow:none!important}
@@ -1771,11 +1773,15 @@ button.bottom-nav__item{background:none!important;border:none!important;cursor:p
 .cart-drawer__item-remove{color:#878787!important;background:none!important;border:none!important;padding:6px!important;border-radius:6px!important;transition:all 0.15s!important;cursor:pointer}
 .cart-drawer__item-remove:hover{color:#dc2626!important;background:#fef2f2!important}
 .cart-drawer__reco-title{font-size:0.68rem!important;font-weight:600!important;letter-spacing:0.14em!important;text-transform:uppercase!important;color:#878787!important;padding:0 1.25rem!important;margin:1rem 0 0.6rem!important}
-.cart-drawer__footer{border-top:1px solid #ececec!important;padding:1rem 1.25rem 1.25rem!important;background:#fff!important;box-shadow:0 -4px 20px rgba(0,0,0,0.04)!important}
-.cart-drawer__subtotal{font-size:0.9rem!important;color:#424553!important;font-weight:500!important;margin-bottom:0.85rem!important;display:flex;justify-content:space-between;align-items:baseline}
+.cart-drawer__footer{border-top:1px solid #ececec!important;padding:12px 16px 14px!important;background:#fff!important;box-shadow:0 -4px 20px rgba(0,0,0,0.04)!important}
+.cart-drawer__subtotal{font-size:0.9rem!important;color:#424553!important;font-weight:500!important;margin-bottom:10px!important;display:flex;justify-content:space-between;align-items:baseline}
 .cart-drawer__subtotal-price{font-size:1.15rem!important;font-weight:700!important;color:#1d1b1b!important}
-.cart-drawer__footer .btn{height:52px!important;border-radius:8px!important;font-size:0.84rem!important;letter-spacing:0.12em!important;font-weight:600!important;background:#1d1b1b!important;color:#fff!important;transition:all 0.2s!important}
+.cart-drawer__footer .btn{height:50px!important;border-radius:8px!important;font-size:0.84rem!important;letter-spacing:0.12em!important;font-weight:600!important;background:#1d1b1b!important;color:#fff!important;transition:all 0.2s!important}
 .cart-drawer__footer .btn:hover{background:#000!important;transform:translateY(-1px)}
+/* Tighten post-checkout content — note and empty payment-icons row */
+.cart-drawer__note{font-size:0.68rem!important;color:#7e8290!important;text-align:center!important;margin:8px 0 0!important;line-height:1.4!important}
+.payment-icons--drawer{margin-top:0!important;min-height:0!important}
+.payment-icons--drawer:empty{display:none!important}
 
 /* ---- 9.9 GLOBAL SPACING + ALIGNMENT POLISH ---- */
 /* Consistent vertical rhythm between sections */
@@ -3950,3 +3956,220 @@ select:focus-visible{
 .pdp-recent__scroll{grid-auto-columns:clamp(150px,44vw,190px)!important}
 .pdp-recent__img-wrap{aspect-ratio:3/4!important;height:auto!important;width:100%!important}
 .pdp-recent__img-wrap img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:top center!important}
+
+/* ================================================================
+   GOKWIK — Hide mobile CTA bar when GoKwik overlay is open
+   ================================================================ */
+/* When GoKwik injects its iframe, hide the mobile sticky CTA so it
+   doesn't show underneath the GoKwik overlay. */
+body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
+/* Override GoKwik checkout button to use theme accent colour */
+.gokwik-checkout button{background:var(--color-accent)!important;color:var(--color-button-text,#fff)!important}
+.gokwik-checkout button:hover{background:var(--color-accent-hover,var(--color-accent))!important}
+
+/* ================================================================
+   WEB POLISH v6 — HEADER + DESKTOP CTA BUTTON FIX
+   ================================================================ */
+
+/* ---- HEADER: Fix mega menu top gap ----------------------------- */
+/* Desktop header is 68px (from Bewakoof override), but the base
+   mega-menu top uses 64px → appears 4px inside the header.
+   Override to align exactly to the header bottom edge.            */
+@media (min-width: 1025px) {
+  .mega-menu {
+    top: calc(var(--announcement-height, 0px) + 68px) !important;
+  }
+  .site-header.scrolled .mega-menu {
+    top: calc(var(--announcement-height, 0px) + 56px) !important;
+  }
+}
+
+/* ---- HEADER: Prevent desktop nav from overflowing -------------- */
+/* If there are many nav items, they expand beyond the flex cell
+   and bleed into the brand/actions areas. Clamp in-place.         */
+@media (min-width: 1025px) {
+  .site-header__mainnav {
+    overflow: hidden !important;
+    min-width: 0 !important;
+    /* Tighter padding so more items fit on medium screens */
+    padding: 0 clamp(0.25rem, 0.75vw, 1.25rem) !important;
+  }
+  /* Scale nav-link padding with viewport so items always fit */
+  .site-header__mainnav .site-header__nav-link {
+    padding: 0 clamp(6px, 0.9vw, 18px) !important;
+    height: 68px !important;
+  }
+  .site-header.scrolled .site-header__mainnav .site-header__nav-link {
+    height: 56px !important;
+  }
+}
+
+/* ---- HEADER: Consistent header-inner height on all desktop sizes */
+@media (min-width: 1025px) {
+  .site-header__inner {
+    height: 68px !important;
+  }
+  .site-header.scrolled .site-header__inner {
+    height: 56px !important;
+  }
+}
+
+/* ---- DESKTOP CTA: Hide inline GoKwik buy-now button ------------ */
+/* The standard "Buy Now" button already calls pdpBuyNow() which
+   triggers GoKwik checkout via the cart drawer. The inline GoKwik
+   button is redundant and breaks the 2-column button layout.      */
+.product-info__cta-desktop #gokwik-buy-now {
+  display: none !important;
+}
+
+/* ---- DESKTOP CTA: ATB = solid accent at ALL desktop widths ----- */
+/* Fix: the base CSS makes ATB an outlined button. Override to be
+   solid at ≥769px (tablets + desktop) so it always looks primary. */
+@media (min-width: 769px) {
+  .product-info__cta-desktop .btn--primary {
+    background: var(--color-accent) !important;
+    color: #fff !important;
+    border: 2px solid var(--color-accent) !important;
+  }
+  .product-info__cta-desktop .btn--primary:hover {
+    background: var(--color-accent-dark, #c73b2a) !important;
+    border-color: var(--color-accent-dark, #c73b2a) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 28px rgba(var(--color-accent-rgb), 0.28) !important;
+  }
+  .product-info__cta-desktop .btn--buy-now {
+    background: #fff !important;
+    color: var(--color-accent) !important;
+    border: 2px solid var(--color-accent) !important;
+  }
+  .product-info__cta-desktop .btn--buy-now:hover {
+    background: var(--color-accent) !important;
+    color: #fff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(var(--color-accent-rgb), 0.22) !important;
+  }
+}
+
+/* ---- DESKTOP CTA: Better sizing & breathing room --------------- */
+@media (min-width: 1025px) {
+  .product-info__cta-desktop {
+    gap: 0.75rem !important;
+  }
+  .product-info__cta-desktop .btn {
+    min-height: 54px !important;
+    padding: 0 20px !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.1em !important;
+    border-radius: 8px !important;
+    white-space: nowrap !important;
+  }
+  /* Wishlist button: round up the borders to match new radius */
+  .pdp-cta-wish {
+    border-radius: 8px !important;
+    min-height: 54px !important;
+    height: 54px !important;
+  }
+}
+
+/* Medium desktop (1025-1280px): reduce button text spacing
+   so labels don't overflow the narrower product-info column     */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .product-info__cta-desktop .btn {
+    font-size: 0.71rem !important;
+    letter-spacing: 0.07em !important;
+    padding: 0 12px !important;
+    gap: 6px !important;
+  }
+  .product-info__cta-desktop {
+    gap: 0.5rem !important;
+  }
+}
+
+/* ================================================================
+   END WEB POLISH v6
+   ================================================================ */
+
+/* ================================================================
+   CART CHECKOUT BUTTON — Two-line label (title + total)
+   ================================================================ */
+.cart-summary__checkout {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 14px 20px !important;
+  border-radius: 10px !important;
+}
+.cart-summary__checkout-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  flex: 1;
+}
+.cart-summary__checkout-main {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.cart-summary__checkout-total {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.85;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+.cart-summary__checkout svg {
+  flex-shrink: 0;
+  transition: transform 0.2s ease !important;
+}
+.cart-summary__checkout:hover svg {
+  transform: translateX(4px) !important;
+}
+/* ================================================================
+   END CART CHECKOUT BUTTON
+   ================================================================ */
+
+/* ================================================================
+   PDP SIZE GUIDE ROW — Standalone Kiwi trigger (always visible)
+   Mirrors dawn-x-atul size_chart_trigger block approach.
+   Lives outside the options loop → always renders regardless of
+   how the product's size option is named.
+   ================================================================ */
+.pdp-size-guide-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+.pdp-size-guide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(var(--color-accent-rgb), 0.06);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+  border-radius: 50px;
+  padding: 5px 12px;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+.pdp-size-guide-btn:hover {
+  background: rgba(var(--color-accent-rgb), 0.12);
+  border-color: rgba(var(--color-accent-rgb), 0.35);
+  transform: translateY(-1px);
+}
+.pdp-size-guide-btn svg {
+  flex-shrink: 0;
+}
+/* ================================================================
+   END PDP SIZE GUIDE ROW
+   ================================================================ */

@@ -80,16 +80,12 @@
 {% endfor %}
 </div>
 
-{%- assign rec_collection = collections[settings.cart_recommendations_collection] | default: collections.all -%}
-{%- assign rec_products_count = 0 -%}
-{%- for p in rec_collection.products limit: 12 -%}
-  {%- unless cart.items contains p -%}{%- assign rec_products_count = rec_products_count | plus: 1 -%}{%- endunless -%}
-{%- endfor -%}
-{% if rec_products_count > 0 %}
+{%- assign rec_collection = collections['accessories'] -%}
+{% if rec_collection and rec_collection.products_count > 0 %}
 <section class="cart-recs" data-animate="fade-up" aria-labelledby="cart-recs-title">
   <div class="cart-recs__head">
-    <h2 id="cart-recs-title" class="cart-recs__title">You may also like</h2>
-    <p class="cart-recs__sub">Handpicked picks others bought with these</p>
+    <h2 id="cart-recs-title" class="cart-recs__title">Frequently Bought Together</h2>
+    <p class="cart-recs__sub">Accessories customers pair with this order</p>
   </div>
   <div class="cart-recs__scroller" data-cart-recs-scroller>
     {%- assign shown = 0 -%}
@@ -163,7 +159,10 @@
 <span>{{ cart.total_price | money }}</span>
 </div>
 <button type="button" id="checkout2" name="checkout2" class="btn btn--primary btn--large btn--full cart-summary__checkout" onclick="handleFloCheckoutBtn()">
-  Proceed to Checkout
+  <span class="cart-summary__checkout-label">
+    <span class="cart-summary__checkout-main">Proceed to Checkout</span>
+    <span class="cart-summary__checkout-total">{{ cart.total_price | money }}</span>
+  </span>
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
 </button>
 
