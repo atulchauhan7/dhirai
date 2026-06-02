@@ -4949,3 +4949,8 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
   flex-basis: auto !important;
   flex-shrink: 0 !important;
 }
+
+/* PDP reco carousel — center mode active card emphasis */
+.pdp-reco-carousel .carousel__slide{transition:opacity 0.4s ease,transform 0.4s cubic-bezier(.22,1,.36,1)}
+.pdp-reco-carousel .carousel__slide:not(.is-active){opacity:0.75}
+.pdp-reco-carousel .carousel__slide.is-active{opacity:1}
