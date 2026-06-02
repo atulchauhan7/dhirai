@@ -205,8 +205,8 @@
 
 /* === CAROUSEL — Clean, editorial navigation === */
 .carousel{position:relative}
-.carousel__viewport{overflow:hidden}
-.carousel__track{display:flex;will-change:transform;cursor:grab;align-items:stretch}
+.carousel__viewport{overflow:hidden;touch-action:pan-y pinch-zoom}
+.carousel__track{display:flex;will-change:transform;cursor:grab;align-items:stretch;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .carousel__track:active{cursor:grabbing}
 .carousel__track .product-card{height:100%}
 .carousel__nav{display:none}

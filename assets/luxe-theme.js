@@ -863,6 +863,7 @@ h.addEventListener('touchstart',function(e){touchStartX=e.touches[0].clientX},{p
 h.addEventListener('touchend',function(e){var diff=touchStartX-e.changedTouches[0].clientX;if(Math.abs(diff)>50){if(diff>0)next();else prev();stopAP();startAP()}},{passive:true});
 /* Pause on hover */
 h.addEventListener('mouseenter',stopAP);h.addEventListener('mouseleave',startAP);
+document.addEventListener('visibilitychange',function(){if(document.hidden)stopAP();else startAP();});
 goTo(0);startAP();
 });
 }
@@ -1979,7 +1980,7 @@ const perView=parseInt(carousel.dataset.carouselPerView)||1;
 const center=carousel.dataset.carouselCenter==='true';
 if(!track||!slides.length)return;
 const vp=carousel.querySelector('.carousel__viewport')||carousel;
-let idx=0,timer=null,dragging=false,isDragged=false,justDragged=false,startX=0,curTr=0,prevTr=0;
+let idx=0,timer=null,dragging=false,isDragged=false,justDragged=false,startX=0,curTr=0,prevTr=0,rafId=null;
 var DRAG_THRESHOLD=12;
 function gpv(){if(window.innerWidth<=480)return Math.min(perView,1);if(window.innerWidth<=768)return Math.min(perView,2);if(window.innerWidth<=1024)return Math.min(perView,3);return perView}
 function gsw(){return vp.offsetWidth/gpv()}
@@ -1993,7 +1994,7 @@ function next(){go(idx+1)}function prev(){go(idx-1)}
 function startAP(){if(!autoplay)return;stopAP();timer=setInterval(next,autoSpeed)}
 function stopAP(){if(timer){clearInterval(timer);timer=null}}
 function dStart(e){dragging=true;isDragged=false;startX=e.type.includes('mouse')?e.pageX:e.touches[0].clientX;track.style.transition='none';stopAP()}
-function dMove(e){if(!dragging)return;var cx=e.type.includes('mouse')?e.pageX:e.touches[0].clientX;if(!isDragged&&Math.abs(cx-startX)>DRAG_THRESHOLD){isDragged=true;track.style.cursor='grabbing'}if(isDragged){if(e.cancelable)e.preventDefault();curTr=prevTr+(cx-startX);track.style.transform='translate3d('+curTr+'px,0,0)'}}
+function dMove(e){if(!dragging)return;var cx=e.type.includes('mouse')?e.pageX:e.touches[0].clientX;if(!isDragged&&Math.abs(cx-startX)>DRAG_THRESHOLD){isDragged=true;track.style.cursor='grabbing'}if(isDragged){if(e.cancelable)e.preventDefault();curTr=prevTr+(cx-startX);if(rafId)cancelAnimationFrame(rafId);rafId=requestAnimationFrame(function(){track.style.transform='translate3d('+curTr+'px,0,0)';rafId=null;})}}
 function dEnd(){if(!dragging)return;dragging=false;track.style.cursor='';if(isDragged){justDragged=true;setTimeout(function(){justDragged=false},300);var mv=curTr-prevTr;if(Math.abs(mv)>gsw()/4){if(mv<0)next();else prev()}else go(idx)}isDragged=false;startAP()}
 track.addEventListener('click',function(e){if(justDragged){e.preventDefault();e.stopPropagation();justDragged=false}},true);
 if(prevBtn)prevBtn.addEventListener('click',()=>{prev();stopAP();startAP()});
@@ -2001,6 +2002,7 @@ if(nextBtn)nextBtn.addEventListener('click',()=>{next();stopAP();startAP()});
 track.addEventListener('touchstart',dStart,{passive:true});track.addEventListener('touchmove',dMove,{passive:false});track.addEventListener('touchend',dEnd);
 track.addEventListener('mousedown',dStart);track.addEventListener('mousemove',dMove);track.addEventListener('mouseup',dEnd);track.addEventListener('mouseleave',()=>{if(dragging)dEnd()});
 carousel.addEventListener('mouseenter',stopAP);carousel.addEventListener('mouseleave',startAP);
+document.addEventListener('visibilitychange',function(){if(document.hidden)stopAP();else if(autoplay)startAP();});
 carousel.setAttribute('tabindex','0');carousel.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){prev();stopAP()}if(e.key==='ArrowRight'){next();stopAP()}});
 let rTimer;window.addEventListener('resize',()=>{clearTimeout(rTimer);rTimer=setTimeout(()=>{ssw();mkDots();go(Math.min(idx,gmi()),false)},250)});
 ssw();mkDots();upBtns();go(0,false);startAP();
@@ -2390,6 +2392,20 @@ el.style.opacity='1';
 el.style.transform='none';
 el.style.animation='none';
 });
+/* Clear stuck overlay/drawer state from before navigation */
+document.body.classList.remove('overflow-hidden');
+var _cdOpen=document.querySelector('.cart-drawer.open');
+if(_cdOpen)_cdOpen.classList.remove('open');
+var _navOpen=document.querySelector('.site-header__nav.open');
+if(_navOpen)_navOpen.classList.remove('open');
+var _srchOpen=document.querySelector('.header-search.open');
+if(_srchOpen)_srchOpen.classList.remove('open');
+var _popOpen=document.querySelector('.newsletter-popup-overlay.open');
+if(_popOpen)_popOpen.classList.remove('open');
+/* Reset sticky ATC observer so IntersectionObserver re-evaluates on restore */
+var _sb=document.querySelector('.product-info__cta-group');
+if(_sb&&_sb._observer){_sb._observer.disconnect();_sb._observer=null;}
+if(document.body.classList.contains('template-product'))initPdpStickyAtc();
 }
 });
 
