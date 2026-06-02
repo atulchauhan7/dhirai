@@ -4133,22 +4133,39 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
    ================================================================ */
 
 /* ================================================================
-   SIZE CHART TRIGGER — matches dawn-x-atul size_chart_trigger block
-   theme-product.css sets display:none by default; override here so
-   the button is visible. Kiwi app injects its own button when enabled.
+   KIWI SIZE CHART — matches dhirai-build branch implementation
+   .kiwi-sizing-chart: empty container Kiwi app uses to inject its modal
+   .kiwi-sizing-chart-trigger / .size-chart-trigger: link in size option label
+   theme-product.css sets .size-chart-trigger { display:none } — override here
    ================================================================ */
-.product-info__option-insert {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.size-chart-trigger {
+.kiwi-sizing-chart-trigger.size-chart-trigger {
   display: inline-flex !important;
   align-items: center !important;
   gap: 5px !important;
+  margin-left: auto !important;
+  font-size: 0.67rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  color: var(--color-accent) !important;
+  text-decoration: none !important;
+  border-bottom: 1px dashed rgba(var(--color-accent-rgb), 0.4) !important;
+  background: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+  padding: 0 !important;
+}
+.kiwi-sizing-chart-trigger.size-chart-trigger:hover {
+  border-bottom-color: var(--color-accent) !important;
+  opacity: 0.8 !important;
+}
+.kiwi-sizing-chart-trigger.size-chart-trigger svg {
+  flex-shrink: 0 !important;
 }
 /* ================================================================
-   END SIZE CHART TRIGGER
+   END KIWI SIZE CHART
    ================================================================ */
 
 /* ================================================================
