@@ -92,7 +92,7 @@
       .replace(oc+'amount_no_decimals'+cc, formatted)
       .replace(oc+'amount_with_comma_separator'+cc, formatted)
       .replace(oc+'amount_no_decimals_with_comma_separator'+cc, formatted);
-    return fmt || ('&#8377;' + formatted);
+    return (fmt || ('&#8377;' + formatted)).replace(/Rs\.?\s*/g, '₹');
   }
   fetch('/collections/' + recsHandle + '/products.json?limit=20&fields=id,handle,title,images,variants')
     .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
