@@ -1,25 +1,31 @@
 <footer class="site-footer" id="site-footer-landmark" data-section-id="{{ section.id }}" role="contentinfo" aria-label="Site footer">
 
-{% comment %} === BENEFITS ROW (block-driven, fully editable in theme editor) === {% endcomment %}
+{% comment %} === TRUST STRIP — redesigned benefits row === {% endcomment %}
 {% assign benefit_blocks = section.blocks | where: "type", "benefit" %}
 {% if benefit_blocks.size > 0 %}
-<div class="footer-benefits">
-  <div class="container">
-    <div class="footer-benefits__grid" style="--footer-benefit-count:{{ benefit_blocks.size }};">
-      {% for block in benefit_blocks %}
-      <div class="footer-benefit" {{ block.shopify_attributes }}>
-        <div class="footer-benefit__icon">
-          {% render 'footer-benefit-icon', icon: block.settings.icon %}
-        </div>
-        <div class="footer-benefit__text">
-          {% if block.settings.title != blank %}<strong>{{ block.settings.title }}</strong>{% endif %}
-          {% if block.settings.text != blank %}<span>{{ block.settings.text }}</span>{% endif %}
-        </div>
+<section class="trust-strip" aria-label="Why shop with us">
+  <div class="trust-strip__track">
+    {% for block in benefit_blocks %}
+    <div class="trust-strip__item" {{ block.shopify_attributes }}>
+      <div class="trust-strip__icon-wrap" aria-hidden="true">
+        {% render 'footer-benefit-icon', icon: block.settings.icon %}
       </div>
-      {% endfor %}
+      <div class="trust-strip__body">
+        {% if block.settings.title != blank %}
+        <strong class="trust-strip__title">{{ block.settings.title }}</strong>
+        {% endif %}
+        {% if block.settings.text != blank %}
+        <span class="trust-strip__sub">{{ block.settings.text }}</span>
+        {% endif %}
+      </div>
     </div>
+    {% unless forloop.last %}
+    <div class="trust-strip__sep" aria-hidden="true"></div>
+    {% endunless %}
+    {% endfor %}
   </div>
-</div>
+  <div class="trust-strip__scroll-hint" aria-hidden="true"></div>
+</section>
 {% endif %}
 
 <div class="site-footer__newsletter-bar">

@@ -241,7 +241,7 @@ data-gallery-zoom
         <span class="product-option__selected-val"></span>
         {% endif %}
         {% if is_size %}
-        <button type="button" class="pdp-size-guide-link kiwi-trigger" data-kiwisizing-trigger aria-label="Open size guide">
+        <button type="button" class="pdp-size-guide-link kiwi-trigger" data-kiwisizing-trigger onclick="document.getElementById('size-chart-modal').classList.add('open')" aria-label="Open size guide">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"/><path d="M9 7h6M9 12h6M9 17h4"/></svg>
           Size Guide
         </button>

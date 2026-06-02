@@ -26,37 +26,53 @@
 
   <!-- CENTER: Desktop Inline Navigation -->
   <nav class="site-header__mainnav" role="navigation" aria-label="Main navigation">
-    {% for link in linklists[section.settings.menu].links %}
-    <div class="nav-item">
-      <a href="{{ link.url }}"
-         class="site-header__nav-link {% if link.active %}active{% endif %}"
-         {% if link.url contains '/collections/' %}data-nav-collection-handle="{{ link.url | split: '/collections/' | last | split: '?' | first | split: '/' | first }}"{% endif %}
-         {% if link.links.size > 0 %}
-         data-nav-parent="true"
-         aria-expanded="false"
-         onclick="event.preventDefault();event.stopPropagation();var ni=this.closest('.nav-item'),mg=ni.querySelector('.mega-menu');if(!mg)return;var wasOpen=ni.classList.contains('is-open');document.querySelectorAll('.nav-item').forEach(function(o){o.classList.remove('is-open');var m=o.querySelector('.mega-menu');if(m)m.classList.remove('open');var a=o.querySelector('.site-header__nav-link[data-nav-parent]');if(a)a.setAttribute('aria-expanded','false');var ar=o.querySelector('.nav-arrow');if(ar)ar.style.transform=''});if(!wasOpen){ni.classList.add('is-open');mg.classList.add('open');this.setAttribute('aria-expanded','true');var aw=this.querySelector('.nav-arrow');if(aw)aw.style.transform='rotate(180deg)'}"
-         {% endif %}>
-        <span class="nav-link__text">{{ link.title }}</span>
+    {% assign _desk_links = linklists[section.settings.menu].links %}
+    {% if _desk_links.size > 0 %}
+      {% for link in _desk_links %}
+      <div class="nav-item">
+        <a href="{{ link.url }}"
+           class="site-header__nav-link {% if link.active %}active{% endif %}"
+           {% if link.url contains '/collections/' %}data-nav-collection-handle="{{ link.url | split: '/collections/' | last | split: '?' | first | split: '/' | first }}"{% endif %}
+           {% if link.links.size > 0 %}
+           data-nav-parent="true"
+           aria-expanded="false"
+           onclick="event.preventDefault();event.stopPropagation();var ni=this.closest('.nav-item'),mg=ni.querySelector('.mega-menu');if(!mg)return;var wasOpen=ni.classList.contains('is-open');document.querySelectorAll('.nav-item').forEach(function(o){o.classList.remove('is-open');var m=o.querySelector('.mega-menu');if(m)m.classList.remove('open');var a=o.querySelector('.site-header__nav-link[data-nav-parent]');if(a)a.setAttribute('aria-expanded','false');var ar=o.querySelector('.nav-arrow');if(ar)ar.style.transform=''});if(!wasOpen){ni.classList.add('is-open');mg.classList.add('open');this.setAttribute('aria-expanded','true');var aw=this.querySelector('.nav-arrow');if(aw)aw.style.transform='rotate(180deg)'}"
+           {% endif %}>
+          <span class="nav-link__text">{{ link.title }}</span>
+          {% if link.links.size > 0 %}
+          <svg class="nav-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          {% endif %}
+        </a>
         {% if link.links.size > 0 %}
-        <svg class="nav-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        {% endif %}
-      </a>
-      {% if link.links.size > 0 %}
-      <div class="mega-menu">
-        <div class="mega-menu__grid">
-          {% for child_link in link.links %}
-          <div class="mega-menu__column">
-            <a href="{{ child_link.url }}" class="mega-menu__column-title">{{ child_link.title }}</a>
-            {% for grandchild in child_link.links %}
-            <a href="{{ grandchild.url }}" class="mega-menu__link">{{ grandchild.title }}</a>
+        <div class="mega-menu">
+          <div class="mega-menu__grid">
+            {% for child_link in link.links %}
+            <div class="mega-menu__column">
+              <a href="{{ child_link.url }}" class="mega-menu__column-title">{{ child_link.title }}</a>
+              {% for grandchild in child_link.links %}
+              <a href="{{ grandchild.url }}" class="mega-menu__link">{{ grandchild.title }}</a>
+              {% endfor %}
+            </div>
             {% endfor %}
           </div>
-          {% endfor %}
         </div>
+        {% endif %}
       </div>
-      {% endif %}
-    </div>
-    {% endfor %}
+      {% endfor %}
+    {% else %}
+      {% comment %} Fallback hardcoded desktop nav {% endcomment %}
+      {% assign _fallback_nav = 'Home,/|Summer Sale,/collections/best-seller|New Arrival,/collections/new-arrival|Best Seller,/collections/best-seller|Suit Sets,/collections/suit-sets|Kurta Sets,/collections/kurta-sets|Co-ord Sets,/collections/co-ord-sets|KARIGARI,/collections/embroidery|Our Story,/pages/our-story|Return and Exchange Policy,/pages/return-and-exchange-policy' | split: '|' %}
+      {% for _item in _fallback_nav %}
+        {% assign _parts = _item | split: ',' %}
+        {% assign _title = _parts[0] %}
+        {% assign _url   = _parts[1] %}
+        <div class="nav-item">
+          <a href="{{ _url }}" class="site-header__nav-link {% if request.path == _url %}active{% endif %}" {% if _url contains '/collections/' %}data-nav-collection-handle="{{ _url | split: '/collections/' | last | split: '?' | first | split: '/' | first }}"{% endif %}>
+            <span class="nav-link__text">{{ _title }}</span>
+          </a>
+        </div>
+      {% endfor %}
+    {% endif %}
   </nav>
 
   <!-- RIGHT: Action Icons -->
@@ -171,33 +187,52 @@
   {% endif %}
 
   <div class="nav-mobile-links">
-    {% for link in linklists[section.settings.menu].links %}
-    <div class="nav-item">
-      <a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}" {% if link.url contains '/collections/' %}data-nav-collection-handle="{{ link.url | split: '/collections/' | last | split: '?' | first | split: '/' | first }}"{% endif %} {% if link.links.size > 0 %}data-nav-parent="true" aria-expanded="false" onclick="event.preventDefault();event.stopPropagation();var ni=this.closest('.nav-item'),mg=ni.querySelector('.mega-menu');if(!mg)return;var wasOpen=ni.classList.contains('is-open');document.querySelectorAll('.nav-item').forEach(function(o){o.classList.remove('is-open');var m=o.querySelector('.mega-menu');if(m)m.classList.remove('open');var a=o.querySelector('.site-header__nav-link[data-nav-parent]');if(a)a.setAttribute('aria-expanded','false');var ar=o.querySelector('.nav-arrow');if(ar)ar.style.transform=''});if(!wasOpen){ni.classList.add('is-open');mg.classList.add('open');this.setAttribute('aria-expanded','true');var aw=this.querySelector('.nav-arrow');if(aw)aw.style.transform='rotate(180deg)'}"{% endif %}>
-        <span class="nav-link__inner">
-          <span class="nav-link__thumb" style="display:none"></span>
-          <span class="nav-link__text">{{ link.title }}</span>
-        </span>
+    {% assign _nav_links = linklists[section.settings.menu].links %}
+    {% if _nav_links.size > 0 %}
+      {% for link in _nav_links %}
+      <div class="nav-item">
+        <a href="{{ link.url }}" class="site-header__nav-link {% if link.active %}active{% endif %}" {% if link.url contains '/collections/' %}data-nav-collection-handle="{{ link.url | split: '/collections/' | last | split: '?' | first | split: '/' | first }}"{% endif %} {% if link.links.size > 0 %}data-nav-parent="true" aria-expanded="false" onclick="event.preventDefault();event.stopPropagation();var ni=this.closest('.nav-item'),mg=ni.querySelector('.mega-menu');if(!mg)return;var wasOpen=ni.classList.contains('is-open');document.querySelectorAll('.nav-item').forEach(function(o){o.classList.remove('is-open');var m=o.querySelector('.mega-menu');if(m)m.classList.remove('open');var a=o.querySelector('.site-header__nav-link[data-nav-parent]');if(a)a.setAttribute('aria-expanded','false');var ar=o.querySelector('.nav-arrow');if(ar)ar.style.transform=''});if(!wasOpen){ni.classList.add('is-open');mg.classList.add('open');this.setAttribute('aria-expanded','true');var aw=this.querySelector('.nav-arrow');if(aw)aw.style.transform='rotate(180deg)'}"{% endif %}>
+          <span class="nav-link__inner">
+            <span class="nav-link__thumb" style="display:none"></span>
+            <span class="nav-link__text">{{ link.title }}</span>
+          </span>
+          {% if link.links.size > 0 %}
+          <svg class="nav-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          {% endif %}
+        </a>
         {% if link.links.size > 0 %}
-        <svg class="nav-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        {% endif %}
-      </a>
-      {% if link.links.size > 0 %}
-      <div class="mega-menu">
-        <div class="mega-menu__grid">
-          {% for child_link in link.links %}
-          <div class="mega-menu__column">
-            <a href="{{ child_link.url }}" class="mega-menu__column-title">{{ child_link.title }}</a>
-            {% for grandchild in child_link.links %}
-            <a href="{{ grandchild.url }}" class="mega-menu__link">{{ grandchild.title }}</a>
+        <div class="mega-menu">
+          <div class="mega-menu__grid">
+            {% for child_link in link.links %}
+            <div class="mega-menu__column">
+              <a href="{{ child_link.url }}" class="mega-menu__column-title">{{ child_link.title }}</a>
+              {% for grandchild in child_link.links %}
+              <a href="{{ grandchild.url }}" class="mega-menu__link">{{ grandchild.title }}</a>
+              {% endfor %}
+            </div>
             {% endfor %}
           </div>
-          {% endfor %}
         </div>
+        {% endif %}
       </div>
-      {% endif %}
-    </div>
-    {% endfor %}
+      {% endfor %}
+    {% else %}
+      {% comment %} Fallback hardcoded links — used when Shopify nav 'main-menu-1' is not configured {% endcomment %}
+      {% assign _fallback_nav = 'Home,/|Summer Sale,/collections/best-seller|New Arrival,/collections/new-arrival|Best Seller,/collections/best-seller|Suit Sets,/collections/suit-sets|Kurta Sets,/collections/kurta-sets|Co-ord Sets,/collections/co-ord-sets|KARIGARI,/collections/embroidery|Our Story,/pages/our-story|Return and Exchange Policy,/pages/return-and-exchange-policy' | split: '|' %}
+      {% for _item in _fallback_nav %}
+        {% assign _parts = _item | split: ',' %}
+        {% assign _title = _parts[0] %}
+        {% assign _url   = _parts[1] %}
+        <div class="nav-item">
+          <a href="{{ _url }}" class="site-header__nav-link {% if request.path == _url %}active{% endif %}" {% if _url contains '/collections/' %}data-nav-collection-handle="{{ _url | split: '/collections/' | last | split: '?' | first | split: '/' | first }}"{% endif %}>
+            <span class="nav-link__inner">
+              <span class="nav-link__thumb" style="display:none"></span>
+              <span class="nav-link__text">{{ _title }}</span>
+            </span>
+          </a>
+        </div>
+      {% endfor %}
+    {% endif %}
   </div>
   <div class="nav-collections" id="nav-collections"></div>
 
