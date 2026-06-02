@@ -427,6 +427,25 @@ body,button,input,select,textarea,h1,h2,h3,h4,h5,h6{
   color:#1d1b1b!important;
   text-transform:uppercase!important;
 }
+/* Quick-add sheet — multi-option (Color / Size …) groups */
+.size-sheet__sizes.is-grouped{display:block!important}
+.size-sheet__group{margin-bottom:1.1rem}
+.size-sheet__group:last-child{margin-bottom:1.25rem}
+.size-sheet__group-label{
+  display:flex;align-items:baseline;gap:8px;
+  font-size:0.72rem;font-weight:700;color:#1d1b1b;
+  text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.55rem;
+}
+.size-sheet__group-value{font-weight:500;color:#7a7a7a;text-transform:none;letter-spacing:0}
+.size-sheet__values{display:flex;flex-wrap:wrap;gap:8px}
+.size-sheet__size--color{
+  display:inline-flex!important;align-items:center;gap:8px;
+  padding-left:10px!important;padding-right:14px!important;min-width:0!important;
+}
+.size-sheet__swatch{
+  width:18px;height:18px;border-radius:50%;flex-shrink:0;display:inline-block;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.18);background-size:cover;
+}
 
 /* Pincode bar */
 .pincode-bar{
@@ -547,15 +566,59 @@ a{color:inherit}
 .utility-bar__link{font-size:0.65rem!important;color:var(--bwk-muted)!important;font-weight:500!important}
 .utility-bar__link:hover{color:var(--bwk-dark)!important}
 
-/* ---- CATEGORY STRIP — circular Bewakoof style ---- */
-.category-strip{background:#fff!important;padding:16px 0 12px!important;border-bottom:1px solid var(--bwk-border)!important}
-.category-strip__track{gap:0!important;padding:0!important}
-.category-strip__item{padding:6px 10px!important;gap:5px!important;min-width:68px!important;max-width:84px!important}
-.category-strip__img-wrap{width:58px!important;height:58px!important;border-radius:50%!important;overflow:hidden!important;border:2px solid var(--bwk-border)!important;background:var(--bwk-surface)!important;flex-shrink:0!important;transition:border-color 0.18s!important}
-.category-strip__img-wrap img{width:100%!important;height:100%!important;object-fit:cover!important;border-radius:50%!important}
-.category-strip__item:hover .category-strip__img-wrap{border-color:var(--color-accent)!important}
-.category-strip__badge{font-size:0.5rem!important;padding:2px 5px!important;border-radius:2px!important;font-weight:800!important;letter-spacing:0.06em!important}
-.category-strip__label{font-size:0.6rem!important;font-weight:700!important;color:var(--bwk-dark)!important;text-transform:capitalize!important;letter-spacing:0!important;text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important}
+/* ---- CATEGORY STRIP — full-width premium rail ---- */
+.category-strip{background:#fff!important;padding:14px 0!important;border-bottom:1px solid var(--bwk-border)!important}
+/* Track spans the full content width and distributes items evenly */
+.category-strip__track{
+  gap:10px!important;
+  padding-left:clamp(16px,4vw,52px)!important;
+  padding-right:clamp(16px,4vw,52px)!important;
+  max-width:var(--container-width,1440px)!important;
+  margin:0 auto!important;
+  justify-content:flex-start!important;
+}
+/* When there are too many items to fit, fall back to left-aligned scroll (JS toggles these) */
+.category-strip--overflow-right .category-strip__track,
+.category-strip--overflow-left .category-strip__track{justify-content:flex-start!important;gap:clamp(12px,2vw,20px)!important}
+.category-strip__item{
+  width:auto!important;
+  padding:4px 4px!important;
+  gap:9px!important;
+  min-width:0!important;
+  max-width:none!important;
+  flex:0 0 auto!important;
+  transition:transform 0.28s cubic-bezier(0.16,1,0.3,1)!important;
+}
+.category-strip__item:hover{transform:translateY(-4px)!important}
+.category-strip__img-wrap{
+  width:62px!important;height:62px!important;
+  border-radius:50%!important;overflow:hidden!important;
+  border:2px solid var(--bwk-border)!important;
+  background:var(--bwk-surface)!important;
+  flex-shrink:0!important;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06)!important;
+  transition:border-color 0.2s,box-shadow 0.25s,transform 0.28s cubic-bezier(0.16,1,0.3,1)!important;
+}
+.category-strip__img-wrap img{width:100%!important;height:100%!important;object-fit:cover!important;border-radius:50%!important;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)!important}
+.category-strip__item:hover .category-strip__img-wrap{border-color:var(--color-accent)!important;box-shadow:0 8px 20px rgba(var(--color-accent-rgb),0.18)!important}
+.category-strip__item:hover .category-strip__img-wrap img{transform:scale(1.08)!important}
+.category-strip__badge{font-size:0.5rem!important;padding:2px 6px!important;border-radius:10px!important;font-weight:800!important;letter-spacing:0.04em!important}
+.category-strip__label{font-size:0.62rem!important;font-weight:600!important;color:var(--bwk-dark)!important;text-transform:capitalize!important;letter-spacing:0!important;text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:96px!important;transition:color 0.2s!important}
+.category-strip__item:hover .category-strip__label{color:var(--color-accent)!important}
+/* DESKTOP / WEB — larger circles, evenly spread across full width */
+@media(min-width:769px){
+  .category-strip__track{justify-content:space-evenly!important;gap:12px!important}
+  .category-strip--overflow-right .category-strip__track,
+  .category-strip--overflow-left .category-strip__track{justify-content:flex-start!important}
+  .category-strip__item{padding:6px 8px!important;gap:11px!important}
+  .category-strip__img-wrap{width:80px!important;height:80px!important}
+  .category-strip__label{font-size:0.72rem!important;max-width:110px!important}
+  .category-strip__badge{font-size:0.52rem!important;padding:2px 7px!important}
+}
+@media(min-width:1280px){
+  .category-strip__img-wrap{width:90px!important;height:90px!important}
+  .category-strip__label{max-width:124px!important}
+}
 
 /* ---- PRODUCT CARD — Bewakoof style ---- */
 .product-card{border-radius:var(--bwk-radius)!important;background:#fff!important;border:none!important;box-shadow:none!important;overflow:visible!important}
@@ -578,13 +641,12 @@ a{color:inherit}
 .product-card__wishlist.wishlisted svg{fill:var(--color-accent)!important;stroke:var(--color-accent)!important}
 .product-card__wishlist:hover{transform:scale(1.12)!important}
 
-/* Quick add — slide up on hover */
-.product-card__quick-add{position:absolute!important;bottom:0!important;left:0!important;right:0!important;transform:translateY(100%)!important;transition:transform 0.22s var(--ease-out-expo,cubic-bezier(0.16,1,0.3,1))!important;opacity:0!important}
-.product-card:hover .product-card__quick-add{transform:translateY(0)!important;opacity:1!important}
-@media(max-width:768px){.product-card__quick-add{display:none!important}}
-.product-card__quick-add-btn{width:100%!important;padding:9px 0!important;background:rgba(255,255,255,0.96)!important;color:var(--bwk-dark)!important;border:none!important;border-top:1px solid var(--bwk-border)!important;font-size:0.65rem!important;font-weight:800!important;text-transform:uppercase!important;letter-spacing:0.1em!important;cursor:pointer!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;font-family:inherit!important;transition:background 0.15s!important}
-.product-card__quick-add-btn:hover{background:#fff!important}
-.product-card__quick-add-btn svg{width:13px!important;height:13px!important}
+/* Quick add — static, always visible button in the card flow (no hover-reveal) */
+.product-card__quick-add{position:static!important;transform:none!important;opacity:1!important;pointer-events:auto!important}
+.product-card:hover .product-card__quick-add{transform:none!important;opacity:1!important}
+.product-card__quick-add-btn{width:100%!important;padding:10px 0!important;background:var(--color-accent)!important;color:#fff!important;border:none!important;border-radius:8px!important;font-size:0.65rem!important;font-weight:800!important;text-transform:uppercase!important;letter-spacing:0.08em!important;text-indent:0.08em!important;cursor:pointer!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;font-family:inherit!important;transition:background 0.15s!important}
+.product-card__quick-add-btn:hover{background:var(--color-accent-dark)!important}
+.product-card__quick-add-btn svg{width:13px!important;height:13px!important;stroke:#fff!important}
 
 /* Product info */
 .product-card__info{padding:8px 0 12px!important;background:#fff!important}
@@ -1173,9 +1235,21 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
 }
 
 /* ---- FIX: Product cards — button visibility & alignment ---- */
+/* Card is a flex column so the quick-add button pushes to the bottom,
+   keeping button baselines aligned across a row regardless of title length. */
+.product-card{
+  display:flex!important;
+  flex-direction:column!important;
+  height:100%!important;
+}
+.product-card__info{
+  display:flex!important;
+  flex-direction:column!important;
+  flex:1 1 auto!important;
+}
 .product-card__quick-add{
   margin-top:auto!important;
-  padding:8px 10px 12px!important;
+  padding-top:12px!important;
 }
 .product-card__quick-add-btn{
   border-radius:8px!important;
@@ -1333,7 +1407,7 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
   }
 }
 
-/* ---- FIX: Mobile header — logo perfectly centred at all widths ---- */
+/* ---- FIX: Mobile header — logo sits left, right after the hamburger ---- */
 @media(max-width:1024px){
   .site-header__inner{
     display:flex!important;
@@ -1341,15 +1415,28 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
     justify-content:space-between!important;
     position:relative!important;
   }
+  /* Hamburger + logo grouped on the left */
+  .site-header__brand{
+    display:flex!important;
+    align-items:center!important;
+    gap:8px!important;
+    flex:0 1 auto!important;
+    min-width:0!important;
+  }
+  /* Logo in normal flow, immediately after the menu icon */
   .site-header__logo{
-    position:absolute!important;
-    left:50%!important;
-    top:50%!important;
-    transform:translate(-50%,-50%)!important;
+    position:static!important;
+    left:auto!important;
+    top:auto!important;
+    transform:none!important;
     z-index:2!important;
     pointer-events:auto!important;
+    display:flex!important;
+    align-items:center!important;
+    white-space:nowrap!important;
+    max-width:52vw!important;
+    overflow:hidden!important;
   }
-  .site-header__brand{gap:0!important;flex-shrink:0!important}
   .site-header__actions{flex-shrink:0!important}
 }
 
@@ -1517,7 +1604,7 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
 /* ---- 9.2 HEADER → CATEGORY STRIP / NAV GAP — tighter ---- */
 #shopify-section-category-strip{margin-top:0!important;margin-bottom:0!important;background:#fff!important}
 .category-strip{border-top:1px solid #f0f0f0!important;border-bottom:1px solid #ececec!important;padding-top:0!important;padding-bottom:0!important;margin-bottom:0!important;background:#fff!important}
-.category-strip__track{padding-top:6px!important;padding-bottom:6px!important}
+.category-strip__track{padding-top:clamp(8px,1.2vw,16px)!important;padding-bottom:clamp(8px,1.2vw,16px)!important}
 .category-strip__item{padding-top:0!important;padding-bottom:2px!important}
 .category-strip__label{margin-top:2px}
 /* Reduce mega-menu drop distance from header */
@@ -1699,6 +1786,11 @@ section + section{margin-top:0!important}
 .container{padding-left:clamp(16px,4vw,32px)!important;padding-right:clamp(16px,4vw,32px)!important}
 /* Buttons: consistent border-radius across site */
 .btn,.btn--primary,.btn--secondary{border-radius:8px!important;letter-spacing:0.1em!important;font-weight:600!important}
+/* Optical-centering fix: letter-spacing adds trailing space after the last
+   glyph, shifting centered icon+label content left of true centre. text-indent
+   (an inherited property) nudges the text run back by the same amount so the
+   label sits dead-centre; icons are unaffected. Applied site-wide to buttons. */
+.btn,.btn--primary,.btn--secondary{text-indent:0.1em!important}
 .btn--small{height:36px!important;padding:0 16px!important;font-size:0.74rem!important}
 /* Remove jarring spacing inside page-header */
 .page-header{padding:1.25rem 0!important;margin-bottom:1rem!important}
@@ -2499,6 +2591,11 @@ section + section{margin-top:0!important}
 .site-header__nav-link:hover .nav-link__text::after,
 .site-header__nav-link.active .nav-link__text::after{
   transform:scaleX(1);
+}
+/* FIX: remove the duplicate link-level underline — only the text underline
+   above should render (was producing two stacked underlines on active links). */
+.site-header__mainnav .site-header__nav-link::after{
+  display:none!important;
 }
 .site-header__nav-link:hover,
 .site-header__nav-link.active{
@@ -3439,7 +3536,7 @@ select:focus-visible{
   right: 12px !important;
   width: 36px !important;
   height: 36px !important;
-  background: #f5f5f5 !important;
+  background: var(--color-accent,#ececec) !important;
   border-radius: 50% !important;
   border: none !important;
   cursor: pointer !important;
@@ -3481,8 +3578,10 @@ select:focus-visible{
     margin: 0 !important;
     flex-shrink: 0 !important;
   }
+  /* Mobile drawer: keep it as a flex column so the .open slide-in works.
+     It's hidden off-screen via right:-100% in theme-header.css, NOT display:none. */
   .site-header__nav {
-    display: none !important;
+    display: flex !important;
   }
   .site-header__actions {
     margin-left: auto !important;
@@ -3622,3 +3721,232 @@ select:focus-visible{
    END PRODUCTION POLISH v3
    ================================================================ */
 
+
+/* ================================================================
+   WEB POLISH v4 — HERO (desktop refinement, authoritative)
+   ================================================================ */
+@media(min-width:1025px){
+  /* Cinematic, legible overlay: darken top (nav) + lower-center (CTA) + bottom */
+  .hero-slide__overlay{
+    background:
+      radial-gradient(120% 75% at 50% 82%, rgba(0,0,0,0.34) 0%, rgba(0,0,0,0) 55%),
+      linear-gradient(180deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.06) 30%, rgba(0,0,0,0.12) 55%, rgba(0,0,0,0.62) 100%)!important;
+  }
+  /* Anchor hero content to the lower-center (premium, grounded placement) */
+  .hero-slide__content{
+    align-items:flex-end!important;
+    justify-content:center!important;
+    padding:0 clamp(2rem,6vw,6rem) clamp(56px,7vw,88px)!important;
+  }
+  .hero-slide__content>.container{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+  .hero-slide__title{max-width:840px;margin-left:auto!important;margin-right:auto!important;text-shadow:0 2px 24px rgba(0,0,0,0.4)!important}
+  .hero-slide__subtitle{text-shadow:0 1px 10px rgba(0,0,0,0.35)!important}
+  /* Substantial, premium CTA */
+  .hero-slide__btn{
+    padding:16px 46px!important;
+    font-size:0.78rem!important;
+    letter-spacing:0.16em!important;
+    box-shadow:0 10px 30px rgba(0,0,0,0.22)!important;
+    transition:background 0.25s,color 0.25s,transform 0.25s cubic-bezier(0.16,1,0.3,1),box-shadow 0.25s!important;
+  }
+  .hero-slide__btn:hover{transform:translateY(-3px)!important;box-shadow:0 16px 40px rgba(0,0,0,0.3)!important}
+}
+
+/* ================================================================
+   WEB POLISH v4 — HOMEPAGE SECTIONS / PRODUCT GRID (desktop)
+   ================================================================ */
+@media(min-width:1025px){
+  /* Premium image-zoom on product hover (works with the hover-swap image) */
+  .product-card__media-wrap{overflow:hidden!important}
+  .product-card__media-wrap img{transition:opacity 0.35s ease,transform 0.6s cubic-bezier(0.16,1,0.3,1)!important}
+  .product-card:hover .product-card__media-wrap img{transform:scale(1.05)!important}
+  /* Consistent breathing room under section headers on web */
+  .section-header,
+  .bwk-section__head{margin-bottom:clamp(1.1rem,2vw,1.6rem)!important}
+}
+
+/* ================================================================
+   WEB POLISH v4 — HEADER / NAV (desktop)
+   ================================================================ */
+@media(min-width:1025px){
+  /* Refined directional underline reveal */
+  .site-header__mainnav .site-header__nav-link::after{
+    transform-origin:left center!important;
+    height:2px!important;
+    border-radius:2px!important;
+  }
+  .site-header__mainnav .site-header__nav-link{letter-spacing:0.1em!important}
+  /* Subtle action-icon interaction */
+  .header-icon{transition:color 0.2s ease,background 0.2s ease,transform 0.2s cubic-bezier(0.16,1,0.3,1)!important}
+  .header-icon:hover{transform:translateY(-1px)!important}
+  /* Smooth mega-menu entrance */
+  .mega-menu{transition:opacity 0.28s ease,visibility 0.28s ease,transform 0.32s cubic-bezier(0.16,1,0.3,1)!important}
+}
+
+/* ================================================================
+   WEB POLISH v4 — COLLECTION GRID / PLP (desktop)
+   ================================================================ */
+@media(min-width:1025px){
+  /* Comfortable, even gutters between products on web */
+  .collection-grid{gap:clamp(16px,1.6vw,26px)!important}
+  /* Sort dropdown: smoother focus affordance */
+  .collection-toolbar__sort select{transition:border-color 0.2s ease,box-shadow 0.2s ease!important}
+  .collection-toolbar__sort select:focus{box-shadow:0 0 0 3px rgba(var(--color-accent-rgb),0.12)!important}
+}
+
+/* ================================================================
+   WEB POLISH v4 — PRODUCT PAGE / PDP (desktop)
+   ================================================================ */
+@media(min-width:1025px){
+  /* Premium framed gallery */
+  .product-gallery__viewport{
+    border:1px solid var(--bwk-border,#ececec)!important;
+    box-shadow:0 8px 30px rgba(0,0,0,0.06)!important;
+  }
+  /* Rounded thumbnails that match the main frame */
+  .product-gallery__thumb{border-radius:8px!important;border-width:2px!important}
+  .product-gallery__thumb img{border-radius:6px!important}
+  /* CTA buttons: smooth, consistent interaction */
+  .product-info__cta-desktop .btn{transition:background 0.25s ease,color 0.25s ease,transform 0.25s cubic-bezier(0.16,1,0.3,1),box-shadow 0.25s ease!important}
+}
+
+/* ================================================================
+   WEB POLISH v4 — PRODUCT CARD HORIZONTAL PADDING
+   Content (title, price, swatches, sizes, ADD TO BAG) was running
+   edge-to-edge. Apply ONE consistent inset on the info wrapper at
+   every breakpoint; image stays full-bleed. Button side-padding is
+   zeroed so its edges align exactly with the text above it.
+   ================================================================ */
+.product-card__info{
+  padding-left:clamp(11px,3vw,14px)!important;
+  padding-right:clamp(11px,3vw,14px)!important;
+}
+.product-card__quick-add{
+  padding-left:0!important;
+  padding-right:0!important;
+}
+
+/* ================================================================
+   FOOTER BENEFITS ROW — authoritative design (overrides earlier
+   fragmented rules). Block-driven; column count adapts to the number
+   of Benefit blocks via --footer-benefit-count set inline in the markup.
+   ================================================================ */
+.footer-benefits{
+  background:#faf9f7!important;
+  border-top:1px solid #ececec!important;
+  border-bottom:1px solid #ececec!important;
+  padding:22px 0!important;
+}
+.footer-benefits__grid{
+  display:grid!important;
+  grid-template-columns:repeat(var(--footer-benefit-count,4),minmax(0,1fr))!important;
+  gap:0!important;
+  align-items:stretch!important;
+}
+.footer-benefit{
+  display:flex!important;
+  align-items:center!important;
+  gap:13px!important;
+  padding:6px 24px!important;
+  position:relative!important;
+  border:none!important;
+}
+/* Vertical divider between items (desktop) */
+.footer-benefit + .footer-benefit::before{
+  content:''!important;
+  position:absolute!important;
+  left:0!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:1px!important;
+  height:38px!important;
+  background:#e6e4e0!important;
+}
+.footer-benefit__icon{
+  flex-shrink:0!important;
+  width:46px!important;
+  height:46px!important;
+  border-radius:12px!important;
+  background:rgba(var(--color-accent-rgb),0.09)!important;
+  box-shadow:none!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.footer-benefit__icon svg{
+  width:22px!important;
+  height:22px!important;
+  stroke:var(--color-accent)!important;
+  color:var(--color-accent)!important;
+}
+.footer-benefit__text{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:2px!important;
+  min-width:0!important;
+}
+.footer-benefit__text strong{
+  font-size:0.8rem!important;
+  font-weight:700!important;
+  color:#1a1a1a!important;
+  letter-spacing:0.01em!important;
+  text-transform:none!important;
+  line-height:1.2!important;
+}
+.footer-benefit__text span{
+  font-size:0.72rem!important;
+  font-weight:400!important;
+  color:#7a7a7a!important;
+  line-height:1.3!important;
+}
+/* Tablet: 2 columns */
+@media(max-width:1024px){
+  .footer-benefits__grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  /* Reset desktop dividers; add them only between the two columns */
+  .footer-benefit + .footer-benefit::before{display:none!important}
+  .footer-benefit{padding:12px 18px!important}
+}
+/* Mobile: keep 2 compact columns */
+@media(max-width:768px){
+  .footer-benefits{padding:14px 0!important}
+  .footer-benefit{gap:10px!important;padding:9px 10px!important}
+  .footer-benefit__icon{width:38px!important;height:38px!important;border-radius:10px!important}
+  .footer-benefit__icon svg{width:18px!important;height:18px!important}
+  .footer-benefit__text strong{font-size:0.72rem!important}
+  .footer-benefit__text span{font-size:0.64rem!important}
+}
+@media(max-width:380px){
+  .footer-benefits__grid{grid-template-columns:1fr!important}
+}
+
+/* ================================================================
+   WEB POLISH v4 — PDP GALLERY SMOOTHNESS + CENTERED CAROUSEL
+   ================================================================ */
+/* GPU-composite the gallery track and ease the magnify pan */
+.product-gallery__track{will-change:transform;backface-visibility:hidden}
+@media(min-width:1025px){
+  .product-gallery__slide img{
+    transition:transform 0.4s cubic-bezier(.22,1,.36,1),transform-origin 0.12s ease-out!important;
+    backface-visibility:hidden;
+    will-change:transform;
+  }
+}
+/* Centered featured carousel: gently emphasise the active card */
+.featured-carousel .carousel__slide{transition:opacity 0.45s ease,transform 0.45s cubic-bezier(.22,1,.36,1)}
+@media(min-width:769px){
+  .featured-carousel .carousel__slide:not(.is-active){opacity:0.82}
+  .featured-carousel .carousel__slide.is-active{opacity:1}
+}
+
+/* ================================================================
+   WEB POLISH v5 — CARD BUTTON SPACING + RECENTLY-VIEWED UNIFORMITY
+   ================================================================ */
+/* Consistent, tight gap below the ADD TO BAG button (single source) */
+.product-card__info{padding-bottom:10px!important}
+.product-card__quick-add{margin-bottom:0!important;padding-bottom:0!important}
+
+/* Recently Viewed: lock every card to the same width + image ratio
+   so product images never change size between items */
+.pdp-recent__scroll{grid-auto-columns:clamp(150px,44vw,190px)!important}
+.pdp-recent__img-wrap{aspect-ratio:3/4!important;height:auto!important;width:100%!important}
+.pdp-recent__img-wrap img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:top center!important}

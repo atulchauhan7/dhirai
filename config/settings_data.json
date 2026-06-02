@@ -57,6 +57,10 @@
       "footer": {
         "type": "footer",
         "blocks": {
+          "benefit_1": {"type": "benefit", "settings": {"icon": "shield", "title": "Secure Payment", "text": "100% secure transactions"}},
+          "benefit_2": {"type": "benefit", "settings": {"icon": "returns", "title": "Easy Returns", "text": "10-day hassle-free returns"}},
+          "benefit_3": {"type": "benefit", "settings": {"icon": "truck", "title": "Fast Delivery", "text": "Pan-India shipping"}},
+          "benefit_4": {"type": "benefit", "settings": {"icon": "support", "title": "Customer Support", "text": "Mon–Sat, 10 AM – 6 PM"}},
           "quick_link_1": {"type": "quick_link", "settings": {"link_label": "Search", "link_url": "/search"}},
           "quick_link_2": {"type": "quick_link", "settings": {"link_label": "Contact Us", "link_url": "/pages/contact-us"}},
           "quick_link_3": {"type": "quick_link", "settings": {"link_label": "Privacy Policy", "link_url": "/pages/privacy-policy"}},
@@ -64,7 +68,7 @@
           "quick_link_5": {"type": "quick_link", "settings": {"link_label": "Shipping Policy", "link_url": "/pages/shipping-policy"}},
           "quick_link_6": {"type": "quick_link", "settings": {"link_label": "Terms and Conditions", "link_url": "/pages/terms-and-conditions"}}
         },
-        "block_order": ["quick_link_1", "quick_link_2", "quick_link_3", "quick_link_4", "quick_link_5", "quick_link_6"],
+        "block_order": ["benefit_1", "benefit_2", "benefit_3", "benefit_4", "quick_link_1", "quick_link_2", "quick_link_3", "quick_link_4", "quick_link_5", "quick_link_6"],
         "settings": {
           "about_text": "",
           "address_text": "G1-30, Apparel Park, Jagatpura, Jaipur, Rajasthan, 302017",
