@@ -15,9 +15,9 @@
         "cat1": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/11.webp",
+            "image": "shopify://shop_images/2L1A7829.jpg",
             "label": "New Arrivals",
-            "link": "",
+            "link": "shopify://collections/new-arrival",
             "badge_label": "New",
             "badge_color": "green"
           }
@@ -25,7 +25,6 @@
         "cat2": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/10.webp",
             "label": "Best Sellers",
             "link": "",
             "badge_label": "Hot",
@@ -35,7 +34,6 @@
         "cat3": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/2L1A9876.webp",
             "label": "Kurtis",
             "link": "",
             "badge_label": "Best",
@@ -45,7 +43,6 @@
         "cat4": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/2L1A0293.webp",
             "label": "Coord Sets",
             "link": "",
             "badge_label": "",
@@ -55,7 +52,6 @@
         "cat5": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/2L1A0332_9d12191e-e8c6-4fee-b195-04bcb4d4e9e6.webp",
             "label": "Tops",
             "link": "",
             "badge_label": "",
@@ -87,16 +83,27 @@
     "hero": {
       "type": "hero-banner",
       "blocks": {
+        "slide_U8gDMy": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/5_c3e34f67-86c5-4431-859d-7872a920e3d7.webp",
+            "video": "shopify://collections/best-seller",
+            "subtitle": "",
+            "heading": ""
+          }
+        },
         "slide_XbWHCH": {
           "type": "slide",
           "settings": {
-            "video": "https://cdn.shopify.com/videos/c/o/v/3634c0dbf5ab4e4986acc2b41400e6b7.mp4",
+            "image": "shopify://shop_images/imgi_17_Frame_395_600x_13af476a-a37b-4763-ac57-f1daf4908108.png",
+            "video": "shopify://products/indigo-grace-everyday-tote-bag",
             "subtitle": "",
             "heading": ""
           }
         }
       },
       "block_order": [
+        "slide_U8gDMy",
         "slide_XbWHCH"
       ],
       "settings": {
@@ -236,8 +243,9 @@
         "ig1": {
           "type": "item",
           "settings": {
-            "label": "Hyper Prints",
-            "link": ""
+            "image": "shopify://shop_images/2L1A8100.jpg",
+            "label": "Best Seller",
+            "link": "shopify://collections/best-seller"
           }
         },
         "ig2": {
@@ -375,21 +383,21 @@
           "type": "tab",
           "settings": {
             "tab_label": "Best Seller",
-            "collection": "best-sellers"
+            "collection": "best-seller"
           }
         },
         "tab2": {
           "type": "tab",
           "settings": {
-            "tab_label": "chanchal",
-            "collection": "chanchal"
+            "tab_label": "Salwar",
+            "collection": "farshi-salwar-set"
           }
         },
         "tab3": {
           "type": "tab",
           "settings": {
-            "tab_label": "Coord Set",
-            "collection": "coord-set"
+            "tab_label": "Coord",
+            "collection": "co-ord-sets"
           }
         }
       },
@@ -525,7 +533,7 @@
     "image-text": {
       "type": "image-with-text",
       "settings": {
-        "image": "shopify://shop_images/Untitled_design_56.png",
+        "image": "shopify://shop_images/Untitled_design_34.png",
         "subtitle": "Our Story",
         "heading": "Crafted with Love",
         "text": "<p>Every kurti in our collection is thoughtfully designed, blending traditional Indian craftsmanship with contemporary style. From handpicked fabrics to intricate detailing, we create ethnic wear that celebrates the grace of every woman.</p>",
