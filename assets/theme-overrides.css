@@ -4954,3 +4954,19 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
 .pdp-reco-carousel .carousel__slide{transition:opacity 0.4s ease,transform 0.4s cubic-bezier(.22,1,.36,1)}
 .pdp-reco-carousel .carousel__slide:not(.is-active){opacity:0.75}
 .pdp-reco-carousel .carousel__slide.is-active{opacity:1}
+
+/* ── FBT skeleton loader ── */
+.cart-drawer__reco-skeleton{display:flex;gap:10px;padding:2px 0}
+.cart-drawer__reco-skel-card{
+  flex-shrink:0;width:120px;
+  background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+  background-size:200% 100%;
+  border-radius:8px;height:160px;
+  animation:fbtSkelShimmer 1.4s infinite;
+}
+.cart-drawer__reco-skel-card:nth-child(2){animation-delay:.15s}
+.cart-drawer__reco-skel-card:nth-child(3){animation-delay:.3s}
+@keyframes fbtSkelShimmer{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
