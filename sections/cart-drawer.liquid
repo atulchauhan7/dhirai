@@ -3,7 +3,7 @@
 <div class="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping cart">
 <div class="cart-drawer__header">
 <div class="cart-drawer__header-info">
-<span class="cart-drawer__title">My Bag</span>
+<span class="cart-drawer__title">{{ settings.cart_drawer_title | default: 'My Bag' }}</span>
 <span class="cart-drawer__subtitle">
   {% if cart.item_count > 0 %}{{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }} added{% else %}Your bag is empty{% endif %}
 </span>
@@ -71,7 +71,7 @@
 {% endfor %}
 </div>
 
-{% comment %} Frequently Bought Together — loaded client-side from accessories collection {% endcomment %}
+{% comment %} Frequently Bought Together — loaded client-side from configurable collection {% endcomment %}
 {% if cart.item_count > 0 %}
 <div class="cart-drawer__reco" id="cart-drawer-fbt" style="display:none">
   <div class="cart-drawer__reco-title">Frequently Bought Together</div>
@@ -80,16 +80,28 @@
 <script>
 (function(){
   var cartIds = {{ cart.items | map: 'product_id' | json }};
-  fetch('/collections/accessories/products.json?limit=20&fields=id,handle,title,images,variants')
+  var moneyFormat = {{ shop.money_format | json }};
+  var recsHandle = {{ settings.cart_recs_collection | default: 'accessories' | json }};
+  function fmtMoney(cents) {
+    var n = parseInt(cents, 10) / 100;
+    var formatted = n.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+    return moneyFormat
+      .replace('{{amount}}', n.toFixed(2))
+      .replace('{{amount_no_decimals}}', formatted)
+      .replace('{{amount_with_comma_separator}}', formatted)
+      .replace('{{amount_no_decimals_with_comma_separator}}', formatted)
+      || ('&#8377;' + formatted);
+  }
+  fetch('/collections/' + recsHandle + '/products.json?limit=20&fields=id,handle,title,images,variants')
     .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
     .then(function(data){
       var products = (data.products || [])
         .filter(function(p){ return cartIds.indexOf(p.id) === -1; })
-        .slice(0, 8);
+        .slice(0, 6);
       if(!products.length) return;
       var html = products.map(function(p){
         var v = p.variants && p.variants[0];
-        var price = v ? (parseInt(v.price,10)/100).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:0}) : '';
+        var price = v ? fmtMoney(v.price) : '';
         var imgSrc = p.images && p.images[0] ? p.images[0].src.split('?')[0]+'?width=220' : '';
         var img = imgSrc
           ? '<img src="'+imgSrc+'" alt="'+p.title.replace(/"/g,'&quot;')+'" loading="lazy" width="220" height="280" class="cart-drawer__reco-img">'
@@ -98,7 +110,7 @@
           +img
           +'<div class="cart-drawer__reco-info">'
           +'<span class="cart-drawer__reco-name">'+p.title+'</span>'
-          +'<span class="cart-drawer__reco-price">&#8377;'+price+'</span>'
+          +'<span class="cart-drawer__reco-price">'+price+'</span>'
           +'</div></a>';
       }).join('');
       var scroll = document.getElementById('cart-drawer-fbt-scroll');

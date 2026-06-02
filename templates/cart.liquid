@@ -139,7 +139,8 @@
       + '</div></div></a>';
   }
 
-  fetch('/collections/accessories/products.json?limit=20&fields=id,handle,title,images,variants')
+  var recsHandle = {{ settings.cart_recs_collection | default: 'accessories' | json }};
+  fetch('/collections/' + recsHandle + '/products.json?limit=20&fields=id,handle,title,images,variants')
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(function (data) {
       var products = (data.products || [])
