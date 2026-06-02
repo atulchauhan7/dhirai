@@ -166,10 +166,7 @@
 /* Active indicator dot on bottom nav */
 .bottom-nav__item.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:2px;background:var(--color-accent);border-radius:0 0 3px 3px}
 
-/* === PDP RECOMMENDATIONS — 2 columns on mobile === */
-@media(max-width:768px){
-  .pdp-reco-carousel .carousel__slide{width:calc(50% - 12px)!important;min-width:calc(50% - 12px)!important}
-}
+/* === PDP RECOMMENDATIONS — slide widths controlled by JS carousel, see end of file === */
 
 /* === GENERAL RESPONSIVENESS FIXES === */
 /* Ensure product cards don't overflow on very small screens */
@@ -4937,3 +4934,18 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
 /* ================================================================
    END HEADER SEARCH DROPDOWN
    ================================================================ */
+
+/* ================================================================
+   PDP RECO CAROUSEL — let JS control slide widths
+   The rules in luxe-theme.css set min-width/max-width/flex-basis
+   with !important, which overrides JS style.width and breaks
+   dot count + scroll positioning. Neutralize them all here so
+   ssw() inline styles take full effect.
+   ================================================================ */
+.pdp-reco-carousel .carousel__slide,
+.pdp-reco-carousel .carousel__track > [class] {
+  min-width: 0 !important;
+  max-width: none !important;
+  flex-basis: auto !important;
+  flex-shrink: 0 !important;
+}
