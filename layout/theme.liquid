@@ -299,5 +299,67 @@ checkout_url: '{{ routes.checkout_url }}'
 {% if request.design_mode %}
 <script src="{{ 'theme-editor.js' | asset_url }}" defer></script>
 {% endif %}
+
+{% if settings.goEnable %}
+<script>
+/*
+ * GoKwik — Back-navigation restore
+ * When the user presses browser back after GoKwik opens its checkout
+ * overlay, the page may be restored from bfcache with:
+ *   - body scroll locked (overflow-hidden class stuck)
+ *   - GoKwik iframe / overlay still in DOM
+ * This handler cleans up both every time the page becomes visible again.
+ */
+(function () {
+  function restorePage() {
+    /* 1. Unlock body scroll */
+    document.body.classList.remove('overflow-hidden');
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.position = '';
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+
+    /* 2. Remove GoKwik iframe and its backdrop if left in DOM */
+    ['#gokwik-iframe', '#gokwik-backdrop', '#gokwik-overlay', '#gk-overlay']
+      .forEach(function (sel) {
+        var el = document.querySelector(sel);
+        if (el) el.remove();
+      });
+
+    /* 3. Remove any GoKwik-added class on body */
+    ['gokwik-open', 'gk-open', 'gk-overlay-open'].forEach(function (cls) {
+      document.body.classList.remove(cls);
+    });
+  }
+
+  /* pageshow fires on both normal load AND bfcache restore;
+     persisted=true means it was a bfcache restore (browser back). */
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) {
+      restorePage();
+    }
+  });
+
+  /* visibilitychange catches tab-switch back after GoKwik opens in
+     the same tab and the user alt-tabs / swipes back. */
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') {
+      /* Only clean up if GoKwik iframe is no longer present but
+         body is still locked — means GoKwik was closed externally. */
+      var iframe = document.querySelector('#gokwik-iframe');
+      if (!iframe && document.body.classList.contains('overflow-hidden')) {
+        /* Check none of our own drawers are open before unlocking */
+        var anyDrawerOpen = document.querySelector(
+          '.cart-drawer.open, .mobile-nav.open, .wishlist-drawer.open, .newsletter-popup.open'
+        );
+        if (!anyDrawerOpen) {
+          document.body.classList.remove('overflow-hidden');
+        }
+      }
+    }
+  });
+})();
+</script>
+{% endif %}
 </body>
 </html>
