@@ -3765,11 +3765,11 @@ select:focus-visible{
       radial-gradient(120% 75% at 50% 82%, rgba(0,0,0,0.34) 0%, rgba(0,0,0,0) 55%),
       linear-gradient(180deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.06) 30%, rgba(0,0,0,0.12) 55%, rgba(0,0,0,0.62) 100%)!important;
   }
-  /* Anchor hero content to the lower-center (premium, grounded placement) */
+  /* Anchor hero content to the bottom-center */
   .hero-slide__content{
-    align-items:flex-end!important;
-    justify-content:center!important;
-    padding:0 clamp(2rem,6vw,6rem) clamp(56px,7vw,88px)!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    padding:0 clamp(2rem,6vw,6rem) clamp(92px,7vw,112px)!important;
   }
   .hero-slide__content>.container{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
   .hero-slide__title{max-width:840px;margin-left:auto!important;margin-right:auto!important;text-shadow:0 2px 24px rgba(0,0,0,0.4)!important}
@@ -4309,16 +4309,18 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
 }
 .hero-slide__content {
   position: absolute !important;
-  inset: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: flex-end !important;
   text-align: center !important;
-  padding: 0 clamp(1rem, 5vw, 4rem) clamp(56px, 8vw, 96px) !important;
   transform: none !important;
-  left: unset !important;
-  bottom: unset !important;
+  max-width: none !important;
+  width: auto !important;
 }
 /* ================================================================
    END HERO SLIDE CONTENT
