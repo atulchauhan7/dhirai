@@ -1271,13 +1271,35 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
   .product-card__price{font-size:0.9rem!important}
 }
 
-/* ---- FIX: Hero slide CTA button — always visible, not cut off ---- */
+/* ---- FIX: Hero slide content positioning
+   Root cause: SAKHI v15.2 block set left:50%;bottom:8% but the earlier inset:0
+   left top:0;right:0 in place, making the element 92% tall and pushing the
+   button far up. Fix: fully reset to inset:0 + flex-end model. ---- */
 .hero-slide__btn{
   position:relative;
   z-index:3!important;
 }
 .hero-slide__content{
-  padding-bottom:clamp(48px,7vw,72px)!important;
+  /* Reset all positioning — inset:0 makes element fill the entire slide */
+  position:absolute!important;
+  inset:0!important;
+  top:0!important; right:0!important; bottom:0!important; left:0!important;
+  transform:none!important;
+  max-width:none!important;
+  width:auto!important;
+  /* Flex-end pushes content block to the bottom of the full-height element */
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  text-align:center!important;
+  /* Bottom padding: clears dots (bottom:28px, 3px tall) + btn height + gap */
+  padding:0 clamp(1rem,4vw,2rem) clamp(72px,9vw,88px)!important;
+}
+@media(max-width:640px){
+  .hero-slide__content{
+    padding:0 clamp(0.75rem,4vw,1.5rem) clamp(60px,12vw,76px)!important;
+  }
 }
 
 /* ---- FIX: PDP reviews scroll margin ---- */
@@ -1326,13 +1348,12 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
   }
 }
 
-/* ---- FIX: Desktop hero — full bleed with proper z-stacking ---- */
+/* ---- FIX: Desktop hero — full bleed, button at the bottom ---- */
 @media(min-width:1025px){
   .hero-slider{width:100%!important;overflow:hidden!important}
   .hero-slide__content{
-    align-items:center!important;
-    justify-content:center!important;
-    padding:0 clamp(2rem,6vw,6rem) clamp(3rem,6vw,5rem)!important;
+    /* Desktop: bigger bottom padding to clear dots (bottom:32px) + btn (~48px) + gap */
+    padding:0 clamp(2rem,6vw,4rem) clamp(92px,7vw,112px)!important;
   }
   .hero-slide__title{
     font-size:clamp(2.2rem,5vw,4rem)!important;
@@ -1342,6 +1363,12 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
   .hero-slider__arrow{width:52px!important;height:52px!important}
   .hero-slider__arrow--prev{left:24px!important}
   .hero-slider__arrow--next{right:24px!important}
+}
+@media(min-width:769px) and (max-width:1024px){
+  /* Tablet: medium padding */
+  .hero-slide__content{
+    padding:0 clamp(1.5rem,5vw,3rem) clamp(76px,8vw,96px)!important;
+  }
 }
 
 /* ---- FIX: Announcement bar — proper z-index above everything ---- */
@@ -4230,23 +4257,28 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
 /* ================================================================
    HEADER FINAL FIX — Logo/header height alignment (desktop)
    WEB POLISH v6 incorrectly set header to 68px; the brand logo is
-   72px tall, causing it to overflow. Fix: use 78px (3px breathing
-   above/below the 72px logo). Nav links and mega menu updated too.
-   Scrolled state (56px) is handled by higher-specificity rules in
-   WEB POLISH v6 and is left unchanged.
+   72px tall, causing it to overflow. Fix: use 78px with no shrink
+   on scroll — header stays constant height at all times.
    ================================================================ */
 @media (min-width: 1025px) {
-  /* Header inner: 68px (WEB POLISH v6) → 78px (fits 72px logo) */
-  .site-header__inner {
+  /* Header inner: constant 78px — no shrink on scroll */
+  .site-header__inner,
+  .site-header.scrolled .site-header__inner {
     height: 78px !important;
   }
   /* Desktop nav links fill the full header height */
-  .site-header__mainnav .site-header__nav-link {
+  .site-header__mainnav .site-header__nav-link,
+  .site-header.scrolled .site-header__mainnav .site-header__nav-link {
     height: 78px !important;
   }
   /* Mega menu opens at the bottom of the 78px header */
-  .mega-menu {
+  .mega-menu,
+  .site-header.scrolled .mega-menu {
     top: calc(var(--announcement-content-offset, 0px) + 78px) !important;
+  }
+  /* Wishlist icon: nudge down slightly for visual balance */
+  button.header-icon[data-wishlist-trigger] {
+    margin-top: 4px !important;
   }
 }
 /* ================================================================
