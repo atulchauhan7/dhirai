@@ -80,42 +80,13 @@
 {% endfor %}
 </div>
 
-{%- assign rec_collection = collections['accessories'] -%}
-{% if rec_collection and rec_collection.products_count > 0 %}
-<section class="cart-recs" data-animate="fade-up" aria-labelledby="cart-recs-title">
+{% comment %} Frequently Bought Together — accessories collection via Shopify AJAX API {% endcomment %}
+<section class="cart-recs" aria-labelledby="cart-recs-title" id="cart-recs-section" hidden>
   <div class="cart-recs__head">
     <h2 id="cart-recs-title" class="cart-recs__title">Frequently Bought Together</h2>
-    <p class="cart-recs__sub">Accessories customers pair with this order</p>
+    <p class="cart-recs__sub">Accessories our customers pair with this order</p>
   </div>
-  <div class="cart-recs__scroller" data-cart-recs-scroller>
-    {%- assign shown = 0 -%}
-    {%- for product in rec_collection.products -%}
-      {%- if shown >= 8 -%}{%- break -%}{%- endif -%}
-      {%- unless cart.items contains product -%}
-        {%- assign shown = shown | plus: 1 -%}
-        <a href="{{ product.url }}" class="cart-rec" aria-label="{{ product.title | escape }}">
-          <div class="cart-rec__img">
-            {% if product.featured_image != blank %}
-            <img src="{{ product.featured_image | image_url: width: 260 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" width="260" height="325">
-            {% endif %}
-            {% if product.compare_at_price > product.price %}
-              {%- assign off = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
-              <span class="cart-rec__badge">{{ off }}% OFF</span>
-            {% endif %}
-          </div>
-          <div class="cart-rec__body">
-            <h3 class="cart-rec__title">{{ product.title }}</h3>
-            <div class="cart-rec__price-row">
-              <span class="cart-rec__price">{{ product.price | money }}</span>
-              {% if product.compare_at_price > product.price %}
-                <span class="cart-rec__compare">{{ product.compare_at_price | money }}</span>
-              {% endif %}
-            </div>
-          </div>
-        </a>
-      {%- endunless -%}
-    {%- endfor -%}
-  </div>
+  <div class="cart-recs__scroller" id="cart-recs-track" data-cart-recs-scroller></div>
   <button type="button" class="cart-recs__nav cart-recs__nav--prev" data-cart-recs-prev aria-label="Previous">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
   </button>
@@ -123,7 +94,74 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
 </section>
-{% endif %}
+<script>
+(function () {
+  var cartProductIds = {{ cart.items | map: 'product_id' | json }};
+  var moneyFormat = {{ shop.money_format | json }};
+
+  function formatMoney(priceStr) {
+    var n = parseFloat(priceStr);
+    if (isNaN(n)) return priceStr;
+    var formatted = n.toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return moneyFormat
+      .replace('{{amount}}', n.toFixed(2))
+      .replace('{{amount_no_decimals}}', formatted)
+      .replace('{{amount_with_comma_separator}}', formatted)
+      .replace('{{amount_no_decimals_with_comma_separator}}', formatted)
+      || ('&#8377;' + formatted);
+  }
+
+  function sizedImg(src, width) {
+    if (!src) return '';
+    var base = src.indexOf('?') !== -1 ? src.split('?')[0] : src;
+    return base + '?width=' + width;
+  }
+
+  function buildCard(p) {
+    var v = p.variants && p.variants[0];
+    var price = v ? formatMoney(v.price) : '';
+    var compareAt = v && v.compare_at_price && parseFloat(v.compare_at_price) > parseFloat(v.price) ? v.compare_at_price : null;
+    var badge = compareAt
+      ? '<span class="cart-rec__badge">' + Math.round((parseFloat(compareAt) - parseFloat(v.price)) / parseFloat(compareAt) * 100) + '% OFF</span>'
+      : '';
+    var img = '';
+    if (p.images && p.images.length) {
+      var alt = (p.images[0].alt || p.title).replace(/"/g, '&quot;');
+      img = '<img src="' + sizedImg(p.images[0].src, 260) + '" alt="' + alt + '" loading="lazy" width="260" height="325">';
+    }
+    return '<a href="/products/' + p.handle + '" class="cart-rec" aria-label="' + p.title.replace(/"/g, '&quot;') + '">'
+      + '<div class="cart-rec__img">' + img + badge + '</div>'
+      + '<div class="cart-rec__body">'
+      + '<h3 class="cart-rec__title">' + p.title + '</h3>'
+      + '<div class="cart-rec__price-row">'
+      + '<span class="cart-rec__price">' + price + '</span>'
+      + (compareAt ? '<span class="cart-rec__compare">' + formatMoney(compareAt) + '</span>' : '')
+      + '</div></div></a>';
+  }
+
+  fetch('/collections/accessories/products.json?limit=20&fields=id,handle,title,images,variants')
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function (data) {
+      var products = (data.products || [])
+        .filter(function (p) { return cartProductIds.indexOf(p.id) === -1; })
+        .slice(0, 8);
+
+      if (!products.length) return;
+
+      var section = document.getElementById('cart-recs-section');
+      var track = document.getElementById('cart-recs-track');
+      track.innerHTML = products.map(buildCard).join('');
+      section.removeAttribute('hidden');
+
+      var prev = section.querySelector('[data-cart-recs-prev]');
+      var next = section.querySelector('[data-cart-recs-next]');
+      var amt = 280;
+      prev.addEventListener('click', function () { track.scrollBy({ left: -amt, behavior: 'smooth' }); });
+      next.addEventListener('click', function () { track.scrollBy({ left: amt, behavior: 'smooth' }); });
+    })
+    .catch(function () { /* silently fail — section stays hidden */ });
+})();
+</script>
 </div>
 <div class="cart-layout__sidebar">
 <div class="cart-summary">
