@@ -6423,8 +6423,8 @@ img{loading:lazy}
 /* ---- PRODUCT PAGE — Mobile padding bottom for fixed CTA ---- */
 @media(max-width:768px){
   .template-product .main-content{padding-bottom:80px!important}
-  .pdp-reviews{padding-bottom:5rem!important}
-  .pdp-recommendations{padding-bottom:6rem!important}
+  .pdp-reviews{padding-bottom:3.5rem!important}
+  .pdp-recommendations{padding-bottom:4rem!important}
 }
 
 /* ================================================================
