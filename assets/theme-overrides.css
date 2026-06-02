@@ -4942,12 +4942,13 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
    dot count + scroll positioning. Neutralize them all here so
    ssw() inline styles take full effect.
    ================================================================ */
-.pdp-reco-carousel .carousel__slide,
+.pdp-reco-carousel .carousel__track > .carousel__slide,
 .pdp-reco-carousel .carousel__track > [class] {
   min-width: 0 !important;
   max-width: none !important;
   flex-basis: auto !important;
   flex-shrink: 0 !important;
+  width: auto !important;
 }
 
 /* PDP reco carousel — center mode active card emphasis */
