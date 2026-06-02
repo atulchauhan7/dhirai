@@ -4108,18 +4108,18 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
   flex: 1;
 }
 .cart-summary__checkout-main {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  line-height: 1.2;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  line-height: 1.2 !important;
 }
 .cart-summary__checkout-total {
-  font-size: 0.72rem;
-  font-weight: 500;
-  opacity: 0.85;
-  letter-spacing: 0.02em;
-  text-transform: none;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  opacity: 0.9 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
 }
 .cart-summary__checkout svg {
   flex-shrink: 0;
@@ -4133,43 +4133,46 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
    ================================================================ */
 
 /* ================================================================
-   PDP SIZE GUIDE ROW — Standalone Kiwi trigger (always visible)
-   Mirrors dawn-x-atul size_chart_trigger block approach.
-   Lives outside the options loop → always renders regardless of
-   how the product's size option is named.
+   SIZE CHART TRIGGER — matches dawn-x-atul size_chart_trigger block
+   theme-product.css sets display:none by default; override here so
+   the button is visible. Kiwi app injects its own button when enabled.
    ================================================================ */
-.pdp-size-guide-row {
+.product-info__option-insert {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   margin-bottom: 10px;
 }
-.pdp-size-guide-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(var(--color-accent-rgb), 0.06);
-  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
-  border-radius: 50px;
-  padding: 5px 12px;
-  font-size: 0.67rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--color-accent);
-  cursor: pointer;
-  font-family: inherit;
-  text-transform: uppercase;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-  white-space: nowrap;
-}
-.pdp-size-guide-btn:hover {
-  background: rgba(var(--color-accent-rgb), 0.12);
-  border-color: rgba(var(--color-accent-rgb), 0.35);
-  transform: translateY(-1px);
-}
-.pdp-size-guide-btn svg {
-  flex-shrink: 0;
+.size-chart-trigger {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
 }
 /* ================================================================
-   END PDP SIZE GUIDE ROW
+   END SIZE CHART TRIGGER
+   ================================================================ */
+
+/* ================================================================
+   HEADER FINAL FIX — Logo/header height alignment (desktop)
+   WEB POLISH v6 incorrectly set header to 68px; the brand logo is
+   72px tall, causing it to overflow. Fix: use 78px (3px breathing
+   above/below the 72px logo). Nav links and mega menu updated too.
+   Scrolled state (56px) is handled by higher-specificity rules in
+   WEB POLISH v6 and is left unchanged.
+   ================================================================ */
+@media (min-width: 1025px) {
+  /* Header inner: 68px (WEB POLISH v6) → 78px (fits 72px logo) */
+  .site-header__inner {
+    height: 78px !important;
+  }
+  /* Desktop nav links fill the full header height */
+  .site-header__mainnav .site-header__nav-link {
+    height: 78px !important;
+  }
+  /* Mega menu opens at the bottom of the 78px header */
+  .mega-menu {
+    top: calc(var(--announcement-content-offset, 0px) + 78px) !important;
+  }
+}
+/* ================================================================
+   END HEADER FINAL FIX
    ================================================================ */
