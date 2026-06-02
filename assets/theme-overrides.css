@@ -555,7 +555,7 @@ a{color:inherit}
 .site-header__nav-link.active,
 .site-header__nav-link:hover{color:var(--color-accent)!important}
 .site-header__nav-link.active::after{background:var(--color-accent)!important}
-.header-icon svg{stroke:var(--bwk-dark)!important;width:20px!important;height:20px!important}
+.header-icon svg{stroke:var(--bwk-dark)!important;width:23px!important;height:23px!important}
 .header-icon:hover svg{stroke:var(--color-accent)!important}
 .cart-count{background:var(--color-accent)!important;color:#fff!important;font-size:0.55rem!important;font-weight:800!important;min-width:16px!important;height:16px!important;border-radius:8px!important;padding:0 4px!important}
 
@@ -1200,7 +1200,7 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
 .header-icon .ri-user-line,
 .header-icon .ri-heart-line,
 .header-icon .ri-shopping-bag-line{
-  font-size:22px!important;
+  font-size:25px!important;
   line-height:1!important;
   display:block!important;
 }
@@ -1208,7 +1208,7 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
   .header-icon .ri-search-line,
   .header-icon .ri-user-line,
   .header-icon .ri-heart-line,
-  .header-icon .ri-shopping-bag-line{font-size:21px!important}
+  .header-icon .ri-shopping-bag-line{font-size:24px!important}
 }
 /* Cart count badge sits over the icon — keep relative positioning */
 .header-icon{position:relative}
