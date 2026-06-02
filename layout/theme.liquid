@@ -212,6 +212,7 @@ checkout_url: '{{ routes.checkout_url }}'
 <script>
 (function(){var d=document.documentElement,w=window.innerWidth;var hh=w>1024?82:w>480?64:56;d.style.setProperty('--header-height',hh+'px');d.style.setProperty('--announcement-height','0px');d.style.setProperty('--announcement-content-offset','0px');d.style.setProperty('--strip-height','0px')})();
 </script>
+{% render 'gokwik' %}
 </head>
 
 <body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}" data-animations-enabled="{{ settings.enable_animations }}">

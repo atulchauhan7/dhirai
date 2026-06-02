@@ -127,6 +127,7 @@
 </div>
   <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-drawer__checkout-form">
     <button type="button" id="checkout2" name="checkout2" class="btn btn--primary btn--full" onclick="handleFloCheckoutBtn()">Checkout</button>
+    {% render 'gokwik-checkout' %}
   </form>
   <div class="payment-icons payment-icons--drawer">
   </div><p class="cart-drawer__note">Shipping & taxes calculated at checkout · <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M2 9.5V4a1 1 0 011-1h5.5"/><path d="M22 9.5V4a1 1 0 00-1-1h-5.5"/><path d="M2 14.5V20a1 1 0 001 1h5.5"/><path d="M22 14.5V20a1 1 0 01-1 1h-5.5"/><circle cx="12" cy="12" r="3"/></svg> Coupon codes can be applied at checkout</p>
