@@ -1684,7 +1684,7 @@ button.bottom-nav__item{background:none!important;border:none!important;cursor:p
 .page-template .container--narrow{max-width:460px!important;padding-top:3rem!important;padding-bottom:4rem!important}
 .page-template .page-header{text-align:center;margin-bottom:2.25rem!important;border-bottom:none!important;padding-bottom:0!important}
 .page-template .page-header h1{font-size:1.75rem!important;font-weight:600!important;letter-spacing:-0.01em!important;margin-bottom:0.4rem!important}
-.page-template .page-header::after{content:'Welcome back to Sakhi';display:block;font-size:0.82rem;color:#878787;font-weight:400;letter-spacing:0.02em;margin-top:0.35rem;text-transform:none}
+.page-template .page-header::after{display:none}
 #customer-register .page-header::after,.template-customers-register .page-header::after{content:'Create your account'}
 .form-group{margin-bottom:1rem!important}
 .form-label{font-size:0.7rem!important;font-weight:600!important;letter-spacing:0.1em!important;color:#424553!important;margin-bottom:0.4rem!important}
