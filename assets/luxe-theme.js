@@ -588,14 +588,22 @@ function renderResults(data,q){
   if(!queries.length&&!products.length&&!collections.length)return renderEmpty(q);
   let html='';
   let idx=0;
-  if(queries.length){
-    html+='<div class="hs-section"><div class="hs-section__title">Top Suggestions</div><ul class="hs-queries">';
-    queries.slice(0,6).forEach(item=>{
+  if(queries.length||collections.length){
+    html+='<div class="hs-section"><div class="hs-section__title">Suggestions</div><ul class="hs-queries">';
+    queries.slice(0,4).forEach(item=>{
       const text=item.text||'';
       const url=item.url||(headerSearchRoute+'?q='+encodeURIComponent(text)+'&type=product');
       html+='<li><a href="'+escHtml(url)+'" class="hs-row hs-row--query" data-hs-idx="'+(idx++)+'" role="option">'
         +'<svg class="hs-row__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>'
         +'<span class="hs-row__text">'+highlight(text,q)+'</span>'
+        +'<svg class="hs-row__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M9 7h8v8"/></svg>'
+        +'</a></li>';
+    });
+    collections.slice(0,3).forEach(c=>{
+      html+='<li><a href="'+escHtml(c.url||'#')+'" class="hs-row hs-row--collection" data-hs-idx="'+(idx++)+'" role="option">'
+        +'<svg class="hs-row__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>'
+        +'<span class="hs-row__text">'+highlight(c.title||'',q)+'</span>'
+        +'<span class="hs-row__badge">Collection</span>'
         +'<svg class="hs-row__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M9 7h8v8"/></svg>'
         +'</a></li>';
     });
@@ -619,13 +627,6 @@ function renderResults(data,q){
         +'<div class="hs-row__price"><span class="hs-price">'+price+'</span>'+(compare?' <span class="hs-price--strike">'+compare+'</span>':'')+'</div>'
         +'</div>'
         +'</a></li>';
-    });
-    html+='</ul></div>';
-  }
-  if(collections.length){
-    html+='<div class="hs-section"><div class="hs-section__title">Categories</div><ul class="hs-collections">';
-    collections.slice(0,4).forEach(c=>{
-      html+='<li><a href="'+escHtml(c.url||'#')+'" class="hs-chip" data-hs-idx="'+(idx++)+'" role="option">'+highlight(c.title||'',q)+'</a></li>';
     });
     html+='</ul></div>';
   }
