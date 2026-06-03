@@ -127,7 +127,7 @@
             "type": "quick_link",
             "settings": {
               "link_label": "Contact Us",
-              "link_url": "/pages/contact-us"
+              "link_url": "shopify://pages/contact-us"
             }
           },
           "quick_link_3": {
@@ -141,21 +141,21 @@
             "type": "quick_link",
             "settings": {
               "link_label": "Return and Exchange Policy",
-              "link_url": "/pages/return-and-exchange-policy"
+              "link_url": "shopify://pages/return-and-exchange-policy"
             }
           },
           "quick_link_5": {
             "type": "quick_link",
             "settings": {
               "link_label": "Shipping Policy",
-              "link_url": "/pages/shipping-policy"
+              "link_url": "shopify://pages/shipping-policy"
             }
           },
           "quick_link_6": {
             "type": "quick_link",
             "settings": {
               "link_label": "Terms and Conditions",
-              "link_url": "/pages/terms-and-conditions"
+              "link_url": "shopify://pages/terms-and-conditions"
             }
           }
         },

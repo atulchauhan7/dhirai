@@ -225,8 +225,8 @@
         "title": "Newest Drops",
         "title_suffix": "Of The Season",
         "description": "Handpicked ethnic wear that embodies elegance and timeless Indian craftsmanship",
-        "collection": "frontpage",
-        "products_to_show": 8,
+        "collection": "best-seller",
+        "products_to_show": 12,
         "columns": "4",
         "autoplay": true,
         "show_view_all": true
@@ -246,36 +246,41 @@
         "ig2": {
           "type": "item",
           "settings": {
-            "label": "Minimalistic",
-            "link": ""
+            "image": "shopify://shop_images/ChatGPT_Image_May_29_2026_11_39_02_AM.png",
+            "label": "Accessories",
+            "link": "shopify://collections/accessories"
           }
         },
         "ig3": {
           "type": "item",
           "settings": {
-            "label": "Acid-Washed",
-            "link": ""
+            "image": "shopify://shop_images/White_Simple_Photocentric_Jewelry_Promo_Banner_Landscape.png",
+            "label": "New Arrival",
+            "link": "shopify://collections/new-arrival"
           }
         },
         "ig4": {
           "type": "item",
           "settings": {
-            "label": "Word Drip",
-            "link": ""
+            "image": "shopify://shop_images/IMG_5745.webp",
+            "label": "Co-ord Sets",
+            "link": "shopify://collections/co-ord-sets"
           }
         },
         "ig5": {
           "type": "item",
           "settings": {
-            "label": "Solids",
-            "link": ""
+            "image": "shopify://shop_images/021-106036891509506_l.jpg",
+            "label": "Kurta Sets",
+            "link": "shopify://collections/kurta-sets"
           }
         },
         "ig6": {
           "type": "item",
           "settings": {
+            "image": "shopify://shop_images/Dhaaga_Set_Winter_Spun_Oversized_Fit_1.webp",
             "label": "Explore All",
-            "link": ""
+            "link": "shopify://collections"
           }
         }
       },
@@ -303,43 +308,33 @@
         "tc1": {
           "type": "category",
           "settings": {
-            "label": "Kurtis",
-            "link": ""
+            "image": "shopify://shop_images/karishmaraj_28_1749977450_3655398250301557402_69407734367.jpg",
+            "label": "KARIGARI",
+            "link": "shopify://collections/embroidery"
           }
         },
         "tc2": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/1cb7f2b8-be73-43f2-8599-c6a393be01f5.png",
             "label": "Coord Sets",
-            "link": ""
+            "link": "shopify://collections/co-ord-sets"
           }
         },
         "tc3": {
           "type": "category",
           "settings": {
-            "label": "Tops",
-            "link": ""
+            "image": "shopify://shop_images/2L1A8072.jpg",
+            "label": "BOTTOM WEAR",
+            "link": "shopify://collections/bottom-wear"
           }
         },
         "tc4": {
           "type": "category",
           "settings": {
-            "label": "Straight Kurtis",
-            "link": ""
-          }
-        },
-        "tc5": {
-          "type": "category",
-          "settings": {
-            "label": "A-Line Kurtis",
-            "link": ""
-          }
-        },
-        "tc6": {
-          "type": "category",
-          "settings": {
-            "label": "Dresses",
-            "link": ""
+            "image": "shopify://shop_images/ChatGPT_Image_May_29_2026_11_41_19_AM.png",
+            "label": "ACCESSORIES",
+            "link": "shopify://collections/accessories"
           }
         }
       },
@@ -347,9 +342,7 @@
         "tc1",
         "tc2",
         "tc3",
-        "tc4",
-        "tc5",
-        "tc6"
+        "tc4"
       ],
       "settings": {
         "show_section": true,
@@ -455,6 +448,7 @@
         "sc3",
         "sc4"
       ],
+      "disabled": true,
       "settings": {
         "show_section": true,
         "title_bold": "Savings",
