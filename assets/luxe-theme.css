@@ -1562,12 +1562,10 @@ p{margin-bottom:1rem}
 .pdp-review__helpful-btn:hover{border-color:var(--color-accent);color:var(--color-accent)}
 
 /* === PDP RECOMMENDATIONS === */
-.pdp-recommendations{padding:1.5rem 0 2.5rem;border-top:1px solid var(--color-border);overflow:hidden}
-.pdp-recommendations .bwk-section__head{margin-bottom:1.5rem}
+.pdp-recommendations{padding:1.5rem 0 2.5rem;border-top:1px solid var(--color-border)}
+.pdp-recommendations .bwk-section__head{margin-bottom:1.25rem}
 .pdp-recommendations .bwk-section__title{font-size:1.4rem}
-.pdp-reco-carousel{margin:0}
-.pdp-reco-carousel .product-card{margin:0}
-.pdp-reco-carousel .carousel__viewport{overflow:hidden}
+/* PDP reco grid — styles live in main-product.liquid <style> block */
 
 @media(max-width:768px){
   .pdp-reviews__header{flex-direction:column;gap:1.25rem}
@@ -1577,8 +1575,6 @@ p{margin-bottom:1rem}
   .pdp-review__date{margin-left:0;flex-basis:100%;padding-left:calc(36px + 0.75rem)}
   .pdp-recommendations .bwk-section__title{font-size:1.2rem}
   .pdp-recommendations{padding-bottom:5rem}
-  .pdp-reco-carousel{margin:0}
-  .pdp-reco-carousel .carousel__slide{min-width:65vw}
 }
 
 /* === COLLECTION PAGE — Clean, editorial grid === */
@@ -2652,10 +2648,7 @@ html{scroll-behavior:auto}
 /* Active indicator dot on bottom nav */
 .bottom-nav__item.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:2px;background:var(--color-accent);border-radius:0 0 3px 3px}
 
-/* === PDP RECOMMENDATIONS — 2 columns on mobile === */
-@media(max-width:768px){
-  .pdp-reco-carousel .carousel__slide{width:calc(50% - 12px)!important;min-width:calc(50% - 12px)!important}
-}
+
 
 /* === GENERAL RESPONSIVENESS FIXES === */
 /* Ensure product cards don't overflow on very small screens */
@@ -6661,10 +6654,6 @@ img{loading:lazy}
   .collection-grid.grid--4,.bwk-products-grid.grid--4{grid-template-columns:repeat(3,1fr)!important}
 }
 
-/* ---- PDPreco carousel — desktop 4-per-view ---- */
-@media(min-width:1025px){
-  .pdp-reco-carousel .carousel__track>[class]{flex:0 0 calc(25% - 18px)!important;max-width:calc(25% - 18px)!important}
-}
 
 /* ---- PRODUCT TRUST TRIO — enhanced desktop ---- */
 @media(min-width:1025px){
@@ -7260,18 +7249,6 @@ img{loading:lazy}
   .nav-mobile-categories{display:none!important}
 }
 
-/* ============================================================
-   10. PDPreco CAROUSEL — Mobile slide widths
-   ============================================================ */
-@media(max-width:480px){
-  .pdp-reco-carousel .carousel__slide{min-width:55vw!important;max-width:55vw!important}
-}
-@media(min-width:481px) and (max-width:768px){
-  .pdp-reco-carousel .carousel__slide{min-width:46vw!important;max-width:46vw!important}
-}
-@media(min-width:769px) and (max-width:1024px){
-  .pdp-reco-carousel .carousel__slide{min-width:30vw!important;max-width:30vw!important}
-}
 
 /* ============================================================
    11. PRODUCT INFO META — Cleaner list on mobile
@@ -8948,9 +8925,7 @@ section + section{margin-top:0!important}
   letter-spacing:-0.01em!important;margin:0!important;
   color:#1d1b1b!important;
 }
-.pdp-reco-carousel .carousel__track{gap:16px!important}
 @media(max-width:640px){
-  .pdp-reco-carousel .carousel__track{gap:10px!important}
   .pdp-recommendations{padding:1.25rem 0 1rem!important}
   .pdp-recommendations .bwk-section__title{font-size:0.95rem!important}
 }
@@ -21069,21 +21044,6 @@ select:focus-visible{
 }
 
 /* You May Also Like / PDP recommendations carousel */
-.pdp-reco-carousel .carousel__track{
-  padding-left:4px!important;
-  padding-right:0!important;
-}
-.pdp-reco-carousel .carousel__track > *:last-child{
-  margin-right:4px!important;
-}
-@media(max-width:768px){
-  .pdp-reco-carousel .carousel__track{
-    padding-left:14px!important;
-  }
-  .pdp-reco-carousel .carousel__track > *:last-child{
-    margin-right:14px!important;
-  }
-}
 
 /* Cart drawer recommendations */
 .cart-drawer__reco-scroll{
@@ -22062,3 +22022,8 @@ select:focus-visible{
 @media (max-width: 380px) {
   .trust-strip__item { flex: 0 0 82vw; }
 }
+
+/* Tighten gap between reviews and You May Also Like */
+.pdp-reviews{padding-bottom:0!important}
+.pdp-recommendations{padding-top:12px!important}
+

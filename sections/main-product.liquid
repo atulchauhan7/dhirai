@@ -695,7 +695,7 @@ data-gallery-zoom
   </div>
 </section>
 
-<div class="pdp-reviews" id="pdp-reviews">
+<div class="" id="pdp-reviews">
 <div class="container">
   <div class="pdp-reviews__header">
     <div class="pdp-reviews__header-left">
@@ -783,24 +783,27 @@ data-gallery-zoom
 {% assign rec_count = 0 %}
 {% for p in rec_collection.products limit: 9 %}{% if p.id != product.id %}{% assign rec_count = rec_count | plus: 1 %}{% endif %}{% endfor %}
 {% if rec_count > 0 %}
+<style>
+.pdp-reco-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pdp-reco-grid__item{min-width:0;width:100%;box-sizing:border-box}
+.pdp-reco-grid__item .product-card{height:100%}
+@media(max-width:1024px){.pdp-reco-grid{grid-template-columns:repeat(3,1fr);gap:14px}}
+@media(max-width:768px){.pdp-reco-grid{grid-template-columns:repeat(2,1fr);gap:12px}}
+@media(max-width:480px){.pdp-reco-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+</style>
 <div class="pdp-recommendations">
 <div class="container">
   <div class="bwk-section__head">
     <h2 class="bwk-section__title">You May Also Like</h2>
   </div>
-  <div class="carousel pdp-reco-carousel" data-carousel data-carousel-center="true" data-carousel-per-view="4" data-carousel-gap="24" data-carousel-loop="true">
-    <div class="carousel__viewport">
-      <div class="carousel__track" data-carousel-track>
-        {% for p in rec_collection.products limit: 9 %}
-        {% if p.id != product.id %}
-        <div class="carousel__slide" data-carousel-slide>
-          {% render 'product-card', product: p %}
-        </div>
-        {% endif %}
-        {% endfor %}
-      </div>
+  <div class="pdp-reco-grid">
+    {% for p in rec_collection.products limit: 9 %}
+    {% if p.id != product.id %}
+    <div class="pdp-reco-grid__item">
+      {% render 'product-card', product: p %}
     </div>
-    <div class="carousel__dots" data-carousel-dots></div>
+    {% endif %}
+    {% endfor %}
   </div>
 </div>
 </div>
