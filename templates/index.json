@@ -359,9 +359,9 @@
         "show_section": true,
         "bg_color": "#1a1a1a",
         "eyebrow": "Limited Period Offer",
-        "offer_text": "GET 10% CASHBACK",
-        "subtext": "Valid on all orders above ₹499",
-        "coupon_code": "SAVE10"
+        "offer_text": "GET 30% Off",
+        "subtext": "Buy Minimum 2 Products",
+        "coupon_code": "SUMMER30"
       }
     },
     "tabbed": {
