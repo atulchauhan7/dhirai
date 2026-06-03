@@ -5858,6 +5858,42 @@ h1,h2,h3,h4,h5,h6,.section-header__title,.bwk-section__title,.product-info__titl
   margin-bottom:0!important;
 }
 
+/* ---- COLLECTIONS SCROLL HINT ---- */
+.collections-scroll-wrap{position:relative}
+.scroll-hint{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  padding:10px 0 4px;
+  pointer-events:none;
+  transition:opacity 0.4s ease,transform 0.4s ease;
+}
+.scroll-hint__label{
+  font-size:0.6rem;
+  font-weight:700;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:#999;
+}
+.scroll-hint__arrow{
+  width:18px;height:18px;
+  color:#aaa;
+  animation:scrollBounce 1.4s ease-in-out infinite;
+}
+@keyframes scrollBounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(5px)}
+}
+.scroll-hint--hidden{
+  opacity:0;
+  transform:translateY(6px);
+  pointer-events:none;
+}
+@media(max-width:768px){
+  .scroll-hint{display:flex}
+}
+
 /* ---- SCROLLING TEXT / PROMO BANNER ---- */
 .scrolling-text{padding:9px 0!important;background:#282c3f!important}
 .scrolling-text__item{font-size:0.66rem!important;font-weight:700!important;letter-spacing:0.12em!important;text-transform:uppercase!important;color:#fff!important}
