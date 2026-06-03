@@ -811,7 +811,7 @@ a{color:inherit}
 /* ---- FORMS (Login/Register) ---- */
 .page-template{min-height:60vh!important}
 .container--narrow{max-width:420px!important;margin:0 auto!important}
-.page-header{padding:24px 0 0!important}
+.page-header{padding:8px 0 8px!important}
 .page-header h1{font-size:1.4rem!important;font-weight:900!important;color:var(--bwk-dark)!important;text-transform:uppercase!important;letter-spacing:0.05em!important;margin-bottom:1.5rem!important}
 .form-group{margin-bottom:16px!important}
 .form-label{font-size:0.68rem!important;font-weight:800!important;color:var(--bwk-dark)!important;text-transform:uppercase!important;letter-spacing:0.08em!important;display:block!important;margin-bottom:6px!important}
@@ -882,7 +882,7 @@ a{color:inherit}
 .page-404__text{font-size:0.82rem!important;color:var(--bwk-muted)!important;margin-bottom:24px!important;line-height:1.6!important}
 
 /* ---- LIST COLLECTIONS PAGE ---- */
-.page-header h1{font-size:1.3rem!important;font-weight:900!important;color:var(--bwk-dark)!important;text-transform:uppercase!important;letter-spacing:0.04em!important;margin-bottom:1.25rem!important;padding-top:20px!important}
+.page-header h1{font-size:1.3rem!important;font-weight:900!important;color:var(--bwk-dark)!important;text-transform:uppercase!important;letter-spacing:0.04em!important;margin-bottom:0!important;padding-top:0!important}
 .collection-card{position:relative!important;border-radius:6px!important;overflow:hidden!important;background:var(--bwk-surface)!important;aspect-ratio:3/4!important;display:block!important;text-decoration:none!important}
 .collection-card__image{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;transition:transform 0.4s!important}
 .collection-card:hover .collection-card__image{transform:scale(1.04)!important}
@@ -1828,7 +1828,7 @@ section + section{margin-top:0!important}
 .btn,.btn--primary,.btn--secondary{text-indent:0.1em!important}
 .btn--small{height:36px!important;padding:0 16px!important;font-size:0.74rem!important}
 /* Remove jarring spacing inside page-header */
-.page-header{padding:1.25rem 0!important;margin-bottom:1rem!important}
+.page-header{padding:8px 0!important;margin-bottom:8px!important}
 .page-header h1{font-size:clamp(1.5rem,3.5vw,2.25rem)!important;letter-spacing:-0.01em!important;font-weight:600!important}
 
 /* ================================================================
@@ -2963,11 +2963,21 @@ select:focus-visible{
   animation: spin 0.6s linear infinite;
 }
 
-/* 9. Page header — consistent top breathing room on all static pages
-   (about, contact, policies) after the fixed header. */
+/* 9. Page header — tight, consistent spacing on all pages */
 .page-header {
-  padding-top: clamp(1rem, 2vw, 1.5rem) !important;
-  padding-bottom: clamp(0.75rem, 1.5vw, 1.25rem) !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  margin-bottom: 8px !important;
+}
+/* List-collections: even tighter — heading sits close to the nav */
+.template-list-collections .page-header {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  margin-bottom: 12px !important;
+}
+.template-list-collections .page-header h1 {
+  padding-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 /* 10. Tabbed collections — header alignment: ensure "View All" link
