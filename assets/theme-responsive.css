@@ -405,8 +405,7 @@ html{scroll-behavior:auto}
     background:#fff!important;
     box-shadow:0 -4px 24px rgba(0,0,0,0.08)!important;
   }
-  .pdp-recommendations{padding-bottom:7rem!important}
-  .pdp-reviews{padding-bottom:6rem!important}
+  .pdp-reviews{padding-bottom:4rem!important}
   .product-info{padding-bottom:0!important}
 }
 
