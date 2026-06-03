@@ -1090,18 +1090,18 @@ input:focus,textarea:focus,select:focus{outline:none!important;border-color:var(
 
 /* ---- FIX: Hero viewport height — correct defaults ---- */
 .template-index .hero-slider__viewport{
-  height:calc(85dvh - var(--header-height,64px) - var(--strip-height,0px) - var(--announcement-content-offset,0px))!important;
+  height:calc(85svh - var(--header-height,64px) - var(--strip-height,0px) - var(--announcement-content-offset,0px))!important;
   min-height:360px!important;
 }
 @media(min-width:1025px){
   .template-index .hero-slider__viewport{
-    height:calc(85dvh - var(--header-height,64px) - var(--strip-height,0px) - var(--announcement-content-offset,0px))!important;
+    height:calc(85svh - var(--header-height,64px) - var(--strip-height,0px) - var(--announcement-content-offset,0px))!important;
     min-height:420px!important;
   }
 }
 @media(max-width:768px){
   .template-index .hero-slider__viewport{
-    height:calc(85dvh - var(--header-height,54px) - var(--strip-height,0px) - var(--announcement-content-offset,0px))!important;
+    height:calc(85svh - var(--header-height,54px) - var(--strip-height,0px) - var(--announcement-content-offset,0px))!important;
     min-height:300px!important;
   }
 }
@@ -4301,7 +4301,7 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
    HERO SLIDE CONTENT — ANCHOR BUTTON TO BOTTOM
    SAKHI v15.2 in theme-sections.css sets .hero-slide{position:relative}
    which breaks absolute children — the slide height becomes the image's
-   natural height (shorter than the 85dvh viewport), so bottom:8% lands
+   natural height (shorter than the 85svh viewport), so bottom:8% lands
    visually in the middle. Fix: force each slide to fill the viewport via
    position:absolute;inset:0, and use flex to pin content to the bottom.
    ================================================================ */
