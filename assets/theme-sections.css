@@ -42,7 +42,7 @@
 @keyframes scrollCuePulse{0%,100%{opacity:0.6}50%{opacity:1}}
 @keyframes scrollLineAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @media(max-width:768px){
-  .hero-slider__viewport{height:calc(92vh - var(--header-height,60px) - var(--strip-height,0px));min-height:320px}
+  .hero-slider__viewport{height:calc(92svh - var(--header-height,60px) - var(--strip-height,0px));min-height:320px}
   .hero-slide__title{font-size:clamp(1.8rem,8vw,2.8rem);letter-spacing:0.04em}
   .hero-slide__subtitle{font-size:0.62rem;margin-bottom:1.25rem;letter-spacing:0.3em}
   .hero-slide__btn{padding:14px 32px;font-size:0.68rem}
