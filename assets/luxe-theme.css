@@ -739,7 +739,7 @@ p{margin-bottom:1rem}
 
 /* === CAROUSEL — Clean, editorial navigation === */
 .carousel{position:relative}
-.carousel__viewport{overflow:hidden}
+.carousel__viewport{overflow:hidden;touch-action:pan-y pinch-zoom;overscroll-behavior:contain}
 .carousel__track{display:flex;will-change:transform;cursor:grab;align-items:stretch}
 .carousel__track:active{cursor:grabbing}
 .carousel__track .product-card{height:100%}
@@ -902,11 +902,11 @@ p{margin-bottom:1rem}
 .category-strip--overflow-left::before{opacity:1}
 .category-strip--overflow-right::after{opacity:1}
 /* Track: Bewakoof-style horizontal scroll with left start */
-.category-strip__track{display:flex;align-items:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:10px clamp(12px,2vw,28px) 10px;gap:clamp(6px,2vw,16px);justify-content:center}
+.category-strip__track{display:flex;align-items:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:10px clamp(12px,2vw,28px) 10px;gap:clamp(6px,2vw,16px);justify-content:center;overscroll-behavior-x:contain;scroll-snap-type:x proximity}
 .category-strip__track::-webkit-scrollbar{display:none}
 .category-strip--overflow-right .category-strip__track,.category-strip--overflow-left .category-strip__track{justify-content:flex-start}
 /* Item: vertical — circular image on top, label below; 5.5 items per screen */
-.category-strip__item{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;flex:0 0 auto;width:calc((100vw - 2 * clamp(12px, 2vw, 28px) - 5 * clamp(6px, 2vw, 16px)) / 5.5);padding:2px 6px 4px;cursor:pointer;outline:none;position:relative;transition:transform 0.22s var(--ease-out-expo)}
+.category-strip__item{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;flex:0 0 auto;width:calc((100vw - 2 * clamp(12px, 2vw, 28px) - 5 * clamp(6px, 2vw, 16px)) / 5.5);padding:2px 6px 4px;cursor:pointer;outline:none;position:relative;transition:transform 0.22s var(--ease-out-expo);scroll-snap-align:start}
 .category-strip__item:hover{transform:translateY(-4px)}
 .category-strip__item:focus-visible{outline:2px solid var(--color-accent);outline-offset:4px;border-radius:50%}
 /* Category image — CIRCULAR like Bewakoof, with accent ring on hover */
@@ -4515,6 +4515,8 @@ button[data-add-to-cart],input[data-add-to-cart]{
   scrollbar-width:none;
   -ms-overflow-style:none;
   padding:0 clamp(12px,4vw,40px);
+  overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;
 }
 .trending-cats-section__scroll-outer::-webkit-scrollbar{display:none}
 
@@ -4537,6 +4539,7 @@ button[data-add-to-cart],input[data-add-to-cart]{
   text-decoration:none;
   background:#f0f0f0;
   cursor:pointer;
+  scroll-snap-align:start;
 }
 /* 3 visible on small phones, 3 on tablet */
 @media(max-width:400px){
