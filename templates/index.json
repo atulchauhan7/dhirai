@@ -12,6 +12,16 @@
     "category-strip": {
       "type": "category-strip",
       "blocks": {
+        "cat2": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/2L1A7935.jpg",
+            "label": "Best Sellers",
+            "link": "shopify://collections/best-seller",
+            "badge_label": "Best",
+            "badge_color": "red"
+          }
+        },
         "cat1": {
           "type": "category",
           "settings": {
@@ -22,20 +32,22 @@
             "badge_color": "green"
           }
         },
-        "cat2": {
+        "cat6": {
           "type": "category",
           "settings": {
-            "label": "Best Sellers",
-            "link": "",
-            "badge_label": "Hot",
-            "badge_color": "red"
+            "image": "shopify://shop_images/Summer_sale_dhirair_1200_628.webp",
+            "label": "Summer Sale",
+            "link": "shopify://collections/best-seller",
+            "badge_label": "Sale",
+            "badge_color": "accent"
           }
         },
         "cat3": {
           "type": "category",
           "settings": {
-            "label": "Kurtis",
-            "link": "",
+            "image": "shopify://shop_images/Printed_Chanderi_Kurta_with_pant_dupatta_2_b0ddb8e2-34dd-48ed-9ec7-6305d285a6f8.webp",
+            "label": "Kurta Sets",
+            "link": "shopify://collections/kurta-sets",
             "badge_label": "Best",
             "badge_color": "green"
           }
@@ -43,8 +55,9 @@
         "cat4": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/imgi_13_SET0213_6_30e5b066-1b59-4de4-a33f-99bf39378e3b.jpg",
             "label": "Coord Sets",
-            "link": "",
+            "link": "shopify://collections/co-ord-sets",
             "badge_label": "",
             "badge_color": "green"
           }
@@ -52,29 +65,21 @@
         "cat5": {
           "type": "category",
           "settings": {
-            "label": "Tops",
-            "link": "",
+            "image": "shopify://shop_images/IMG_5745.webp",
+            "label": "Suit Sets",
+            "link": "shopify://collections/suit-sets",
             "badge_label": "",
             "badge_color": "green"
-          }
-        },
-        "cat6": {
-          "type": "category",
-          "settings": {
-            "label": "Sale",
-            "link": "",
-            "badge_label": "Sale",
-            "badge_color": "accent"
           }
         }
       },
       "block_order": [
-        "cat1",
         "cat2",
+        "cat1",
+        "cat6",
         "cat3",
         "cat4",
-        "cat5",
-        "cat6"
+        "cat5"
       ],
       "settings": {
         "show_section": true
@@ -86,25 +91,15 @@
         "slide_U8gDMy": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/5_c3e34f67-86c5-4431-859d-7872a920e3d7.webp",
-            "video": "https://cdn.shopify.com/videos/c/o/v/b62560de47ef42f289ae64d3a23c7ffc.mp4",
-            "subtitle": "",
-            "heading": ""
-          }
-        },
-        "slide_XbWHCH": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/imgi_17_Frame_395_600x_13af476a-a37b-4763-ac57-f1daf4908108.png",
-            "video": "https://cdn.shopify.com/videos/c/o/v/65a759a64da3409abf4f21bbbeb2e3fb.mp4",
+            "image": "shopify://shop_images/900_1200.webp",
+            "video": "",
             "subtitle": "",
             "heading": ""
           }
         }
       },
       "block_order": [
-        "slide_U8gDMy",
-        "slide_XbWHCH"
+        "slide_U8gDMy"
       ],
       "settings": {
         "subtitle": "",
