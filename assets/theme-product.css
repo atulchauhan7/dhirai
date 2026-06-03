@@ -63,7 +63,7 @@
 .pdp-wishlist-icon{flex-shrink:0;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--color-border);border-radius:50%;cursor:pointer;color:var(--color-text-muted);transition:all 0.35s var(--ease-out-expo)}
 .pdp-wishlist-icon:hover{border-color:var(--color-accent);color:var(--color-accent)}
 .pdp-wishlist-icon svg{transition:all 0.3s ease}
-.pdp-wishlist-icon.wishlisted{background:var(--color-accent);border-color:var(--color-accent);color:#fff}
+.pdp-wishlist-icon.wishlisted{background:var(--color-accent);border-color:var(--color-accent);color:#fff;margin-top: 5px;}
 .pdp-wishlist-icon.wishlisted svg{stroke:#fff;fill:#fff}
 .product-info__title{font-size:clamp(1.7rem,3.2vw,2.4rem);margin-bottom:1rem;letter-spacing:0.03em;font-weight:300;text-transform:uppercase;word-break:break-word;overflow-wrap:break-word;line-height:1.15}
 .product-info__price-wrap{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--color-border)}
