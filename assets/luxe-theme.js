@@ -255,6 +255,15 @@ function fallbackHandleFloCheckoutBtn(trigger){
 return triggerShopflowCheckout('cart',trigger||null);
 }
 
+/* Gokwik checkout router — calls SDK directly so button disabled-state never blocks */
+function _gkTriggerCheckout(fallbackTrigger){
+  if(typeof window.onCheckoutClick==='function'){
+    window.onCheckoutClick(document.querySelector('.gokwik-checkout button'));
+    return;
+  }
+  triggerShopflowCheckout('cart',fallbackTrigger||null);
+}
+
 function triggerShopflowBuyNow(trigger){
 var btn=trigger||document.activeElement||null;
 var productForm=btn&&btn.closest?btn.closest('[data-product-form]'):null;
@@ -268,9 +277,7 @@ window.__buyNowInProgress=true;
 setBuyNowState('loading');
 fetch(window.theme.routes.cart_add_url+'.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:[{id:parseInt(variantInput.value,10),quantity:parseInt(qtyInput?qtyInput.value:1,10)||1}]})}).then(function(r){if(!r.ok)throw new Error('Add failed');return r.json()}).then(function(){
 setBuyNowState('redirecting');
-var gokwikCheckoutBtn=document.querySelector('.gokwik-checkout button:not([disabled])');
-if(gokwikCheckoutBtn)gokwikCheckoutBtn.click();
-else triggerShopflowCheckout('cart',btn);
+_gkTriggerCheckout(btn);
 setTimeout(function(){setBuyNowState('reset');window.__buyNowInProgress=false},1500);
 }).catch(function(){setBuyNowState('error');window.__buyNowInProgress=false;setTimeout(function(){setBuyNowState('reset')},1500)});
 }
@@ -315,9 +322,7 @@ fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json','
 .then(function(r){if(!r.ok)throw new Error('add failed');return r.json();})
 .then(function(){
 setBuyNowState('redirecting');
-var gokwikCheckoutBtn=document.querySelector('.gokwik-checkout button:not([disabled])');
-if(gokwikCheckoutBtn)gokwikCheckoutBtn.click();
-else triggerShopflowCheckout('cart',btn);
+_gkTriggerCheckout(btn);
 setTimeout(function(){setBuyNowState('reset');},1500);
 })
 .catch(function(){setBuyNowState('error');setTimeout(function(){setBuyNowState('reset');},1500);});
@@ -433,7 +438,7 @@ h+='</div>';
 h+='<div class="cart-drawer__footer"><div class="cart-drawer__subtotal"><span>Subtotal</span>';
 h+='<span class="cart-drawer__subtotal-price">'+money(cart.total_price)+'</span></div>';
 if(window.theme&&window.theme.goEnabled){
-  h+='<div class="cart-drawer__checkout-form"><div class="gokwik-checkout"><button type="button" class="button disabled" disabled onclick="onCheckoutClick(this)"><span class="btn-text"><span>Checkout</span></span></button></div></div>';
+  h+='<div class="cart-drawer__checkout-form"><div class="gokwik-checkout"><button type="button" class="button" onclick="_gkTriggerCheckout(this)"><span class="btn-text"><span>Checkout</span></span></button></div></div>';
 }else{
   h+='<form action="/cart" method="post" novalidate class="cart-drawer__checkout-form"><button type="button" id="checkout2" name="checkout2" class="btn btn--primary btn--full" onclick="handleFloCheckoutBtn()">Checkout</button></form>';
 }
