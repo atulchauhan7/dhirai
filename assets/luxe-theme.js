@@ -257,10 +257,26 @@ return triggerShopflowCheckout('cart',trigger||null);
 
 /* Gokwik checkout router — calls SDK directly so button disabled-state never blocks */
 function _gkTriggerCheckout(fallbackTrigger){
+  /* Find any Gokwik checkout button — could be PDP snippet or cart drawer */
+  var gkBtn=document.querySelector('.gokwik-checkout button');
+  /* Always enable before use: the snippet renders it disabled until SDK loads,
+     but we call onCheckoutClick directly so state management is Gokwik's job */
+  if(gkBtn){
+    gkBtn.removeAttribute('disabled');
+    gkBtn.classList.remove('disabled');
+  }
   if(typeof window.onCheckoutClick==='function'){
-    window.onCheckoutClick(document.querySelector('.gokwik-checkout button'));
+    try{
+      /* Synthesise a detached button if none exists in DOM (non-PDP pages
+         before cart drawer has rendered) so SDK never receives null */
+      window.onCheckoutClick(gkBtn||document.createElement('button'));
+    }catch(err){
+      /* If Gokwik SDK throws for any reason, fall back cleanly */
+      triggerShopflowCheckout('cart',fallbackTrigger||null);
+    }
     return;
   }
+  /* Gokwik SDK not loaded yet — fall back to Shopify/Shopflo checkout */
   triggerShopflowCheckout('cart',fallbackTrigger||null);
 }
 
@@ -1188,6 +1204,11 @@ var n=(o.getAttribute('data-option-name')||'').toLowerCase();
 if(n==='color'||n==='colour'||n.indexOf('color')>-1||n.indexOf('colour')>-1)colorOpt=o;
 });
 if(!colorOpt)return true;/* no color option = no need to select */
+var colorVals=colorOpt.querySelectorAll('.product-option__value');
+if(colorVals.length===1){/* single color — auto-select silently, skip popup */
+if(!colorVals[0].classList.contains('selected'))colorVals[0].click();
+return true;
+}
 var selected=colorOpt.querySelector('.product-option__value.selected');
 return !!selected;
 }
@@ -1500,6 +1521,11 @@ else{addBtn.disabled=true;addBtn.textContent='Sold Out'}
 addBtn.disabled=true;addBtn.textContent='Unavailable';
 }
 });
+});
+/* Auto-select any option that has exactly one value (e.g. single-color products) */
+form.querySelectorAll('.product-option').forEach(function(opt){
+var vals=opt.querySelectorAll('.product-option__value');
+if(vals.length===1&&!vals[0].classList.contains('selected'))vals[0].click();
 });
 }
 initProductOptions();

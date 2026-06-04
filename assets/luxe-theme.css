@@ -1,5 +1,17 @@
-﻿/* ============================
-   ============================ */
+﻿/* ============================================================
+   ⚠️  DO NOT MODIFY THIS FILE — IT IS NOT LOADED BY THE THEME
+   ============================================================
+   luxe-theme.css is NOT referenced in layout/theme.liquid.
+   Any changes here have zero effect on the live storefront.
+
+   For header styles   → assets/theme-header.css
+   For section styles  → assets/theme-sections.css
+   For product styles  → assets/theme-product.css
+   For collection      → assets/theme-collection.css
+   For page layouts    → assets/theme-pages.css
+   For responsive/     → assets/theme-responsive.css
+   For overrides/fixes → assets/theme-overrides.css  (loads last — wins cascade)
+   ============================================================ */
 
 /* === RESET === */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
