@@ -5162,3 +5162,39 @@ body:has(#gokwik-iframe) .product-info__cta-group{display:none!important}
 /* ================================================================
    END SELECT OPTIONS REDESIGN
    ================================================================ */
+
+/* ================================================================
+   REDUCED MOTION — global safety net (loaded last to win cascade)
+   Uses 0.01ms (not "none") so transitionend handlers — e.g. the
+   accordion height:auto release — still fire. Honours the OS
+   "reduce motion" accessibility preference site-wide.
+   ================================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+  html{scroll-behavior:auto !important;}
+  /* Neutralise scroll-linked parallax transforms if any remain */
+  [data-parallax]{transform:none !important;}
+}
+
+/* ================================================================
+   TARGETED FIXES (mobile nav, form borders, captcha badge)
+   ================================================================ */
+/* Hide the fixed announcement bar while the mobile nav drawer is open.
+   The .site-header is its own stacking context (z-index:1000), so the
+   drawer can never paint above the body-level announcement bar
+   (z-index:1001). Hiding it on open is the clean fix. */
+body.mobile-nav-open .announcement-bar{display:none !important;}
+
+/* Form inputs — the resting border (#e0e0e0 / --color-border) was too
+   faint to see on white. Make it clearly visible while keeping focus styles. */
+.form-input,.form-textarea,select.form-input{border-color:#c4c4c4;}
+.template-page-contact .form-input,
+.template-page-contact .form-textarea{border-color:#bcbcbc !important;}
+
+/* Remove Shopify's hCaptcha "protected by" badge container site-wide */
+.shop-hcaptcha-badge-container{display:none !important;}

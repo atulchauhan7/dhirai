@@ -282,18 +282,6 @@
     </button>
   </div>
 
-  <!-- CONTACT US -->
-  <p class="nav-section-label">CONTACT US</p>
-  <div class="nav-contact-links">
-    {% if linklists['footer'].links.size > 0 %}
-      {% for link in linklists['footer'].links limit: 2 %}
-      <a href="{{ link.url }}" class="nav-contact-link">{{ link.title }}</a>
-      {% endfor %}
-    {% else %}
-    <a href="/pages/contact" class="nav-contact-link">Help &amp; Support</a>
-    <a href="/pages/contact" class="nav-contact-link">Feedback &amp; Suggestions</a>
-    {% endif %}
-  </div>
 
 </nav>
 <div class="nav-overlay" data-nav-overlay></div>

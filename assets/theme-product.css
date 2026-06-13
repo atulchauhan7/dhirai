@@ -2690,11 +2690,17 @@ button[data-add-to-cart],input[data-add-to-cart]{
 .pdp-recent__title::after{
   content:'';
   position:absolute;
-  bottom:0; left:0;
+  bottom:0;
   width:36px; height:3px;
   background:#ff6a00;
   border-radius:2px;
 }
+/* PDP "recently viewed" header is left-aligned — accent stays flush-left */
+.pdp-recent__title::after{ left:0; }
+/* Collection section headers (featured / tabbed) are centre-aligned, so the
+   accent bar must sit centred under the title rather than flush-left. */
+.bwk-section__title{ position:relative; }
+.bwk-section__title::after{ left:50%; transform:translateX(-50%); }
 .pdp-recent__clear{
   background:transparent;
   border:0; padding:6px 10px;

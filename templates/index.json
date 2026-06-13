@@ -523,6 +523,7 @@
       "type": "image-with-text",
       "settings": {
         "image": "shopify://shop_images/Untitled_design_34.png",
+        "image_fit": "contain",
         "subtitle": "Our Story",
         "heading": "Crafted with Love",
         "text": "<p>Every kurti in our collection is thoughtfully designed, blending traditional Indian craftsmanship with contemporary style. From handpicked fabrics to intricate detailing, we create ethnic wear that celebrates the grace of every woman.</p>",
@@ -571,16 +572,6 @@
         "usp3"
       ],
       "settings": {}
-    },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {
-        "subtitle": "Stay Connected",
-        "title": "Join Our Community",
-        "description": "Subscribe for exclusive access to new arrivals, special offers, and style inspiration.",
-        "placeholder": "Enter your email address",
-        "button_label": "Subscribe"
-      }
     }
   },
   "order": [
@@ -597,7 +588,6 @@
     "banners",
     "scrolling",
     "image-text",
-    "usp",
-    "newsletter"
+    "usp"
   ]
 }
