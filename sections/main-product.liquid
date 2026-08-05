@@ -378,8 +378,8 @@
   {% endform %}
 
   <!-- Delivery estimate -->
-  {% assign delivery_min_sec = section.settings.delivery_min_days | default: 1 | times: 86400 %}
-  {% assign delivery_max_sec = section.settings.delivery_max_days | default: 3 | times: 86400 %}
+  {% assign delivery_min_sec = section.settings.delivery_min_days | default: 0 | times: 86400 %}
+  {% assign delivery_max_sec = section.settings.delivery_max_days | default: 2 | times: 86400 %}
   <div class="product-delivery">
     <div class="product-delivery__icon">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
