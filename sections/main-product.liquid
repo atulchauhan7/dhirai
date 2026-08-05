@@ -386,7 +386,7 @@
     </div>
     <div class="product-delivery__text">
       <strong>{{ section.settings.delivery_heading | default: 'Estimated Delivery' | escape }}</strong>
-      <span>{{ 'now' | date: '%s' | plus: delivery_min_sec | date: '%b %d' }} — {{ 'now' | date: '%s' | plus: delivery_max_sec | date: '%b %d, %Y' }}</span>
+      <span>{{ 'now' | date: '%s' | plus: delivery_min_sec | date: '%b %d, %Y' }}</span>
     </div>
   </div>
 
