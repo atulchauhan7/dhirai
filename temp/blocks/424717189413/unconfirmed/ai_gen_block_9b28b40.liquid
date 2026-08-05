@@ -1,6 +1,169 @@
+{% doc %}
+  @prompt
+    Fix the product image being cut off at the bottom on mobile view. The product image container on the product page is cropping the image from below. Adjust the CSS for the product gallery/image container to ensure the full product image is visible on mobile without any cutoff — this may involve fixing max-height, overflow, aspect-ratio, or object-fit properties for the product image on mobile breakpoints.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-image-fix-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product__media-wrapper .product__media-item,
+    .product__media-wrapper .product__media,
+    .product__media-wrapper img,
+    .product-media-container,
+    .product__media-list,
+    .slider-mobile-gutter .slider__slide,
+    .product .media {
+      max-height: none !important;
+      height: auto !important;
+      {% if block.settings.remove_aspect_ratio %}
+        aspect-ratio: auto !important;
+      {% endif %}
+    }
+
+    .product__media-wrapper img,
+    .product__media-item img,
+    .product .media img {
+      object-fit: {{ block.settings.mobile_object_fit }};
+      width: 100%;
+      height: auto;
+    }
+
+    .product__media-wrapper,
+    .product__media-container,
+    .product-media-container {
+      overflow: visible !important;
+    }
+
+    {% if block.settings.add_mobile_padding %}
+      .product__media-wrapper,
+      .product__media-list {
+        padding-bottom: {{ block.settings.mobile_padding }}px;
+      }
+    {% endif %}
+
+    {% if block.settings.adjust_slider_height %}
+      .slider-mobile-gutter {
+        height: auto !important;
+        min-height: auto !important;
+      }
+    {% endif %}
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    {% if block.settings.apply_to_tablet %}
+      .product__media-wrapper .product__media-item,
+      .product__media-wrapper .product__media,
+      .product__media-wrapper img,
+      .product-media-container,
+      .product__media-list,
+      .slider-mobile-gutter .slider__slide,
+      .product .media {
+        max-height: none !important;
+        height: auto !important;
+        {% if block.settings.remove_aspect_ratio %}
+          aspect-ratio: auto !important;
+        {% endif %}
+      }
+
+      .product__media-wrapper img,
+      .product__media-item img,
+      .product .media img {
+        object-fit: {{ block.settings.mobile_object_fit }};
+        width: 100%;
+        height: auto;
+      }
+
+      .product__media-wrapper,
+      .product__media-container,
+      .product-media-container {
+        overflow: visible !important;
+      }
+    {% endif %}
+  }
+{% endstyle %}
+
+<div class="ai-product-image-fix-{{ ai_gen_id }}" {{ block.shopify_attributes }}></div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Product image mobile fix",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Mobile image display"
+    },
+    {
+      "type": "paragraph",
+      "content": "This block fixes product images being cut off at the bottom on mobile devices by removing restrictive height and aspect-ratio constraints."
+    },
+    {
+      "type": "select",
+      "id": "mobile_object_fit",
+      "label": "Image fit on mobile",
+      "options": [
+        {
+          "value": "contain",
+          "label": "Contain (show full image)"
+        },
+        {
+          "value": "cover",
+          "label": "Cover (fill container)"
+        },
+        {
+          "value": "scale-down",
+          "label": "Scale down"
+        }
+      ],
+      "default": "contain"
+    },
+    {
+      "type": "checkbox",
+      "id": "remove_aspect_ratio",
+      "label": "Remove aspect ratio constraints",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "add_mobile_padding",
+      "label": "Add bottom padding on mobile",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding",
+      "label": "Mobile bottom padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "adjust_slider_height",
+      "label": "Adjust slider height",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Tablet settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "apply_to_tablet",
+      "label": "Apply fix to tablet view",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product image mobile fix"
+    }
+  ]
+}
 {% endschema %}
